@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,18 +63,75 @@ namespace MainProject.Forms
         /// <param name="e"></param>
         private void simpleButtonUpLoad_Click(object sender, EventArgs e)
         {
-            //todo：点表名称写死了
+            //todo：1点表名称写死了，前端界面处理
             DataSet dataSet = ExcelToDataSet(excelPath, "点表");
             DataTable dataTable = dataSet.Tables[0];
-            int test = 0;
-            foreach (DataRow dataTableRow in dataTable.Rows)
+            //todo：字段名称配置写死，和数据库保持一致
+            dataTable.Columns.Add("FileName", typeof(string));
+            dataTable.Columns.Add("Uploadtime", typeof(string));
+            for (int i = 0; i < dataTable.Rows.Count; i++)
             {
-                cjplp cjplpDAL = new cjplp();
-                Maticsoft.Model.cjplp cjplpModel = cjplpDAL.DataRowToModel(dataTableRow);
-                cjplpDAL.Add(cjplpModel);
+                dataTable.Rows[i]["FileName"] = Path.GetFileNameWithoutExtension(excelPath);
+
+                dataTable.Rows[i]["Uploadtime"] = DateTime.Now.ToString();
             }
 
-            Console.WriteLine("添加test行数据" + test);
+
+            foreach (DataRow dataTableRow in dataTable.Rows)
+            {
+                //yjw:监测字段类型
+                // foreach (DataColumn col in dataTableRow.Table.Columns)
+                // {
+                //     Console.WriteLine(col.ColumnName);
+                // }
+
+                Maticsoft.DAL.cjplp cjplpDAL = new Maticsoft.DAL.cjplp();
+                Maticsoft.Model.cjplp cjplpModel = cjplpDAL.DataRowToModel(dataTableRow);
+                if (dataTableRow["Exp_NoOri"] != null)
+                {
+                    bool exist = cjplpDAL.Exists(dataTableRow["Exp_NoOri"].ToString());
+                    if (!exist)
+                    {
+                        cjplpDAL.Add(cjplpModel);
+                    }
+                    else
+                    {
+                        //todo:2重复的数据，返回给用户
+                    }
+                }
+            }
+
+            //todo：1线表名称写死了，前端界面处理
+            DataSet dataSetLine = ExcelToDataSet(excelPath, "线表");
+            DataTable dataTableLine = dataSetLine.Tables[0];
+
+            dataTableLine.Columns.Add("FileName", typeof(string));
+            dataTableLine.Columns.Add("Uploadtime", typeof(string));
+            for (int i = 0; i < dataTableLine.Rows.Count; i++)
+            {
+                dataTableLine.Rows[i]["FileName"] = Path.GetFileNameWithoutExtension(excelPath);
+
+                dataTableLine.Rows[i]["Uploadtime"] = DateTime.Now.ToString();
+            }
+
+            foreach (DataRow dataTableRow in dataTableLine.Rows)
+            {
+                Maticsoft.DAL.cjpll cjpllDAL = new Maticsoft.DAL.cjpll();
+                Maticsoft.Model.cjpll cjplpModel = cjpllDAL.DataRowToModel(dataTableRow);
+                if (dataTableRow["Exp_No0"] != null && dataTableRow["Exp_No1"] != null)
+                {
+                    bool exist = cjpllDAL.Exists(dataTableRow["Exp_No0"].ToString(),
+                        dataTableRow["Exp_No1"].ToString());
+                    if (!exist)
+                    {
+                        cjpllDAL.Add(cjplpModel);
+                    }
+                    else
+                    {
+                        //todo:2重复的数据，返回给用户
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -100,7 +158,9 @@ namespace MainProject.Forms
 
                 strExcel = "select * from [" + TABLENAME + "$]";
                 OleDbDataAdapter myCommand = new OleDbDataAdapter(strExcel, strConn);
-                myCommand.Fill(ds, "table1");
+                //todo：此处的table1写死
+                // myCommand.Fill(ds, "table1");
+                myCommand.Fill(ds, TABLENAME);
 
                 return ds;
             }

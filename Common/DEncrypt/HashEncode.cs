@@ -11,7 +11,7 @@ namespace Maticsoft.Common.DEncrypt
 		public HashEncode()
 		{
 			//
-			// TODO: 在此处添加构造函数逻辑
+			//在此处添加构造函数逻辑
 			//
 		}
 		/// <summary>

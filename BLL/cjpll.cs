@@ -5,152 +5,152 @@ using Maticsoft.Common;
 using Maticsoft.Model;
 namespace Maticsoft.BLL
 {
-	/// <summary>
-	/// cjpll
-	/// </summary>
-	public partial class cjpll
-	{
-		private readonly Maticsoft.DAL.cjpll dal=new Maticsoft.DAL.cjpll();
-		public cjpll()
-		{}
-		#region  BasicMethod
-		/// <summary>
-		/// 是否存在该记录
-		/// </summary>
-		public bool Exists(string S_Point,string E_Point)
-		{
-			return dal.Exists(S_Point,E_Point);
-		}
+    /// <summary>
+    /// cjpll
+    /// </summary>
+    public partial class cjpll
+    {
+        private readonly Maticsoft.DAL.cjpll dal = new Maticsoft.DAL.cjpll();
+        public cjpll()
+        { }
+        #region  BasicMethod
+        /// <summary>
+        /// 是否存在该记录
+        /// </summary>
+        public bool Exists(string Exp_No0, string Exp_No1)
+        {
+            return dal.Exists(Exp_No0, Exp_No1);
+        }
 
-		/// <summary>
-		/// 增加一条数据
-		/// </summary>
-		public bool Add(Maticsoft.Model.cjpll model)
-		{
-			return dal.Add(model);
-		}
+        /// <summary>
+        /// 增加一条数据
+        /// </summary>
+        public bool Add(Maticsoft.Model.cjpll model)
+        {
+            return dal.Add(model);
+        }
 
-		/// <summary>
-		/// 更新一条数据
-		/// </summary>
-		public bool Update(Maticsoft.Model.cjpll model)
-		{
-			return dal.Update(model);
-		}
+        /// <summary>
+        /// 更新一条数据
+        /// </summary>
+        public bool Update(Maticsoft.Model.cjpll model)
+        {
+            return dal.Update(model);
+        }
 
-		/// <summary>
-		/// 删除一条数据
-		/// </summary>
-		public bool Delete(string S_Point,string E_Point)
-		{
-			
-			return dal.Delete(S_Point,E_Point);
-		}
+        /// <summary>
+        /// 删除一条数据
+        /// </summary>
+        public bool Delete(string Exp_No0, string Exp_No1)
+        {
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Maticsoft.Model.cjpll GetModel(string S_Point,string E_Point)
-		{
-			
-			return dal.GetModel(S_Point,E_Point);
-		}
+            return dal.Delete(Exp_No0, Exp_No1);
+        }
 
-		/// <summary>
-		/// 得到一个对象实体，从缓存中
-		/// </summary>
-		public Maticsoft.Model.cjpll GetModelByCache(string S_Point,string E_Point)
-		{
-			
-			string CacheKey = "cjpllModel-" + S_Point+E_Point;
-			object objModel = Maticsoft.Common.DataCache.GetCache(CacheKey);
-			if (objModel == null)
-			{
-				try
-				{
-					objModel = dal.GetModel(S_Point,E_Point);
-					if (objModel != null)
-					{
-						int ModelCache = Maticsoft.Common.ConfigHelper.GetConfigInt("ModelCache");
-						Maticsoft.Common.DataCache.SetCache(CacheKey, objModel, DateTime.Now.AddMinutes(ModelCache), TimeSpan.Zero);
-					}
-				}
-				catch{}
-			}
-			return (Maticsoft.Model.cjpll)objModel;
-		}
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Maticsoft.Model.cjpll GetModel(string Exp_No0, string Exp_No1)
+        {
 
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public DataSet GetList(string strWhere)
-		{
-			return dal.GetList(strWhere);
-		}
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public List<Maticsoft.Model.cjpll> GetModelList(string strWhere)
-		{
-			DataSet ds = dal.GetList(strWhere);
-			return DataTableToList(ds.Tables[0]);
-		}
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public List<Maticsoft.Model.cjpll> DataTableToList(DataTable dt)
-		{
-			List<Maticsoft.Model.cjpll> modelList = new List<Maticsoft.Model.cjpll>();
-			int rowsCount = dt.Rows.Count;
-			if (rowsCount > 0)
-			{
-				Maticsoft.Model.cjpll model;
-				for (int n = 0; n < rowsCount; n++)
-				{
-					model = dal.DataRowToModel(dt.Rows[n]);
-					if (model != null)
-					{
-						modelList.Add(model);
-					}
-				}
-			}
-			return modelList;
-		}
+            return dal.GetModel(Exp_No0, Exp_No1);
+        }
 
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public DataSet GetAllList()
-		{
-			return GetList("");
-		}
+        /// <summary>
+        /// 得到一个对象实体，从缓存中
+        /// </summary>
+        public Maticsoft.Model.cjpll GetModelByCache(string Exp_No0, string Exp_No1)
+        {
 
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		public int GetRecordCount(string strWhere)
-		{
-			return dal.GetRecordCount(strWhere);
-		}
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-		{
-			return dal.GetListByPage( strWhere,  orderby,  startIndex,  endIndex);
-		}
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		//public DataSet GetList(int PageSize,int PageIndex,string strWhere)
-		//{
-			//return dal.GetList(PageSize,PageIndex,strWhere);
-		//}
+            string CacheKey = "cjpllModel-" + Exp_No0 + Exp_No1;
+            object objModel = Maticsoft.Common.DataCache.GetCache(CacheKey);
+            if (objModel == null)
+            {
+                try
+                {
+                    objModel = dal.GetModel(Exp_No0, Exp_No1);
+                    if (objModel != null)
+                    {
+                        int ModelCache = Maticsoft.Common.ConfigHelper.GetConfigInt("ModelCache");
+                        Maticsoft.Common.DataCache.SetCache(CacheKey, objModel, DateTime.Now.AddMinutes(ModelCache), TimeSpan.Zero);
+                    }
+                }
+                catch { }
+            }
+            return (Maticsoft.Model.cjpll)objModel;
+        }
 
-		#endregion  BasicMethod
-		#region  ExtensionMethod
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetList(string strWhere)
+        {
+            return dal.GetList(strWhere);
+        }
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public List<Maticsoft.Model.cjpll> GetModelList(string strWhere)
+        {
+            DataSet ds = dal.GetList(strWhere);
+            return DataTableToList(ds.Tables[0]);
+        }
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public List<Maticsoft.Model.cjpll> DataTableToList(DataTable dt)
+        {
+            List<Maticsoft.Model.cjpll> modelList = new List<Maticsoft.Model.cjpll>();
+            int rowsCount = dt.Rows.Count;
+            if (rowsCount > 0)
+            {
+                Maticsoft.Model.cjpll model;
+                for (int n = 0; n < rowsCount; n++)
+                {
+                    model = dal.DataRowToModel(dt.Rows[n]);
+                    if (model != null)
+                    {
+                        modelList.Add(model);
+                    }
+                }
+            }
+            return modelList;
+        }
 
-		#endregion  ExtensionMethod
-	}
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetAllList()
+        {
+            return GetList("");
+        }
+
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        public int GetRecordCount(string strWhere)
+        {
+            return dal.GetRecordCount(strWhere);
+        }
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
+        {
+            return dal.GetListByPage(strWhere, orderby, startIndex, endIndex);
+        }
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        //public DataSet GetList(int PageSize,int PageIndex,string strWhere)
+        //{
+        //return dal.GetList(PageSize,PageIndex,strWhere);
+        //}
+
+        #endregion  BasicMethod
+        #region  ExtensionMethod
+
+        #endregion  ExtensionMethod
+    }
 }
 

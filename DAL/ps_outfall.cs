@@ -5,586 +5,586 @@ using MySql.Data.MySqlClient;
 using Maticsoft.DBUtility;//Please add references
 namespace Maticsoft.DAL
 {
-	/// <summary>
-	/// 数据访问类:ps_outfall
-	/// </summary>
-	public partial class ps_outfall
-	{
-		public ps_outfall()
-		{}
-		#region  BasicMethod
+    /// <summary>
+    /// 数据访问类:ps_outfall
+    /// </summary>
+    public partial class ps_outfall
+    {
+        public ps_outfall()
+        { }
+        #region  BasicMethod
 
-		/// <summary>
-		/// 是否存在该记录
-		/// </summary>
-		public bool Exists(string Exp_No)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select count(1) from ps_outfall");
-			strSql.Append(" where Exp_No=@Exp_No ");
-			MySqlParameter[] parameters = {
-					new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)			};
-			parameters[0].Value = Exp_No;
+        /// <summary>
+        /// 是否存在该记录
+        /// </summary>
+        public bool Exists(string Exp_No)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from ps_outfall");
+            strSql.Append(" where Exp_No=@Exp_No ");
+            MySqlParameter[] parameters = {
+                    new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)          };
+            parameters[0].Value = Exp_No;
 
-			return DbHelperMySQL.Exists(strSql.ToString(),parameters);
-		}
-
-
-		/// <summary>
-		/// 增加一条数据
-		/// </summary>
-		public bool Add(Maticsoft.Model.ps_outfall model)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("insert into ps_outfall(");
-			strSql.Append("Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Bottom_Elev,OutfallShape,OutfallType,Offset,Rotation,Code,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Materail,Receive,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Outfall_Type,Status,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,filename,update)");
-			strSql.Append(" values (");
-			strSql.Append("@Prj_No,@Prj_Name,@Exp_No,@MapCode,@SewageSystem_ID,@StormSystem_ID,@Type,@X,@Y,@High,@Bottom_Elev,@OutfallShape,@OutfallType,@Offset,@Rotation,@Code,@Flap,@Flap_Diameter,@Flap_TopEle,@Flap_BotEle,@Flap_Materail,@Receive,@Address,@PointPosition,@DataSource,@Visibility,@Sunit,@Sdate,@UpdateTime,@Mdate,@Outfall_Type,@Status,@Ename,@Design_Dept,@Conster_Dept,@Belong,@Operator,@Note,@Exp_NoOri,@filename,@update)");
-			MySqlParameter[] parameters = {
-					new MySqlParameter("@Prj_No", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Prj_Name", MySqlDbType.VarChar,100),
-					new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100),
-					new MySqlParameter("@MapCode", MySqlDbType.VarChar,10),
-					new MySqlParameter("@SewageSystem_ID", MySqlDbType.VarChar,50),
-					new MySqlParameter("@StormSystem_ID", MySqlDbType.VarChar,50),
-					new MySqlParameter("@Type", MySqlDbType.VarChar,4),
-					new MySqlParameter("@X", MySqlDbType.Decimal,10),
-					new MySqlParameter("@Y", MySqlDbType.Decimal,10),
-					new MySqlParameter("@High", MySqlDbType.Decimal,10),
-					new MySqlParameter("@Bottom_Elev", MySqlDbType.Decimal,7),
-					new MySqlParameter("@OutfallShape", MySqlDbType.VarChar,50),
-					new MySqlParameter("@OutfallType", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Offset", MySqlDbType.VarChar,50),
-					new MySqlParameter("@Rotation", MySqlDbType.Decimal,7),
-					new MySqlParameter("@Code", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Flap", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Flap_Diameter", MySqlDbType.Decimal,7),
-					new MySqlParameter("@Flap_TopEle", MySqlDbType.Decimal,7),
-					new MySqlParameter("@Flap_BotEle", MySqlDbType.Decimal,7),
-					new MySqlParameter("@Flap_Materail", MySqlDbType.VarChar,50),
-					new MySqlParameter("@Receive", MySqlDbType.VarChar,50),
-					new MySqlParameter("@Address", MySqlDbType.VarChar,100),
-					new MySqlParameter("@PointPosition", MySqlDbType.Int32,10),
-					new MySqlParameter("@DataSource", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Visibility", MySqlDbType.VarChar,4),
-					new MySqlParameter("@Sunit", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Sdate", MySqlDbType.VarChar,255),
-					new MySqlParameter("@UpdateTime", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Mdate", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Outfall_Type", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Status", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Ename", MySqlDbType.VarChar,100),
-					new MySqlParameter("@Design_Dept", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Conster_Dept", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Belong", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Operator", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Note", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Exp_NoOri", MySqlDbType.VarChar,255),
-					new MySqlParameter("@filename", MySqlDbType.VarChar,255),
-					new MySqlParameter("@update", MySqlDbType.VarChar,255)};
-			parameters[0].Value = model.Prj_No;
-			parameters[1].Value = model.Prj_Name;
-			parameters[2].Value = model.Exp_No;
-			parameters[3].Value = model.MapCode;
-			parameters[4].Value = model.SewageSystem_ID;
-			parameters[5].Value = model.StormSystem_ID;
-			parameters[6].Value = model.Type;
-			parameters[7].Value = model.X;
-			parameters[8].Value = model.Y;
-			parameters[9].Value = model.High;
-			parameters[10].Value = model.Bottom_Elev;
-			parameters[11].Value = model.OutfallShape;
-			parameters[12].Value = model.OutfallType;
-			parameters[13].Value = model.Offset;
-			parameters[14].Value = model.Rotation;
-			parameters[15].Value = model.Code;
-			parameters[16].Value = model.Flap;
-			parameters[17].Value = model.Flap_Diameter;
-			parameters[18].Value = model.Flap_TopEle;
-			parameters[19].Value = model.Flap_BotEle;
-			parameters[20].Value = model.Flap_Materail;
-			parameters[21].Value = model.Receive;
-			parameters[22].Value = model.Address;
-			parameters[23].Value = model.PointPosition;
-			parameters[24].Value = model.DataSource;
-			parameters[25].Value = model.Visibility;
-			parameters[26].Value = model.Sunit;
-			parameters[27].Value = model.Sdate;
-			parameters[28].Value = model.UpdateTime;
-			parameters[29].Value = model.Mdate;
-			parameters[30].Value = model.Outfall_Type;
-			parameters[31].Value = model.Status;
-			parameters[32].Value = model.Ename;
-			parameters[33].Value = model.Design_Dept;
-			parameters[34].Value = model.Conster_Dept;
-			parameters[35].Value = model.Belong;
-			parameters[36].Value = model.Operator;
-			parameters[37].Value = model.Note;
-			parameters[38].Value = model.Exp_NoOri;
-			parameters[39].Value = model.filename;
-			parameters[40].Value = model.update;
-
-			int rows=DbHelperMySQL.ExecuteSql(strSql.ToString(),parameters);
-			if (rows > 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		/// <summary>
-		/// 更新一条数据
-		/// </summary>
-		public bool Update(Maticsoft.Model.ps_outfall model)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("update ps_outfall set ");
-			strSql.Append("Prj_No=@Prj_No,");
-			strSql.Append("Prj_Name=@Prj_Name,");
-			strSql.Append("MapCode=@MapCode,");
-			strSql.Append("SewageSystem_ID=@SewageSystem_ID,");
-			strSql.Append("StormSystem_ID=@StormSystem_ID,");
-			strSql.Append("Type=@Type,");
-			strSql.Append("X=@X,");
-			strSql.Append("Y=@Y,");
-			strSql.Append("High=@High,");
-			strSql.Append("Bottom_Elev=@Bottom_Elev,");
-			strSql.Append("OutfallShape=@OutfallShape,");
-			strSql.Append("OutfallType=@OutfallType,");
-			strSql.Append("Offset=@Offset,");
-			strSql.Append("Rotation=@Rotation,");
-			strSql.Append("Code=@Code,");
-			strSql.Append("Flap=@Flap,");
-			strSql.Append("Flap_Diameter=@Flap_Diameter,");
-			strSql.Append("Flap_TopEle=@Flap_TopEle,");
-			strSql.Append("Flap_BotEle=@Flap_BotEle,");
-			strSql.Append("Flap_Materail=@Flap_Materail,");
-			strSql.Append("Receive=@Receive,");
-			strSql.Append("Address=@Address,");
-			strSql.Append("PointPosition=@PointPosition,");
-			strSql.Append("DataSource=@DataSource,");
-			strSql.Append("Visibility=@Visibility,");
-			strSql.Append("Sunit=@Sunit,");
-			strSql.Append("Sdate=@Sdate,");
-			strSql.Append("UpdateTime=@UpdateTime,");
-			strSql.Append("Mdate=@Mdate,");
-			strSql.Append("Outfall_Type=@Outfall_Type,");
-			strSql.Append("Status=@Status,");
-			strSql.Append("Ename=@Ename,");
-			strSql.Append("Design_Dept=@Design_Dept,");
-			strSql.Append("Conster_Dept=@Conster_Dept,");
-			strSql.Append("Belong=@Belong,");
-			strSql.Append("Operator=@Operator,");
-			strSql.Append("Note=@Note,");
-			strSql.Append("Exp_NoOri=@Exp_NoOri,");
-			strSql.Append("filename=@filename,");
-			strSql.Append("update=@update");
-			strSql.Append(" where Exp_No=@Exp_No ");
-			MySqlParameter[] parameters = {
-					new MySqlParameter("@Prj_No", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Prj_Name", MySqlDbType.VarChar,100),
-					new MySqlParameter("@MapCode", MySqlDbType.VarChar,10),
-					new MySqlParameter("@SewageSystem_ID", MySqlDbType.VarChar,50),
-					new MySqlParameter("@StormSystem_ID", MySqlDbType.VarChar,50),
-					new MySqlParameter("@Type", MySqlDbType.VarChar,4),
-					new MySqlParameter("@X", MySqlDbType.Decimal,10),
-					new MySqlParameter("@Y", MySqlDbType.Decimal,10),
-					new MySqlParameter("@High", MySqlDbType.Decimal,10),
-					new MySqlParameter("@Bottom_Elev", MySqlDbType.Decimal,7),
-					new MySqlParameter("@OutfallShape", MySqlDbType.VarChar,50),
-					new MySqlParameter("@OutfallType", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Offset", MySqlDbType.VarChar,50),
-					new MySqlParameter("@Rotation", MySqlDbType.Decimal,7),
-					new MySqlParameter("@Code", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Flap", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Flap_Diameter", MySqlDbType.Decimal,7),
-					new MySqlParameter("@Flap_TopEle", MySqlDbType.Decimal,7),
-					new MySqlParameter("@Flap_BotEle", MySqlDbType.Decimal,7),
-					new MySqlParameter("@Flap_Materail", MySqlDbType.VarChar,50),
-					new MySqlParameter("@Receive", MySqlDbType.VarChar,50),
-					new MySqlParameter("@Address", MySqlDbType.VarChar,100),
-					new MySqlParameter("@PointPosition", MySqlDbType.Int32,10),
-					new MySqlParameter("@DataSource", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Visibility", MySqlDbType.VarChar,4),
-					new MySqlParameter("@Sunit", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Sdate", MySqlDbType.VarChar,255),
-					new MySqlParameter("@UpdateTime", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Mdate", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Outfall_Type", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Status", MySqlDbType.VarChar,10),
-					new MySqlParameter("@Ename", MySqlDbType.VarChar,100),
-					new MySqlParameter("@Design_Dept", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Conster_Dept", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Belong", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Operator", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Note", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Exp_NoOri", MySqlDbType.VarChar,255),
-					new MySqlParameter("@filename", MySqlDbType.VarChar,255),
-					new MySqlParameter("@update", MySqlDbType.VarChar,255),
-					new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)};
-			parameters[0].Value = model.Prj_No;
-			parameters[1].Value = model.Prj_Name;
-			parameters[2].Value = model.MapCode;
-			parameters[3].Value = model.SewageSystem_ID;
-			parameters[4].Value = model.StormSystem_ID;
-			parameters[5].Value = model.Type;
-			parameters[6].Value = model.X;
-			parameters[7].Value = model.Y;
-			parameters[8].Value = model.High;
-			parameters[9].Value = model.Bottom_Elev;
-			parameters[10].Value = model.OutfallShape;
-			parameters[11].Value = model.OutfallType;
-			parameters[12].Value = model.Offset;
-			parameters[13].Value = model.Rotation;
-			parameters[14].Value = model.Code;
-			parameters[15].Value = model.Flap;
-			parameters[16].Value = model.Flap_Diameter;
-			parameters[17].Value = model.Flap_TopEle;
-			parameters[18].Value = model.Flap_BotEle;
-			parameters[19].Value = model.Flap_Materail;
-			parameters[20].Value = model.Receive;
-			parameters[21].Value = model.Address;
-			parameters[22].Value = model.PointPosition;
-			parameters[23].Value = model.DataSource;
-			parameters[24].Value = model.Visibility;
-			parameters[25].Value = model.Sunit;
-			parameters[26].Value = model.Sdate;
-			parameters[27].Value = model.UpdateTime;
-			parameters[28].Value = model.Mdate;
-			parameters[29].Value = model.Outfall_Type;
-			parameters[30].Value = model.Status;
-			parameters[31].Value = model.Ename;
-			parameters[32].Value = model.Design_Dept;
-			parameters[33].Value = model.Conster_Dept;
-			parameters[34].Value = model.Belong;
-			parameters[35].Value = model.Operator;
-			parameters[36].Value = model.Note;
-			parameters[37].Value = model.Exp_NoOri;
-			parameters[38].Value = model.filename;
-			parameters[39].Value = model.update;
-			parameters[40].Value = model.Exp_No;
-
-			int rows=DbHelperMySQL.ExecuteSql(strSql.ToString(),parameters);
-			if (rows > 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		/// <summary>
-		/// 删除一条数据
-		/// </summary>
-		public bool Delete(string Exp_No)
-		{
-			
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from ps_outfall ");
-			strSql.Append(" where Exp_No=@Exp_No ");
-			MySqlParameter[] parameters = {
-					new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)			};
-			parameters[0].Value = Exp_No;
-
-			int rows=DbHelperMySQL.ExecuteSql(strSql.ToString(),parameters);
-			if (rows > 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		/// <summary>
-		/// 批量删除数据
-		/// </summary>
-		public bool DeleteList(string Exp_Nolist )
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from ps_outfall ");
-			strSql.Append(" where Exp_No in ("+Exp_Nolist + ")  ");
-			int rows=DbHelperMySQL.ExecuteSql(strSql.ToString());
-			if (rows > 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+            return DbHelperMySQL.Exists(strSql.ToString(), parameters);
+        }
 
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Maticsoft.Model.ps_outfall GetModel(string Exp_No)
-		{
-			
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Bottom_Elev,OutfallShape,OutfallType,Offset,Rotation,Code,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Materail,Receive,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Outfall_Type,Status,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,filename,update from ps_outfall ");
-			strSql.Append(" where Exp_No=@Exp_No ");
-			MySqlParameter[] parameters = {
-					new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)			};
-			parameters[0].Value = Exp_No;
+        /// <summary>
+        /// 增加一条数据
+        /// </summary>
+        public bool Add(Maticsoft.Model.ps_outfall model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into ps_outfall(");
+            strSql.Append("Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Bottom_Elev,OutfallShape,OutfallType,Offset,Rotation,Code,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Materail,Receive,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Outfall_Type,Status,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,FileName,Uploadtime)");
+            strSql.Append(" values (");
+            strSql.Append("@Prj_No,@Prj_Name,@Exp_No,@MapCode,@SewageSystem_ID,@StormSystem_ID,@Type,@X,@Y,@High,@Bottom_Elev,@OutfallShape,@OutfallType,@Offset,@Rotation,@Code,@Flap,@Flap_Diameter,@Flap_TopEle,@Flap_BotEle,@Flap_Materail,@Receive,@Address,@PointPosition,@DataSource,@Visibility,@Sunit,@Sdate,@UpdateTime,@Mdate,@Outfall_Type,@Status,@Ename,@Design_Dept,@Conster_Dept,@Belong,@Operator,@Note,@Exp_NoOri,@FileName,@Uploadtime)");
+            MySqlParameter[] parameters = {
+                    new MySqlParameter("@Prj_No", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Prj_Name", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@MapCode", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@SewageSystem_ID", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@StormSystem_ID", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@Type", MySqlDbType.VarChar,4),
+                    new MySqlParameter("@X", MySqlDbType.Decimal,10),
+                    new MySqlParameter("@Y", MySqlDbType.Decimal,10),
+                    new MySqlParameter("@High", MySqlDbType.Decimal,10),
+                    new MySqlParameter("@Bottom_Elev", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@OutfallShape", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@OutfallType", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Offset", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@Rotation", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@Code", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Flap", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Flap_Diameter", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@Flap_TopEle", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@Flap_BotEle", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@Flap_Materail", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@Receive", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@Address", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@PointPosition", MySqlDbType.Int32,10),
+                    new MySqlParameter("@DataSource", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Visibility", MySqlDbType.VarChar,4),
+                    new MySqlParameter("@Sunit", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Sdate", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@UpdateTime", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Mdate", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Outfall_Type", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Status", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Ename", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@Design_Dept", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Conster_Dept", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Belong", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Operator", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Note", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Exp_NoOri", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@FileName", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255)};
+            parameters[0].Value = model.Prj_No;
+            parameters[1].Value = model.Prj_Name;
+            parameters[2].Value = model.Exp_No;
+            parameters[3].Value = model.MapCode;
+            parameters[4].Value = model.SewageSystem_ID;
+            parameters[5].Value = model.StormSystem_ID;
+            parameters[6].Value = model.Type;
+            parameters[7].Value = model.X;
+            parameters[8].Value = model.Y;
+            parameters[9].Value = model.High;
+            parameters[10].Value = model.Bottom_Elev;
+            parameters[11].Value = model.OutfallShape;
+            parameters[12].Value = model.OutfallType;
+            parameters[13].Value = model.Offset;
+            parameters[14].Value = model.Rotation;
+            parameters[15].Value = model.Code;
+            parameters[16].Value = model.Flap;
+            parameters[17].Value = model.Flap_Diameter;
+            parameters[18].Value = model.Flap_TopEle;
+            parameters[19].Value = model.Flap_BotEle;
+            parameters[20].Value = model.Flap_Materail;
+            parameters[21].Value = model.Receive;
+            parameters[22].Value = model.Address;
+            parameters[23].Value = model.PointPosition;
+            parameters[24].Value = model.DataSource;
+            parameters[25].Value = model.Visibility;
+            parameters[26].Value = model.Sunit;
+            parameters[27].Value = model.Sdate;
+            parameters[28].Value = model.UpdateTime;
+            parameters[29].Value = model.Mdate;
+            parameters[30].Value = model.Outfall_Type;
+            parameters[31].Value = model.Status;
+            parameters[32].Value = model.Ename;
+            parameters[33].Value = model.Design_Dept;
+            parameters[34].Value = model.Conster_Dept;
+            parameters[35].Value = model.Belong;
+            parameters[36].Value = model.Operator;
+            parameters[37].Value = model.Note;
+            parameters[38].Value = model.Exp_NoOri;
+            parameters[39].Value = model.FileName;
+            parameters[40].Value = model.Uploadtime;
 
-			Maticsoft.Model.ps_outfall model=new Maticsoft.Model.ps_outfall();
-			DataSet ds=DbHelperMySQL.Query(strSql.ToString(),parameters);
-			if(ds.Tables[0].Rows.Count>0)
-			{
-				return DataRowToModel(ds.Tables[0].Rows[0]);
-			}
-			else
-			{
-				return null;
-			}
-		}
+            int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 更新一条数据
+        /// </summary>
+        public bool Update(Maticsoft.Model.ps_outfall model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update ps_outfall set ");
+            strSql.Append("Prj_No=@Prj_No,");
+            strSql.Append("Prj_Name=@Prj_Name,");
+            strSql.Append("MapCode=@MapCode,");
+            strSql.Append("SewageSystem_ID=@SewageSystem_ID,");
+            strSql.Append("StormSystem_ID=@StormSystem_ID,");
+            strSql.Append("Type=@Type,");
+            strSql.Append("X=@X,");
+            strSql.Append("Y=@Y,");
+            strSql.Append("High=@High,");
+            strSql.Append("Bottom_Elev=@Bottom_Elev,");
+            strSql.Append("OutfallShape=@OutfallShape,");
+            strSql.Append("OutfallType=@OutfallType,");
+            strSql.Append("Offset=@Offset,");
+            strSql.Append("Rotation=@Rotation,");
+            strSql.Append("Code=@Code,");
+            strSql.Append("Flap=@Flap,");
+            strSql.Append("Flap_Diameter=@Flap_Diameter,");
+            strSql.Append("Flap_TopEle=@Flap_TopEle,");
+            strSql.Append("Flap_BotEle=@Flap_BotEle,");
+            strSql.Append("Flap_Materail=@Flap_Materail,");
+            strSql.Append("Receive=@Receive,");
+            strSql.Append("Address=@Address,");
+            strSql.Append("PointPosition=@PointPosition,");
+            strSql.Append("DataSource=@DataSource,");
+            strSql.Append("Visibility=@Visibility,");
+            strSql.Append("Sunit=@Sunit,");
+            strSql.Append("Sdate=@Sdate,");
+            strSql.Append("UpdateTime=@UpdateTime,");
+            strSql.Append("Mdate=@Mdate,");
+            strSql.Append("Outfall_Type=@Outfall_Type,");
+            strSql.Append("Status=@Status,");
+            strSql.Append("Ename=@Ename,");
+            strSql.Append("Design_Dept=@Design_Dept,");
+            strSql.Append("Conster_Dept=@Conster_Dept,");
+            strSql.Append("Belong=@Belong,");
+            strSql.Append("Operator=@Operator,");
+            strSql.Append("Note=@Note,");
+            strSql.Append("Exp_NoOri=@Exp_NoOri,");
+            strSql.Append("FileName=@FileName,");
+            strSql.Append("Uploadtime=@Uploadtime");
+            strSql.Append(" where Exp_No=@Exp_No ");
+            MySqlParameter[] parameters = {
+                    new MySqlParameter("@Prj_No", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Prj_Name", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@MapCode", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@SewageSystem_ID", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@StormSystem_ID", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@Type", MySqlDbType.VarChar,4),
+                    new MySqlParameter("@X", MySqlDbType.Decimal,10),
+                    new MySqlParameter("@Y", MySqlDbType.Decimal,10),
+                    new MySqlParameter("@High", MySqlDbType.Decimal,10),
+                    new MySqlParameter("@Bottom_Elev", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@OutfallShape", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@OutfallType", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Offset", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@Rotation", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@Code", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Flap", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Flap_Diameter", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@Flap_TopEle", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@Flap_BotEle", MySqlDbType.Decimal,7),
+                    new MySqlParameter("@Flap_Materail", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@Receive", MySqlDbType.VarChar,50),
+                    new MySqlParameter("@Address", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@PointPosition", MySqlDbType.Int32,10),
+                    new MySqlParameter("@DataSource", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Visibility", MySqlDbType.VarChar,4),
+                    new MySqlParameter("@Sunit", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Sdate", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@UpdateTime", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Mdate", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Outfall_Type", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Status", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@Ename", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@Design_Dept", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Conster_Dept", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Belong", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Operator", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Note", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Exp_NoOri", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@FileName", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)};
+            parameters[0].Value = model.Prj_No;
+            parameters[1].Value = model.Prj_Name;
+            parameters[2].Value = model.MapCode;
+            parameters[3].Value = model.SewageSystem_ID;
+            parameters[4].Value = model.StormSystem_ID;
+            parameters[5].Value = model.Type;
+            parameters[6].Value = model.X;
+            parameters[7].Value = model.Y;
+            parameters[8].Value = model.High;
+            parameters[9].Value = model.Bottom_Elev;
+            parameters[10].Value = model.OutfallShape;
+            parameters[11].Value = model.OutfallType;
+            parameters[12].Value = model.Offset;
+            parameters[13].Value = model.Rotation;
+            parameters[14].Value = model.Code;
+            parameters[15].Value = model.Flap;
+            parameters[16].Value = model.Flap_Diameter;
+            parameters[17].Value = model.Flap_TopEle;
+            parameters[18].Value = model.Flap_BotEle;
+            parameters[19].Value = model.Flap_Materail;
+            parameters[20].Value = model.Receive;
+            parameters[21].Value = model.Address;
+            parameters[22].Value = model.PointPosition;
+            parameters[23].Value = model.DataSource;
+            parameters[24].Value = model.Visibility;
+            parameters[25].Value = model.Sunit;
+            parameters[26].Value = model.Sdate;
+            parameters[27].Value = model.UpdateTime;
+            parameters[28].Value = model.Mdate;
+            parameters[29].Value = model.Outfall_Type;
+            parameters[30].Value = model.Status;
+            parameters[31].Value = model.Ename;
+            parameters[32].Value = model.Design_Dept;
+            parameters[33].Value = model.Conster_Dept;
+            parameters[34].Value = model.Belong;
+            parameters[35].Value = model.Operator;
+            parameters[36].Value = model.Note;
+            parameters[37].Value = model.Exp_NoOri;
+            parameters[38].Value = model.FileName;
+            parameters[39].Value = model.Uploadtime;
+            parameters[40].Value = model.Exp_No;
+
+            int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 删除一条数据
+        /// </summary>
+        public bool Delete(string Exp_No)
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from ps_outfall ");
+            strSql.Append(" where Exp_No=@Exp_No ");
+            MySqlParameter[] parameters = {
+                    new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)          };
+            parameters[0].Value = Exp_No;
+
+            int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 批量删除数据
+        /// </summary>
+        public bool DeleteList(string Exp_Nolist)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from ps_outfall ");
+            strSql.Append(" where Exp_No in (" + Exp_Nolist + ")  ");
+            int rows = DbHelperMySQL.ExecuteSql(strSql.ToString());
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Maticsoft.Model.ps_outfall DataRowToModel(DataRow row)
-		{
-			Maticsoft.Model.ps_outfall model=new Maticsoft.Model.ps_outfall();
-			if (row != null)
-			{
-				if(row["Prj_No"]!=null)
-				{
-					model.Prj_No=row["Prj_No"].ToString();
-				}
-				if(row["Prj_Name"]!=null)
-				{
-					model.Prj_Name=row["Prj_Name"].ToString();
-				}
-				if(row["Exp_No"]!=null)
-				{
-					model.Exp_No=row["Exp_No"].ToString();
-				}
-				if(row["MapCode"]!=null)
-				{
-					model.MapCode=row["MapCode"].ToString();
-				}
-				if(row["SewageSystem_ID"]!=null)
-				{
-					model.SewageSystem_ID=row["SewageSystem_ID"].ToString();
-				}
-				if(row["StormSystem_ID"]!=null)
-				{
-					model.StormSystem_ID=row["StormSystem_ID"].ToString();
-				}
-				if(row["Type"]!=null)
-				{
-					model.Type=row["Type"].ToString();
-				}
-				if(row["X"]!=null && row["X"].ToString()!="")
-				{
-					model.X=decimal.Parse(row["X"].ToString());
-				}
-				if(row["Y"]!=null && row["Y"].ToString()!="")
-				{
-					model.Y=decimal.Parse(row["Y"].ToString());
-				}
-				if(row["High"]!=null && row["High"].ToString()!="")
-				{
-					model.High=decimal.Parse(row["High"].ToString());
-				}
-				if(row["Bottom_Elev"]!=null && row["Bottom_Elev"].ToString()!="")
-				{
-					model.Bottom_Elev=decimal.Parse(row["Bottom_Elev"].ToString());
-				}
-				if(row["OutfallShape"]!=null)
-				{
-					model.OutfallShape=row["OutfallShape"].ToString();
-				}
-				if(row["OutfallType"]!=null)
-				{
-					model.OutfallType=row["OutfallType"].ToString();
-				}
-				if(row["Offset"]!=null)
-				{
-					model.Offset=row["Offset"].ToString();
-				}
-				if(row["Rotation"]!=null && row["Rotation"].ToString()!="")
-				{
-					model.Rotation=decimal.Parse(row["Rotation"].ToString());
-				}
-				if(row["Code"]!=null)
-				{
-					model.Code=row["Code"].ToString();
-				}
-				if(row["Flap"]!=null)
-				{
-					model.Flap=row["Flap"].ToString();
-				}
-				if(row["Flap_Diameter"]!=null && row["Flap_Diameter"].ToString()!="")
-				{
-					model.Flap_Diameter=decimal.Parse(row["Flap_Diameter"].ToString());
-				}
-				if(row["Flap_TopEle"]!=null && row["Flap_TopEle"].ToString()!="")
-				{
-					model.Flap_TopEle=decimal.Parse(row["Flap_TopEle"].ToString());
-				}
-				if(row["Flap_BotEle"]!=null && row["Flap_BotEle"].ToString()!="")
-				{
-					model.Flap_BotEle=decimal.Parse(row["Flap_BotEle"].ToString());
-				}
-				if(row["Flap_Materail"]!=null)
-				{
-					model.Flap_Materail=row["Flap_Materail"].ToString();
-				}
-				if(row["Receive"]!=null)
-				{
-					model.Receive=row["Receive"].ToString();
-				}
-				if(row["Address"]!=null)
-				{
-					model.Address=row["Address"].ToString();
-				}
-				if(row["PointPosition"]!=null && row["PointPosition"].ToString()!="")
-				{
-					model.PointPosition=int.Parse(row["PointPosition"].ToString());
-				}
-				if(row["DataSource"]!=null)
-				{
-					model.DataSource=row["DataSource"].ToString();
-				}
-				if(row["Visibility"]!=null)
-				{
-					model.Visibility=row["Visibility"].ToString();
-				}
-				if(row["Sunit"]!=null)
-				{
-					model.Sunit=row["Sunit"].ToString();
-				}
-				if(row["Sdate"]!=null)
-				{
-					model.Sdate=row["Sdate"].ToString();
-				}
-				if(row["UpdateTime"]!=null)
-				{
-					model.UpdateTime=row["UpdateTime"].ToString();
-				}
-				if(row["Mdate"]!=null)
-				{
-					model.Mdate=row["Mdate"].ToString();
-				}
-				if(row["Outfall_Type"]!=null)
-				{
-					model.Outfall_Type=row["Outfall_Type"].ToString();
-				}
-				if(row["Status"]!=null)
-				{
-					model.Status=row["Status"].ToString();
-				}
-				if(row["Ename"]!=null)
-				{
-					model.Ename=row["Ename"].ToString();
-				}
-				if(row["Design_Dept"]!=null)
-				{
-					model.Design_Dept=row["Design_Dept"].ToString();
-				}
-				if(row["Conster_Dept"]!=null)
-				{
-					model.Conster_Dept=row["Conster_Dept"].ToString();
-				}
-				if(row["Belong"]!=null)
-				{
-					model.Belong=row["Belong"].ToString();
-				}
-				if(row["Operator"]!=null)
-				{
-					model.Operator=row["Operator"].ToString();
-				}
-				if(row["Note"]!=null)
-				{
-					model.Note=row["Note"].ToString();
-				}
-				if(row["Exp_NoOri"]!=null)
-				{
-					model.Exp_NoOri=row["Exp_NoOri"].ToString();
-				}
-				if(row["filename"]!=null)
-				{
-					model.filename=row["filename"].ToString();
-				}
-				if(row["update"]!=null)
-				{
-					model.update=row["update"].ToString();
-				}
-			}
-			return model;
-		}
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Maticsoft.Model.ps_outfall GetModel(string Exp_No)
+        {
 
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public DataSet GetList(string strWhere)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Bottom_Elev,OutfallShape,OutfallType,Offset,Rotation,Code,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Materail,Receive,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Outfall_Type,Status,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,filename,update ");
-			strSql.Append(" FROM ps_outfall ");
-			if(strWhere.Trim()!="")
-			{
-				strSql.Append(" where "+strWhere);
-			}
-			return DbHelperMySQL.Query(strSql.ToString());
-		}
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Bottom_Elev,OutfallShape,OutfallType,Offset,Rotation,Code,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Materail,Receive,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Outfall_Type,Status,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,FileName,Uploadtime from ps_outfall ");
+            strSql.Append(" where Exp_No=@Exp_No ");
+            MySqlParameter[] parameters = {
+                    new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)          };
+            parameters[0].Value = Exp_No;
 
-		/// <summary>
-		/// 获取记录总数
-		/// </summary>
-		public int GetRecordCount(string strWhere)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select count(1) FROM ps_outfall ");
-			if(strWhere.Trim()!="")
-			{
-				strSql.Append(" where "+strWhere);
-			}
-			object obj = DbHelperSQL.GetSingle(strSql.ToString());
-			if (obj == null)
-			{
-				return 0;
-			}
-			else
-			{
-				return Convert.ToInt32(obj);
-			}
-		}
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("SELECT * FROM ( ");
-			strSql.Append(" SELECT ROW_NUMBER() OVER (");
-			if (!string.IsNullOrEmpty(orderby.Trim()))
-			{
-				strSql.Append("order by T." + orderby );
-			}
-			else
-			{
-				strSql.Append("order by T.Exp_No desc");
-			}
-			strSql.Append(")AS Row, T.*  from ps_outfall T ");
-			if (!string.IsNullOrEmpty(strWhere.Trim()))
-			{
-				strSql.Append(" WHERE " + strWhere);
-			}
-			strSql.Append(" ) TT");
-			strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
-			return DbHelperMySQL.Query(strSql.ToString());
-		}
+            Maticsoft.Model.ps_outfall model = new Maticsoft.Model.ps_outfall();
+            DataSet ds = DbHelperMySQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                return DataRowToModel(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-		/*
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Maticsoft.Model.ps_outfall DataRowToModel(DataRow row)
+        {
+            Maticsoft.Model.ps_outfall model = new Maticsoft.Model.ps_outfall();
+            if (row != null)
+            {
+                if (row["Prj_No"] != null)
+                {
+                    model.Prj_No = row["Prj_No"].ToString();
+                }
+                if (row["Prj_Name"] != null)
+                {
+                    model.Prj_Name = row["Prj_Name"].ToString();
+                }
+                if (row["Exp_No"] != null)
+                {
+                    model.Exp_No = row["Exp_No"].ToString();
+                }
+                if (row["MapCode"] != null)
+                {
+                    model.MapCode = row["MapCode"].ToString();
+                }
+                if (row["SewageSystem_ID"] != null)
+                {
+                    model.SewageSystem_ID = row["SewageSystem_ID"].ToString();
+                }
+                if (row["StormSystem_ID"] != null)
+                {
+                    model.StormSystem_ID = row["StormSystem_ID"].ToString();
+                }
+                if (row["Type"] != null)
+                {
+                    model.Type = row["Type"].ToString();
+                }
+                if (row["X"] != null && row["X"].ToString() != "")
+                {
+                    model.X = decimal.Parse(row["X"].ToString());
+                }
+                if (row["Y"] != null && row["Y"].ToString() != "")
+                {
+                    model.Y = decimal.Parse(row["Y"].ToString());
+                }
+                if (row["High"] != null && row["High"].ToString() != "")
+                {
+                    model.High = decimal.Parse(row["High"].ToString());
+                }
+                if (row["Bottom_Elev"] != null && row["Bottom_Elev"].ToString() != "")
+                {
+                    model.Bottom_Elev = decimal.Parse(row["Bottom_Elev"].ToString());
+                }
+                if (row["OutfallShape"] != null)
+                {
+                    model.OutfallShape = row["OutfallShape"].ToString();
+                }
+                if (row["OutfallType"] != null)
+                {
+                    model.OutfallType = row["OutfallType"].ToString();
+                }
+                if (row["Offset"] != null)
+                {
+                    model.Offset = row["Offset"].ToString();
+                }
+                if (row["Rotation"] != null && row["Rotation"].ToString() != "")
+                {
+                    model.Rotation = decimal.Parse(row["Rotation"].ToString());
+                }
+                if (row["Code"] != null)
+                {
+                    model.Code = row["Code"].ToString();
+                }
+                if (row["Flap"] != null)
+                {
+                    model.Flap = row["Flap"].ToString();
+                }
+                if (row["Flap_Diameter"] != null && row["Flap_Diameter"].ToString() != "")
+                {
+                    model.Flap_Diameter = decimal.Parse(row["Flap_Diameter"].ToString());
+                }
+                if (row["Flap_TopEle"] != null && row["Flap_TopEle"].ToString() != "")
+                {
+                    model.Flap_TopEle = decimal.Parse(row["Flap_TopEle"].ToString());
+                }
+                if (row["Flap_BotEle"] != null && row["Flap_BotEle"].ToString() != "")
+                {
+                    model.Flap_BotEle = decimal.Parse(row["Flap_BotEle"].ToString());
+                }
+                if (row["Flap_Materail"] != null)
+                {
+                    model.Flap_Materail = row["Flap_Materail"].ToString();
+                }
+                if (row["Receive"] != null)
+                {
+                    model.Receive = row["Receive"].ToString();
+                }
+                if (row["Address"] != null)
+                {
+                    model.Address = row["Address"].ToString();
+                }
+                if (row["PointPosition"] != null && row["PointPosition"].ToString() != "")
+                {
+                    model.PointPosition = int.Parse(row["PointPosition"].ToString());
+                }
+                if (row["DataSource"] != null)
+                {
+                    model.DataSource = row["DataSource"].ToString();
+                }
+                if (row["Visibility"] != null)
+                {
+                    model.Visibility = row["Visibility"].ToString();
+                }
+                if (row["Sunit"] != null)
+                {
+                    model.Sunit = row["Sunit"].ToString();
+                }
+                if (row["Sdate"] != null)
+                {
+                    model.Sdate = row["Sdate"].ToString();
+                }
+                if (row["UpdateTime"] != null)
+                {
+                    model.UpdateTime = row["UpdateTime"].ToString();
+                }
+                if (row["Mdate"] != null)
+                {
+                    model.Mdate = row["Mdate"].ToString();
+                }
+                if (row["Outfall_Type"] != null)
+                {
+                    model.Outfall_Type = row["Outfall_Type"].ToString();
+                }
+                if (row["Status"] != null)
+                {
+                    model.Status = row["Status"].ToString();
+                }
+                if (row["Ename"] != null)
+                {
+                    model.Ename = row["Ename"].ToString();
+                }
+                if (row["Design_Dept"] != null)
+                {
+                    model.Design_Dept = row["Design_Dept"].ToString();
+                }
+                if (row["Conster_Dept"] != null)
+                {
+                    model.Conster_Dept = row["Conster_Dept"].ToString();
+                }
+                if (row["Belong"] != null)
+                {
+                    model.Belong = row["Belong"].ToString();
+                }
+                if (row["Operator"] != null)
+                {
+                    model.Operator = row["Operator"].ToString();
+                }
+                if (row["Note"] != null)
+                {
+                    model.Note = row["Note"].ToString();
+                }
+                if (row["Exp_NoOri"] != null)
+                {
+                    model.Exp_NoOri = row["Exp_NoOri"].ToString();
+                }
+                if (row["FileName"] != null)
+                {
+                    model.FileName = row["FileName"].ToString();
+                }
+                if (row["Uploadtime"] != null)
+                {
+                    model.Uploadtime = row["Uploadtime"].ToString();
+                }
+            }
+            return model;
+        }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetList(string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Bottom_Elev,OutfallShape,OutfallType,Offset,Rotation,Code,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Materail,Receive,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Outfall_Type,Status,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,FileName,Uploadtime ");
+            strSql.Append(" FROM ps_outfall ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            return DbHelperMySQL.Query(strSql.ToString());
+        }
+
+        /// <summary>
+        /// 获取记录总数
+        /// </summary>
+        public int GetRecordCount(string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) FROM ps_outfall ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            object obj = DbHelperSQL.GetSingle(strSql.ToString());
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("SELECT * FROM ( ");
+            strSql.Append(" SELECT ROW_NUMBER() OVER (");
+            if (!string.IsNullOrEmpty(orderby.Trim()))
+            {
+                strSql.Append("order by T." + orderby);
+            }
+            else
+            {
+                strSql.Append("order by T.Exp_No desc");
+            }
+            strSql.Append(")AS Row, T.*  from ps_outfall T ");
+            if (!string.IsNullOrEmpty(strWhere.Trim()))
+            {
+                strSql.Append(" WHERE " + strWhere);
+            }
+            strSql.Append(" ) TT");
+            strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
+            return DbHelperMySQL.Query(strSql.ToString());
+        }
+
+        /*
 		/// <summary>
 		/// 分页获取数据列表
 		/// </summary>
@@ -609,10 +609,10 @@ namespace Maticsoft.DAL
 			return DbHelperMySQL.RunProcedure("UP_GetRecordByPage",parameters,"ds");
 		}*/
 
-		#endregion  BasicMethod
-		#region  ExtensionMethod
+        #endregion  BasicMethod
+        #region  ExtensionMethod
 
-		#endregion  ExtensionMethod
-	}
+        #endregion  ExtensionMethod
+    }
 }
 

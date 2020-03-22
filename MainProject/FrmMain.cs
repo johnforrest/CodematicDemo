@@ -27,5 +27,24 @@ namespace MainProject
             FrmSetServer frmSetServer = new FrmSetServer();
             frmSetServer.Show();
         }
+
+        /// <summary>
+        /// 拆分数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void barButtonItemMergeData_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// 导出ArcGIS的mdb
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void barButtonItemExport_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
     }
 }
