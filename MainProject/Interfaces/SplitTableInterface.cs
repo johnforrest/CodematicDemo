@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MainProject.Interfaces
 {
-    interface SplitTableInterface
+    public interface SplitTableInterface
     {
         //拆分表
         void SplitTable();

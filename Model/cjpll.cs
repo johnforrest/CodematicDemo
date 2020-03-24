@@ -35,6 +35,11 @@ namespace Maticsoft.Model
         private string _note;
         private string _filename;
         private string _uploadtime;
+        private string _lno;
+        private string _s_point;
+        private string _e_point;
+        private string _lnotime;
+        private decimal? _pipelength;
         /// <summary>
         /// 
         /// </summary>
@@ -234,6 +239,46 @@ namespace Maticsoft.Model
         {
             set { _uploadtime = value; }
             get { return _uploadtime; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Lno
+        {
+            set { _lno = value; }
+            get { return _lno; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string S_Point
+        {
+            set { _s_point = value; }
+            get { return _s_point; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string E_Point
+        {
+            set { _e_point = value; }
+            get { return _e_point; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string LnoTime
+        {
+            set { _lnotime = value; }
+            get { return _lnotime; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal? PipeLength
+        {
+            set { _pipelength = value; }
+            get { return _pipelength; }
         }
         #endregion Model
 

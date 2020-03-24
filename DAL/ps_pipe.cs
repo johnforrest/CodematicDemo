@@ -41,8 +41,8 @@ namespace Maticsoft.DAL
             strSql.Append(" values (");
             strSql.Append("@Prj_No,@Prj_Name,@Lno,@Grade,@S_Point,@S_Deep,@In_Elev,@E_Point,@E_Deep,@Out_Elev,@SewageSystem_ID,@StormSystem_ID,@Type,@Code,@Pressure_Type,@Invert_Silphon,@Material,@ServiceLife,@ShapeType,@PSize,@PipeLength,@FlowDir,@EmBed,@Interface,@Address,@DataSource,@Sunit,@Sdate,@UpdateTime,@Mdate,@Plan,@Pipe_Type,@Status,@Ename,@Design_Dept,@Conster_Dept,@Belong,@Operator,@Note,@Exp_No0,@Exp_No1,@FileName,@Uploadtime)");
             MySqlParameter[] parameters = {
-                    new MySqlParameter("@Prj_No", MySqlDbType.VarChar,10),
-                    new MySqlParameter("@Prj_Name", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@Prj_No", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Prj_Name", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Lno", MySqlDbType.VarChar,100),
                     new MySqlParameter("@Grade", MySqlDbType.VarChar,10),
                     new MySqlParameter("@S_Point", MySqlDbType.VarChar,100),
@@ -189,8 +189,8 @@ namespace Maticsoft.DAL
             strSql.Append("Uploadtime=@Uploadtime");
             strSql.Append(" where Lno=@Lno ");
             MySqlParameter[] parameters = {
-                    new MySqlParameter("@Prj_No", MySqlDbType.VarChar,10),
-                    new MySqlParameter("@Prj_Name", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@Prj_No", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Prj_Name", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Grade", MySqlDbType.VarChar,10),
                     new MySqlParameter("@S_Point", MySqlDbType.VarChar,100),
                     new MySqlParameter("@S_Deep", MySqlDbType.Decimal,7),

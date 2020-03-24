@@ -32,6 +32,7 @@
             this.barButtonItemOpenExcel = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemMergeData = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemExport = new DevExpress.XtraBars.BarButtonItem();
+            this.btnCode = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageBasic = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupBasic = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
@@ -44,10 +45,11 @@
             this.ribbonControl1.ExpandCollapseItem,
             this.barButtonItemOpenExcel,
             this.barButtonItemMergeData,
-            this.barButtonItemExport});
+            this.barButtonItemExport,
+            this.btnCode});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
             this.ribbonControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ribbonControl1.MaxItemId = 4;
+            this.ribbonControl1.MaxItemId = 5;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageBasic});
@@ -78,6 +80,14 @@
             this.barButtonItemExport.Name = "barButtonItemExport";
             this.barButtonItemExport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemExport_ItemClick);
             // 
+            // btnCode
+            // 
+            this.btnCode.Caption = "编码";
+            this.btnCode.Id = 4;
+            this.btnCode.ImageOptions.LargeImage = global::MainProject.Properties.Resources.btnCode;
+            this.btnCode.Name = "btnCode";
+            this.btnCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnCode_ItemClick);
+            // 
             // ribbonPageBasic
             // 
             this.ribbonPageBasic.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -88,6 +98,7 @@
             // ribbonPageGroupBasic
             // 
             this.ribbonPageGroupBasic.ItemLinks.Add(this.barButtonItemOpenExcel);
+            this.ribbonPageGroupBasic.ItemLinks.Add(this.btnCode);
             this.ribbonPageGroupBasic.ItemLinks.Add(this.barButtonItemMergeData);
             this.ribbonPageGroupBasic.ItemLinks.Add(this.barButtonItemExport);
             this.ribbonPageGroupBasic.Name = "ribbonPageGroupBasic";
@@ -117,5 +128,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItemOpenExcel;
         private DevExpress.XtraBars.BarButtonItem barButtonItemMergeData;
         private DevExpress.XtraBars.BarButtonItem barButtonItemExport;
+        private DevExpress.XtraBars.BarButtonItem btnCode;
     }
 }

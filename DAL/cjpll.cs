@@ -39,9 +39,9 @@ namespace Maticsoft.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into cjpll(");
-            strSql.Append("StormSystem_ID,Exp_No0,S_Deep,S_Elev,Exp_No1,E_Deep,E_Elev,Type,Pressure_Type,Invert_Silphon,Material,ShapeType,Grade,Psize,FlowDir,ConduitStyle,Address,DataSource,Sdate,Mdate,Pipe_Type,Status,Note,FileName,Uploadtime)");
+            strSql.Append("StormSystem_ID,Exp_No0,S_Deep,S_Elev,Exp_No1,E_Deep,E_Elev,Type,Pressure_Type,Invert_Silphon,Material,ShapeType,Grade,Psize,FlowDir,ConduitStyle,Address,DataSource,Sdate,Mdate,Pipe_Type,Status,Note,FileName,Uploadtime,Lno,S_Point,E_Point,LnoTime,PipeLength)");
             strSql.Append(" values (");
-            strSql.Append("@StormSystem_ID,@Exp_No0,@S_Deep,@S_Elev,@Exp_No1,@E_Deep,@E_Elev,@Type,@Pressure_Type,@Invert_Silphon,@Material,@ShapeType,@Grade,@Psize,@FlowDir,@ConduitStyle,@Address,@DataSource,@Sdate,@Mdate,@Pipe_Type,@Status,@Note,@FileName,@Uploadtime)");
+            strSql.Append("@StormSystem_ID,@Exp_No0,@S_Deep,@S_Elev,@Exp_No1,@E_Deep,@E_Elev,@Type,@Pressure_Type,@Invert_Silphon,@Material,@ShapeType,@Grade,@Psize,@FlowDir,@ConduitStyle,@Address,@DataSource,@Sdate,@Mdate,@Pipe_Type,@Status,@Note,@FileName,@Uploadtime,@Lno,@S_Point,@E_Point,@LnoTime,@PipeLength)");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@StormSystem_ID", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Exp_No0", MySqlDbType.VarChar,150),
@@ -67,7 +67,12 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@Status", MySqlDbType.VarChar,10),
                     new MySqlParameter("@Note", MySqlDbType.VarChar,255),
                     new MySqlParameter("@FileName", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255)};
+                    new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Lno", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@S_Point", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@E_Point", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@LnoTime", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@PipeLength", MySqlDbType.Decimal,7)};
             parameters[0].Value = model.StormSystem_ID;
             parameters[1].Value = model.Exp_No0;
             parameters[2].Value = model.S_Deep;
@@ -93,6 +98,11 @@ namespace Maticsoft.DAL
             parameters[22].Value = model.Note;
             parameters[23].Value = model.FileName;
             parameters[24].Value = model.Uploadtime;
+            parameters[25].Value = model.Lno;
+            parameters[26].Value = model.S_Point;
+            parameters[27].Value = model.E_Point;
+            parameters[28].Value = model.LnoTime;
+            parameters[29].Value = model.PipeLength;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -133,7 +143,12 @@ namespace Maticsoft.DAL
             strSql.Append("Status=@Status,");
             strSql.Append("Note=@Note,");
             strSql.Append("FileName=@FileName,");
-            strSql.Append("Uploadtime=@Uploadtime");
+            strSql.Append("Uploadtime=@Uploadtime,");
+            strSql.Append("Lno=@Lno,");
+            strSql.Append("S_Point=@S_Point,");
+            strSql.Append("E_Point=@E_Point,");
+            strSql.Append("LnoTime=@LnoTime,");
+            strSql.Append("PipeLength=@PipeLength");
             strSql.Append(" where Exp_No0=@Exp_No0 and Exp_No1=@Exp_No1 ");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@StormSystem_ID", MySqlDbType.VarChar,255),
@@ -159,6 +174,11 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@Note", MySqlDbType.VarChar,255),
                     new MySqlParameter("@FileName", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Lno", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@S_Point", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@E_Point", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@LnoTime", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@PipeLength", MySqlDbType.Decimal,7),
                     new MySqlParameter("@Exp_No0", MySqlDbType.VarChar,150),
                     new MySqlParameter("@Exp_No1", MySqlDbType.VarChar,150)};
             parameters[0].Value = model.StormSystem_ID;
@@ -184,8 +204,13 @@ namespace Maticsoft.DAL
             parameters[20].Value = model.Note;
             parameters[21].Value = model.FileName;
             parameters[22].Value = model.Uploadtime;
-            parameters[23].Value = model.Exp_No0;
-            parameters[24].Value = model.Exp_No1;
+            parameters[23].Value = model.Lno;
+            parameters[24].Value = model.S_Point;
+            parameters[25].Value = model.E_Point;
+            parameters[26].Value = model.LnoTime;
+            parameters[27].Value = model.PipeLength;
+            parameters[28].Value = model.Exp_No0;
+            parameters[29].Value = model.Exp_No1;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -232,7 +257,7 @@ namespace Maticsoft.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select StormSystem_ID,Exp_No0,S_Deep,S_Elev,Exp_No1,E_Deep,E_Elev,Type,Pressure_Type,Invert_Silphon,Material,ShapeType,Grade,Psize,FlowDir,ConduitStyle,Address,DataSource,Sdate,Mdate,Pipe_Type,Status,Note,FileName,Uploadtime from cjpll ");
+            strSql.Append("select StormSystem_ID,Exp_No0,S_Deep,S_Elev,Exp_No1,E_Deep,E_Elev,Type,Pressure_Type,Invert_Silphon,Material,ShapeType,Grade,Psize,FlowDir,ConduitStyle,Address,DataSource,Sdate,Mdate,Pipe_Type,Status,Note,FileName,Uploadtime,Lno,S_Point,E_Point,LnoTime,PipeLength from cjpll ");
             strSql.Append(" where Exp_No0=@Exp_No0 and Exp_No1=@Exp_No1 ");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@Exp_No0", MySqlDbType.VarChar,150),
@@ -361,6 +386,26 @@ namespace Maticsoft.DAL
                 {
                     model.Uploadtime = row["Uploadtime"].ToString();
                 }
+                if (row["Lno"] != null)
+                {
+                    model.Lno = row["Lno"].ToString();
+                }
+                if (row["S_Point"] != null)
+                {
+                    model.S_Point = row["S_Point"].ToString();
+                }
+                if (row["E_Point"] != null)
+                {
+                    model.E_Point = row["E_Point"].ToString();
+                }
+                if (row["LnoTime"] != null)
+                {
+                    model.LnoTime = row["LnoTime"].ToString();
+                }
+                if (row["PipeLength"] != null && row["PipeLength"].ToString() != "")
+                {
+                    model.PipeLength = decimal.Parse(row["PipeLength"].ToString());
+                }
             }
             return model;
         }
@@ -371,7 +416,7 @@ namespace Maticsoft.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select StormSystem_ID,Exp_No0,S_Deep,S_Elev,Exp_No1,E_Deep,E_Elev,Type,Pressure_Type,Invert_Silphon,Material,ShapeType,Grade,Psize,FlowDir,ConduitStyle,Address,DataSource,Sdate,Mdate,Pipe_Type,Status,Note,FileName,Uploadtime ");
+            strSql.Append("select StormSystem_ID,Exp_No0,S_Deep,S_Elev,Exp_No1,E_Deep,E_Elev,Type,Pressure_Type,Invert_Silphon,Material,ShapeType,Grade,Psize,FlowDir,ConduitStyle,Address,DataSource,Sdate,Mdate,Pipe_Type,Status,Note,FileName,Uploadtime,Lno,S_Point,E_Point,LnoTime,PipeLength ");
             strSql.Append(" FROM cjpll ");
             if (strWhere.Trim() != "")
             {

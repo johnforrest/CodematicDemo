@@ -24,7 +24,7 @@ namespace Maticsoft.Model
         private string _offset;
         private decimal? _rotation;
         private string _code;
-        private string _wellpipes;
+        private int? _wellpipes;
         private decimal? _waterdeep;
         private decimal? _muddeep;
         private string _address;
@@ -161,7 +161,7 @@ namespace Maticsoft.Model
         /// <summary>
         /// 
         /// </summary>
-        public string WellPipes
+        public int? WellPipes
         {
             set { _wellpipes = value; }
             get { return _wellpipes; }

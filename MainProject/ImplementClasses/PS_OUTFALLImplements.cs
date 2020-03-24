@@ -1,39 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MainProject.Classes;
 using MainProject.Interfaces;
 using Maticsoft.Model;
 
-namespace MainProject.InplementClasses
+namespace MainProject.ImplementClasses
 {
-    class PS_COMBImplements : SplitTableInterface
+    class PS_OUTFALLImplements:SplitTableInterface
     {
-        private Maticsoft.Model.cjplp _cjplpModel;
+        private cjplp _cjplpModel;
         // private string _exp_no;
         private string _code;
 
-        public PS_COMBImplements()
+        public PS_OUTFALLImplements()
         {
 
         }
-        public PS_COMBImplements( Maticsoft.Model.cjplp cjplpModel, string code)
+        public PS_OUTFALLImplements( Maticsoft.Model.cjplp cjplpModel, string code)
         {
-            this._cjplpModel = cjplpModel;
             // this._exp_no = exp_no;
             this._code = code;
+            this._cjplpModel = cjplpModel;
         }
-
-        /// <summary>
-        /// 拆分PS_COM表
-        /// </summary>
         public void SplitTable()
         {
-            Maticsoft.Model.ps_comb psCombModel=new Maticsoft.Model.ps_comb();
-            Maticsoft.Model.ps_comb resultPsComb = EntityAssignValue.BindModelValue<Maticsoft.Model.ps_comb, Maticsoft.Model.cjplp>(psCombModel,_cjplpModel);
+            Maticsoft.Model.ps_outfall psOutfallModel = new Maticsoft.Model.ps_outfall();
+            Maticsoft.Model.ps_outfall resultPsComb = EntityAssignValue.BindModelValue<Maticsoft.Model.ps_outfall, Maticsoft.Model.cjplp>(psOutfallModel, _cjplpModel);
+            // Console.WriteLine("哈哈哈" + resultPsComb);
             //todo：填充计算的信息
             // resultPsComb.Exp_No = _exp_no;
             resultPsComb.Code = _code;
@@ -44,12 +40,12 @@ namespace MainProject.InplementClasses
             //todo：缺失信息忽略
 
             //增加数据库记录
-            Maticsoft.DAL.ps_comb psCombDAL = new Maticsoft.DAL.ps_comb();
-        
-            bool exist = psCombDAL.Exists(resultPsComb.Exp_No);
+            Maticsoft.DAL.ps_outfall psOutfallDAL = new Maticsoft.DAL.ps_outfall();
+
+            bool exist = psOutfallDAL.Exists(resultPsComb.Exp_No);
             if (!exist)
             {
-                psCombDAL.Add(resultPsComb);
+                psOutfallDAL.Add(resultPsComb);
             }
             else
             {
@@ -57,7 +53,5 @@ namespace MainProject.InplementClasses
             }
 
         }
-   
- 
     }
 }

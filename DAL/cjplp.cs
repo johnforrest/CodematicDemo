@@ -37,9 +37,9 @@ namespace Maticsoft.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into cjplp(");
-            strSql.Append("MapCode,StormSystem_ID,Exp_NoOri,Type,X,Y,High,WellDeep,Offset,Feature,Subsid,Model,WellPipes,WellShape,WellSize,WellMaterial,WaterDeep,MudDeep,Inlet_Type,OutfallType,ReceiveWater,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Material,Address,PointPosition,DataSource,Visibility,Sdate,Mdate,Manhole_Type,status,Note,FileName,Uploadtime)");
+            strSql.Append("MapCode,StormSystem_ID,Exp_NoOri,Type,X,Y,High,WellDeep,Offset,Feature,Subsid,Model,WellPipes,WellShape,WellSize,WellMaterial,WaterDeep,MudDeep,Inlet_Type,OutfallType,ReceiveWater,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Material,Address,PointPosition,DataSource,Visibility,Sdate,Mdate,Manhole_Type,status,Note,FileName,Uploadtime,Exp_No,ExpNoTime)");
             strSql.Append(" values (");
-            strSql.Append("@MapCode,@StormSystem_ID,@Exp_NoOri,@Type,@X,@Y,@High,@WellDeep,@Offset,@Feature,@Subsid,@Model,@WellPipes,@WellShape,@WellSize,@WellMaterial,@WaterDeep,@MudDeep,@Inlet_Type,@OutfallType,@ReceiveWater,@Flap,@Flap_Diameter,@Flap_TopEle,@Flap_BotEle,@Flap_Material,@Address,@PointPosition,@DataSource,@Visibility,@Sdate,@Mdate,@Manhole_Type,@status,@Note,@FileName,@Uploadtime)");
+            strSql.Append("@MapCode,@StormSystem_ID,@Exp_NoOri,@Type,@X,@Y,@High,@WellDeep,@Offset,@Feature,@Subsid,@Model,@WellPipes,@WellShape,@WellSize,@WellMaterial,@WaterDeep,@MudDeep,@Inlet_Type,@OutfallType,@ReceiveWater,@Flap,@Flap_Diameter,@Flap_TopEle,@Flap_BotEle,@Flap_Material,@Address,@PointPosition,@DataSource,@Visibility,@Sdate,@Mdate,@Manhole_Type,@status,@Note,@FileName,@Uploadtime,@Exp_No,@ExpNoTime)");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@MapCode", MySqlDbType.VarChar,50),
                     new MySqlParameter("@StormSystem_ID", MySqlDbType.VarChar,100),
@@ -53,7 +53,7 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@Feature", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Subsid", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Model", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@WellPipes", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@WellPipes", MySqlDbType.Int32,10),
                     new MySqlParameter("@WellShape", MySqlDbType.VarChar,50),
                     new MySqlParameter("@WellSize", MySqlDbType.VarChar,150),
                     new MySqlParameter("@WellMaterial", MySqlDbType.VarChar,255),
@@ -68,7 +68,7 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@Flap_BotEle", MySqlDbType.Decimal,10),
                     new MySqlParameter("@Flap_Material", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Address", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@PointPosition", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@PointPosition", MySqlDbType.Int32,10),
                     new MySqlParameter("@DataSource", MySqlDbType.VarChar,10),
                     new MySqlParameter("@Visibility", MySqlDbType.VarChar,50),
                     new MySqlParameter("@Sdate", MySqlDbType.VarChar,255),
@@ -77,7 +77,9 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@status", MySqlDbType.VarChar,10),
                     new MySqlParameter("@Note", MySqlDbType.VarChar,255),
                     new MySqlParameter("@FileName", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255)};
+                    new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@ExpNoTime", MySqlDbType.VarChar,255)};
             parameters[0].Value = model.MapCode;
             parameters[1].Value = model.StormSystem_ID;
             parameters[2].Value = model.Exp_NoOri;
@@ -115,6 +117,8 @@ namespace Maticsoft.DAL
             parameters[34].Value = model.Note;
             parameters[35].Value = model.FileName;
             parameters[36].Value = model.Uploadtime;
+            parameters[37].Value = model.Exp_No;
+            parameters[38].Value = model.ExpNoTime;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -168,7 +172,9 @@ namespace Maticsoft.DAL
             strSql.Append("status=@status,");
             strSql.Append("Note=@Note,");
             strSql.Append("FileName=@FileName,");
-            strSql.Append("Uploadtime=@Uploadtime");
+            strSql.Append("Uploadtime=@Uploadtime,");
+            strSql.Append("Exp_No=@Exp_No,");
+            strSql.Append("ExpNoTime=@ExpNoTime");
             strSql.Append(" where Exp_NoOri=@Exp_NoOri ");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@MapCode", MySqlDbType.VarChar,50),
@@ -182,7 +188,7 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@Feature", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Subsid", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Model", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@WellPipes", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@WellPipes", MySqlDbType.Int32,10),
                     new MySqlParameter("@WellShape", MySqlDbType.VarChar,50),
                     new MySqlParameter("@WellSize", MySqlDbType.VarChar,150),
                     new MySqlParameter("@WellMaterial", MySqlDbType.VarChar,255),
@@ -197,7 +203,7 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@Flap_BotEle", MySqlDbType.Decimal,10),
                     new MySqlParameter("@Flap_Material", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Address", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@PointPosition", MySqlDbType.VarChar,10),
+                    new MySqlParameter("@PointPosition", MySqlDbType.Int32,10),
                     new MySqlParameter("@DataSource", MySqlDbType.VarChar,10),
                     new MySqlParameter("@Visibility", MySqlDbType.VarChar,50),
                     new MySqlParameter("@Sdate", MySqlDbType.VarChar,255),
@@ -207,6 +213,8 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@Note", MySqlDbType.VarChar,255),
                     new MySqlParameter("@FileName", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100),
+                    new MySqlParameter("@ExpNoTime", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Exp_NoOri", MySqlDbType.VarChar,255)};
             parameters[0].Value = model.MapCode;
             parameters[1].Value = model.StormSystem_ID;
@@ -244,7 +252,9 @@ namespace Maticsoft.DAL
             parameters[33].Value = model.Note;
             parameters[34].Value = model.FileName;
             parameters[35].Value = model.Uploadtime;
-            parameters[36].Value = model.Exp_NoOri;
+            parameters[36].Value = model.Exp_No;
+            parameters[37].Value = model.ExpNoTime;
+            parameters[38].Value = model.Exp_NoOri;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -307,7 +317,7 @@ namespace Maticsoft.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select MapCode,StormSystem_ID,Exp_NoOri,Type,X,Y,High,WellDeep,Offset,Feature,Subsid,Model,WellPipes,WellShape,WellSize,WellMaterial,WaterDeep,MudDeep,Inlet_Type,OutfallType,ReceiveWater,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Material,Address,PointPosition,DataSource,Visibility,Sdate,Mdate,Manhole_Type,status,Note,FileName,Uploadtime from cjplp ");
+            strSql.Append("select MapCode,StormSystem_ID,Exp_NoOri,Type,X,Y,High,WellDeep,Offset,Feature,Subsid,Model,WellPipes,WellShape,WellSize,WellMaterial,WaterDeep,MudDeep,Inlet_Type,OutfallType,ReceiveWater,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Material,Address,PointPosition,DataSource,Visibility,Sdate,Mdate,Manhole_Type,status,Note,FileName,Uploadtime,Exp_No,ExpNoTime from cjplp ");
             strSql.Append(" where Exp_NoOri=@Exp_NoOri ");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@Exp_NoOri", MySqlDbType.VarChar,255)           };
@@ -382,9 +392,9 @@ namespace Maticsoft.DAL
                 {
                     model.Model = row["Model"].ToString();
                 }
-                if (row["WellPipes"] != null)
+                if (row["WellPipes"] != null && row["WellPipes"].ToString() != "")
                 {
-                    model.WellPipes = row["WellPipes"].ToString();
+                    model.WellPipes = int.Parse(row["WellPipes"].ToString());
                 }
                 if (row["WellShape"] != null)
                 {
@@ -442,9 +452,9 @@ namespace Maticsoft.DAL
                 {
                     model.Address = row["Address"].ToString();
                 }
-                if (row["PointPosition"] != null)
+                if (row["PointPosition"] != null && row["PointPosition"].ToString() != "")
                 {
-                    model.PointPosition = row["PointPosition"].ToString();
+                    model.PointPosition = int.Parse(row["PointPosition"].ToString());
                 }
                 if (row["DataSource"] != null)
                 {
@@ -482,6 +492,14 @@ namespace Maticsoft.DAL
                 {
                     model.Uploadtime = row["Uploadtime"].ToString();
                 }
+                if (row["Exp_No"] != null)
+                {
+                    model.Exp_No = row["Exp_No"].ToString();
+                }
+                if (row["ExpNoTime"] != null)
+                {
+                    model.ExpNoTime = row["ExpNoTime"].ToString();
+                }
             }
             return model;
         }
@@ -492,7 +510,7 @@ namespace Maticsoft.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select MapCode,StormSystem_ID,Exp_NoOri,Type,X,Y,High,WellDeep,Offset,Feature,Subsid,Model,WellPipes,WellShape,WellSize,WellMaterial,WaterDeep,MudDeep,Inlet_Type,OutfallType,ReceiveWater,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Material,Address,PointPosition,DataSource,Visibility,Sdate,Mdate,Manhole_Type,status,Note,FileName,Uploadtime ");
+            strSql.Append("select MapCode,StormSystem_ID,Exp_NoOri,Type,X,Y,High,WellDeep,Offset,Feature,Subsid,Model,WellPipes,WellShape,WellSize,WellMaterial,WaterDeep,MudDeep,Inlet_Type,OutfallType,ReceiveWater,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Material,Address,PointPosition,DataSource,Visibility,Sdate,Mdate,Manhole_Type,status,Note,FileName,Uploadtime,Exp_No,ExpNoTime ");
             strSql.Append(" FROM cjplp ");
             if (strWhere.Trim() != "")
             {

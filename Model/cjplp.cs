@@ -22,7 +22,7 @@ namespace Maticsoft.Model
         private string _feature;
         private string _subsid;
         private string _model;
-        private string _wellpipes;
+        private int? _wellpipes;
         private string _wellshape;
         private string _wellsize;
         private string _wellmaterial;
@@ -37,7 +37,7 @@ namespace Maticsoft.Model
         private decimal? _flap_botele;
         private string _flap_material;
         private string _address;
-        private string _pointposition;
+        private int? _pointposition;
         private string _datasource;
         private string _visibility;
         private string _sdate;
@@ -47,6 +47,8 @@ namespace Maticsoft.Model
         private string _note;
         private string _filename;
         private string _uploadtime;
+        private string _exp_no;
+        private string _expnotime;
         /// <summary>
         /// 
         /// </summary>
@@ -146,7 +148,7 @@ namespace Maticsoft.Model
         /// <summary>
         /// 
         /// </summary>
-        public string WellPipes
+        public int? WellPipes
         {
             set { _wellpipes = value; }
             get { return _wellpipes; }
@@ -266,7 +268,7 @@ namespace Maticsoft.Model
         /// <summary>
         /// 
         /// </summary>
-        public string PointPosition
+        public int? PointPosition
         {
             set { _pointposition = value; }
             get { return _pointposition; }
@@ -342,6 +344,22 @@ namespace Maticsoft.Model
         {
             set { _uploadtime = value; }
             get { return _uploadtime; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Exp_No
+        {
+            set { _exp_no = value; }
+            get { return _exp_no; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ExpNoTime
+        {
+            set { _expnotime = value; }
+            get { return _expnotime; }
         }
         #endregion Model
 

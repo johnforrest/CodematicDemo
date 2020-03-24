@@ -54,6 +54,9 @@
   <ItemGroup>
     <Compile Include="Classes\ConfiguInfo.cs" />
     <Compile Include="Classes\EntityAssignValue.cs" />
+    <Compile Include="Factory\JudgePoint.cs" />
+    <Compile Include="Factory\PointContext.cs" />
+    <Compile Include="Factory\PointFactory.cs" />
     <Compile Include="Forms\FrmOpenExcel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +76,10 @@
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="ImplementClasses\PS_COMBImplements.cs" />
+    <Compile Include="ImplementClasses\PS_MANHOLEImplements.cs" />
+    <Compile Include="ImplementClasses\PS_OUTFALLImplements.cs" />
+    <Compile Include="ImplementClasses\PS_PIPEImplements.cs" />
+    <Compile Include="ImplementClasses\PS_POINTImplements.cs" />
     <Compile Include="Interfaces\SplitTableInterface.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,6 +122,10 @@
     <None Include="bin\Debug\img\btnAddExcel.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{38d7aa58-c95b-449b-86c6-a8073a56e11f}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{9fe00521-3a8b-42b1-814e-585e99407b2e}</Project>
       <Name>DAL</Name>
@@ -134,7 +145,9 @@
   <ItemGroup>
     <None Include="bin\Debug\img\btnExportMDB.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="bin\Debug\img\btnCode.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

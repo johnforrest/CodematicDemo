@@ -122,6 +122,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="recordtable.cs" />
     <Compile Include="SysNode.cs" />
     <Compile Include="cjpll.cs" />
     <Compile Include="cjplp.cs" />

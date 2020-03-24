@@ -6,26 +6,26 @@ using Maticsoft.Model;
 namespace Maticsoft.BLL
 {
     /// <summary>
-    /// ps_pipe
+    /// recordtable
     /// </summary>
-    public partial class ps_pipe
+    public partial class recordtable
     {
-        private readonly Maticsoft.DAL.ps_pipe dal = new Maticsoft.DAL.ps_pipe();
-        public ps_pipe()
+        private readonly Maticsoft.DAL.recordtable dal = new Maticsoft.DAL.recordtable();
+        public recordtable()
         { }
         #region  BasicMethod
         /// <summary>
         /// 是否存在该记录
         /// </summary>
-        public bool Exists(string Lno)
+        public bool Exists(int id)
         {
-            return dal.Exists(Lno);
+            return dal.Exists(id);
         }
 
         /// <summary>
         /// 增加一条数据
         /// </summary>
-        public bool Add(Maticsoft.Model.ps_pipe model)
+        public bool Add(Maticsoft.Model.recordtable model)
         {
             return dal.Add(model);
         }
@@ -33,7 +33,7 @@ namespace Maticsoft.BLL
         /// <summary>
         /// 更新一条数据
         /// </summary>
-        public bool Update(Maticsoft.Model.ps_pipe model)
+        public bool Update(Maticsoft.Model.recordtable model)
         {
             return dal.Update(model);
         }
@@ -41,41 +41,41 @@ namespace Maticsoft.BLL
         /// <summary>
         /// 删除一条数据
         /// </summary>
-        public bool Delete(string Lno)
+        public bool Delete(int id)
         {
 
-            return dal.Delete(Lno);
+            return dal.Delete(id);
         }
         /// <summary>
         /// 删除一条数据
         /// </summary>
-        public bool DeleteList(string Lnolist)
+        public bool DeleteList(string idlist)
         {
-            return dal.DeleteList(Lnolist);
+            return dal.DeleteList(idlist);
         }
 
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
-        public Maticsoft.Model.ps_pipe GetModel(string Lno)
+        public Maticsoft.Model.recordtable GetModel(int id)
         {
 
-            return dal.GetModel(Lno);
+            return dal.GetModel(id);
         }
 
         /// <summary>
         /// 得到一个对象实体，从缓存中
         /// </summary>
-        public Maticsoft.Model.ps_pipe GetModelByCache(string Lno)
+        public Maticsoft.Model.recordtable GetModelByCache(int id)
         {
 
-            string CacheKey = "ps_pipeModel-" + Lno;
+            string CacheKey = "recordtableModel-" + id;
             object objModel = Maticsoft.Common.DataCache.GetCache(CacheKey);
             if (objModel == null)
             {
                 try
                 {
-                    objModel = dal.GetModel(Lno);
+                    objModel = dal.GetModel(id);
                     if (objModel != null)
                     {
                         int ModelCache = Maticsoft.Common.ConfigHelper.GetConfigInt("ModelCache");
@@ -84,7 +84,7 @@ namespace Maticsoft.BLL
                 }
                 catch { }
             }
-            return (Maticsoft.Model.ps_pipe)objModel;
+            return (Maticsoft.Model.recordtable)objModel;
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Maticsoft.BLL
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public List<Maticsoft.Model.ps_pipe> GetModelList(string strWhere)
+        public List<Maticsoft.Model.recordtable> GetModelList(string strWhere)
         {
             DataSet ds = dal.GetList(strWhere);
             return DataTableToList(ds.Tables[0]);
@@ -105,13 +105,13 @@ namespace Maticsoft.BLL
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public List<Maticsoft.Model.ps_pipe> DataTableToList(DataTable dt)
+        public List<Maticsoft.Model.recordtable> DataTableToList(DataTable dt)
         {
-            List<Maticsoft.Model.ps_pipe> modelList = new List<Maticsoft.Model.ps_pipe>();
+            List<Maticsoft.Model.recordtable> modelList = new List<Maticsoft.Model.recordtable>();
             int rowsCount = dt.Rows.Count;
             if (rowsCount > 0)
             {
-                Maticsoft.Model.ps_pipe model;
+                Maticsoft.Model.recordtable model;
                 for (int n = 0; n < rowsCount; n++)
                 {
                     model = dal.DataRowToModel(dt.Rows[n]);

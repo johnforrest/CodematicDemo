@@ -132,6 +132,15 @@ namespace MainProject.Forms
                     }
                 }
             }
+
+            //MessageBox.Show("管点添加成功！");
+            DialogResult dr = MessageBox.Show("数据上传完成，请进行数据编码", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (dr == DialogResult.OK)
+            {
+                //点确定的代码关闭此窗体
+                this.Close();
+            }
+
         }
 
         /// <summary>
