@@ -124,6 +124,7 @@
             this.bt_Login.TabIndex = 11;
             this.bt_Login.Text = "登陆";
             this.bt_Login.UseVisualStyleBackColor = true;
+            this.bt_Login.Click += new System.EventHandler(this.bt_Login_Click);
             // 
             // bt_Conn_Test
             // 
