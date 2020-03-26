@@ -73,6 +73,16 @@ namespace MainProject.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btnAsynCode {
+            get {
+                object obj = ResourceManager.GetObject("btnAsynCode", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap btnCode {
             get {
                 object obj = ResourceManager.GetObject("btnCode", resourceCulture);
@@ -93,9 +103,39 @@ namespace MainProject.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btnExportUncoding {
+            get {
+                object obj = ResourceManager.GetObject("btnExportUncoding", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap btnMergeData {
             get {
                 object obj = ResourceManager.GetObject("btnMergeData", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap btnUncode {
+            get {
+                object obj = ResourceManager.GetObject("btnUncode", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap btnUncode1 {
+            get {
+                object obj = ResourceManager.GetObject("btnUncode1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

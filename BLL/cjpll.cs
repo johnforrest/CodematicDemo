@@ -151,6 +151,13 @@ namespace Maticsoft.BLL
         #region  ExtensionMethod
 
         #endregion  ExtensionMethod
+        ///
+        /// todo；获取线表中最大的编码记录
+        public List<Maticsoft.Model.cjpll> GetMaxCodeModelList()
+        {
+            DataSet ds = dal.GetMaxModelList();
+            return DataTableToList(ds.Tables[0]);
+        }
     }
 }
 

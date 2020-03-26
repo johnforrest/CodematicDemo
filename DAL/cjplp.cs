@@ -334,7 +334,7 @@ namespace Maticsoft.DAL
                 return null;
             }
         }
-
+    
 
         /// <summary>
         /// 得到一个对象实体
@@ -502,6 +502,23 @@ namespace Maticsoft.DAL
                 }
             }
             return model;
+        }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        // public DataSet GetMaxModelList(string strWhere)
+        public DataSet GetMaxModelList()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select MapCode,StormSystem_ID,Exp_NoOri,Type,X,Y,High,WellDeep,Offset,Feature,Subsid,Model,WellPipes,WellShape,WellSize,WellMaterial,WaterDeep,MudDeep,Inlet_Type,OutfallType,ReceiveWater,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Material,Address,PointPosition,DataSource,Visibility,Sdate,Mdate,Manhole_Type,status,Note,FileName,Uploadtime,Exp_No,ExpNoTime from (SELECT MapCode,StormSystem_ID,Exp_NoOri,Type,X,Y,High,WellDeep,Offset,Feature,Subsid,Model,WellPipes,WellShape,WellSize,WellMaterial,WaterDeep,MudDeep,Inlet_Type,OutfallType,ReceiveWater,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Material,Address,PointPosition,DataSource,Visibility,Sdate,Mdate,Manhole_Type,status,Note,FileName,Uploadtime,Exp_No,ExpNoTime,LEFT(Type,2) as newType FROM cjplp ORDER BY ExpNoTime DESC  limit 999999) newcjplp  GROUP BY newType");
+            // strSql.Append("select MapCode,StormSystem_ID,Exp_NoOri,Type,X,Y,High,WellDeep,Offset,Feature,Subsid,Model,WellPipes,WellShape,WellSize,WellMaterial,WaterDeep,MudDeep,Inlet_Type,OutfallType,ReceiveWater,Flap,Flap_Diameter,Flap_TopEle,Flap_BotEle,Flap_Material,Address,PointPosition,DataSource,Visibility,Sdate,Mdate,Manhole_Type,status,Note,FileName,Uploadtime,Exp_No,ExpNoTime ");
+            // strSql.Append(" FROM cjplp ");
+            // if (strWhere.Trim() != "")
+            // {
+            //     strSql.Append(" where " + strWhere);
+            // }
+            return DbHelperMySQL.Query(strSql.ToString());
         }
 
         /// <summary>

@@ -54,12 +54,12 @@ namespace Maticsoft.BLL
             return dal.DeleteList(Exp_NoOrilist);
         }
 
+
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
         public Maticsoft.Model.cjplp GetModel(string Exp_NoOri)
         {
-
             return dal.GetModel(Exp_NoOri);
         }
 
@@ -94,6 +94,16 @@ namespace Maticsoft.BLL
         {
             return dal.GetList(strWhere);
         }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public List<Maticsoft.Model.cjplp> GetMaxCodeModelList()
+        {
+            DataSet ds = dal.GetMaxModelList();
+            return DataTableToList(ds.Tables[0]);
+        }
+
         /// <summary>
         /// 获得数据列表
         /// </summary>
