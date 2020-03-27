@@ -40,6 +40,7 @@
             this.barButtonItemRepeData = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemExportRepe = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemConnectDB = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItemConditionExport = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageBasic = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupBasic = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageCoding = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -82,10 +83,11 @@
             this.barButtonItemAsynCode,
             this.barButtonItemRepeData,
             this.barButtonItemExportRepe,
-            this.barButtonItemConnectDB});
+            this.barButtonItemConnectDB,
+            this.barButtonItemConditionExport});
             this.ribbonControlMain.Location = new System.Drawing.Point(0, 0);
             this.ribbonControlMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ribbonControlMain.MaxItemId = 11;
+            this.ribbonControlMain.MaxItemId = 12;
             this.ribbonControlMain.Name = "ribbonControlMain";
             this.ribbonControlMain.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageBasic,
@@ -175,6 +177,14 @@
             this.barButtonItemConnectDB.Name = "barButtonItemConnectDB";
             this.barButtonItemConnectDB.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemConnectDB_ItemClick);
             // 
+            // barButtonItemConditionExport
+            // 
+            this.barButtonItemConditionExport.Caption = "条件导出mdb";
+            this.barButtonItemConditionExport.Id = 11;
+            this.barButtonItemConditionExport.ImageOptions.LargeImage = global::MainProject.Properties.Resources.btnConditionExport;
+            this.barButtonItemConditionExport.Name = "barButtonItemConditionExport";
+            this.barButtonItemConditionExport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemConditionExport_ItemClick);
+            // 
             // ribbonPageBasic
             // 
             this.ribbonPageBasic.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -227,6 +237,7 @@
             // ribbonPageGroupCreateMDB
             // 
             this.ribbonPageGroupCreateMDB.ItemLinks.Add(this.barButtonItemExport);
+            this.ribbonPageGroupCreateMDB.ItemLinks.Add(this.barButtonItemConditionExport);
             this.ribbonPageGroupCreateMDB.Name = "ribbonPageGroupCreateMDB";
             // 
             // xtraTabControlMain
@@ -360,5 +371,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItemRepeData;
         private DevExpress.XtraBars.BarButtonItem barButtonItemExportRepe;
         private DevExpress.XtraBars.BarButtonItem barButtonItemConnectDB;
+        private DevExpress.XtraBars.BarButtonItem barButtonItemConditionExport;
     }
 }

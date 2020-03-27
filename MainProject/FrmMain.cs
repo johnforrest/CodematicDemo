@@ -859,33 +859,33 @@ namespace MainProject
             CreateMDB createMdb = new CreateMDB();
 
             //1.生成特征点
-            createMdb.CreatePS_POINT(featureWorkspace, prjPath);
+            createMdb.CreatePS_POINT(featureWorkspace, prjPath,"");
             //2.生成排放口
-            createMdb.CreatePS_OUTFALL(featureWorkspace, prjPath);
+            createMdb.CreatePS_OUTFALL(featureWorkspace, prjPath,"");
             //3.生成检查井
-            createMdb.CreatePS_MANHOLE(featureWorkspace, prjPath);
+            createMdb.CreatePS_MANHOLE(featureWorkspace, prjPath,"");
 
             //4.生成雨水口
-            createMdb.CreatePS_COMB(featureWorkspace, prjPath);
+            createMdb.CreatePS_COMB(featureWorkspace, prjPath,"");
             //5.生成堰
-            createMdb.CreatePS_WEIR(featureWorkspace, prjPath);
+            createMdb.CreatePS_WEIR(featureWorkspace, prjPath,"");
             //6.生成闸门
-            createMdb.CreatePS_GATE(featureWorkspace, prjPath);
+            createMdb.CreatePS_GATE(featureWorkspace, prjPath,"");
             //7.生成阀门
-            createMdb.CreatePS_VALVE(featureWorkspace, prjPath);
+            createMdb.CreatePS_VALVE(featureWorkspace, prjPath,"");
             //8.生成排水泵站
-            createMdb.CreatePS_PUMPSTATION(featureWorkspace, prjPath);
+            createMdb.CreatePS_PUMPSTATION(featureWorkspace, prjPath,"");
             //9.生成调蓄设施
-            createMdb.CreatePS_RETENTION(featureWorkspace, prjPath);
+            createMdb.CreatePS_RETENTION(featureWorkspace, prjPath, "");
 
             //10.生成污水处理设施
-            createMdb.CreatePS_WWTP(featureWorkspace, prjPath);
+            createMdb.CreatePS_WWTP(featureWorkspace, prjPath, "");
 
             //11.生成排水户
-            createMdb.CreatePS_DISCHARGER(featureWorkspace, prjPath);
+            createMdb.CreatePS_DISCHARGER(featureWorkspace, prjPath, "");
 
             //todo:12.生成雨水管线
-            createMdb.CreatePS_PIPE(featureWorkspace, prjPath);
+            createMdb.CreatePS_PIPE(featureWorkspace, prjPath, "");
 
             MessageBox.Show("导出成功！", "提示");
         }
@@ -928,6 +928,17 @@ namespace MainProject
                 // IFeatureClass pFeatureClass = pFeatWorkspace.OpenFeatureClass("Water")
                 return pFeatWorkspace;
             }
+        }
+
+        /// <summary>
+        /// 条件导出mdb
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void barButtonItemConditionExport_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            FrmConditionExport frmConditionExport=new FrmConditionExport();
+            frmConditionExport.Show();
         }
 
         #endregion
