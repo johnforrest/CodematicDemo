@@ -6,26 +6,26 @@ using Maticsoft.Model;
 namespace Maticsoft.BLL
 {
     /// <summary>
-    /// ps_valve
+    /// cjpllback
     /// </summary>
-    public partial class ps_valve
+    public partial class cjpllback
     {
-        private readonly Maticsoft.DAL.ps_valve dal = new Maticsoft.DAL.ps_valve();
-        public ps_valve()
+        private readonly Maticsoft.DAL.cjpllback dal = new Maticsoft.DAL.cjpllback();
+        public cjpllback()
         { }
         #region  BasicMethod
         /// <summary>
         /// 是否存在该记录
         /// </summary>
-        public bool Exists(string Exp_No)
+        public bool Exists(string Exp_No0, string Exp_No1)
         {
-            return dal.Exists(Exp_No);
+            return dal.Exists(Exp_No0, Exp_No1);
         }
 
         /// <summary>
         /// 增加一条数据
         /// </summary>
-        public bool Add(Maticsoft.Model.ps_valve model)
+        public bool Add(Maticsoft.Model.cjpllback model)
         {
             return dal.Add(model);
         }
@@ -33,7 +33,7 @@ namespace Maticsoft.BLL
         /// <summary>
         /// 更新一条数据
         /// </summary>
-        public bool Update(Maticsoft.Model.ps_valve model)
+        public bool Update(Maticsoft.Model.cjpllback model)
         {
             return dal.Update(model);
         }
@@ -41,41 +41,34 @@ namespace Maticsoft.BLL
         /// <summary>
         /// 删除一条数据
         /// </summary>
-        public bool Delete(string Exp_No)
+        public bool Delete(string Exp_No0, string Exp_No1)
         {
 
-            return dal.Delete(Exp_No);
-        }
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        public bool DeleteList(string Exp_Nolist)
-        {
-            return dal.DeleteList(Exp_Nolist);
+            return dal.Delete(Exp_No0, Exp_No1);
         }
 
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
-        public Maticsoft.Model.ps_valve GetModel(string Exp_No)
+        public Maticsoft.Model.cjpllback GetModel(string Exp_No0, string Exp_No1)
         {
 
-            return dal.GetModel(Exp_No);
+            return dal.GetModel(Exp_No0, Exp_No1);
         }
 
         /// <summary>
         /// 得到一个对象实体，从缓存中
         /// </summary>
-        public Maticsoft.Model.ps_valve GetModelByCache(string Exp_No)
+        public Maticsoft.Model.cjpllback GetModelByCache(string Exp_No0, string Exp_No1)
         {
 
-            string CacheKey = "ps_valveModel-" + Exp_No;
+            string CacheKey = "cjpllbackModel-" + Exp_No0 + Exp_No1;
             object objModel = Maticsoft.Common.DataCache.GetCache(CacheKey);
             if (objModel == null)
             {
                 try
                 {
-                    objModel = dal.GetModel(Exp_No);
+                    objModel = dal.GetModel(Exp_No0, Exp_No1);
                     if (objModel != null)
                     {
                         int ModelCache = Maticsoft.Common.ConfigHelper.GetConfigInt("ModelCache");
@@ -84,7 +77,7 @@ namespace Maticsoft.BLL
                 }
                 catch { }
             }
-            return (Maticsoft.Model.ps_valve)objModel;
+            return (Maticsoft.Model.cjpllback)objModel;
         }
 
         /// <summary>
@@ -97,7 +90,7 @@ namespace Maticsoft.BLL
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public List<Maticsoft.Model.ps_valve> GetModelList(string strWhere)
+        public List<Maticsoft.Model.cjpllback> GetModelList(string strWhere)
         {
             DataSet ds = dal.GetList(strWhere);
             return DataTableToList(ds.Tables[0]);
@@ -105,13 +98,13 @@ namespace Maticsoft.BLL
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public List<Maticsoft.Model.ps_valve> DataTableToList(DataTable dt)
+        public List<Maticsoft.Model.cjpllback> DataTableToList(DataTable dt)
         {
-            List<Maticsoft.Model.ps_valve> modelList = new List<Maticsoft.Model.ps_valve>();
+            List<Maticsoft.Model.cjpllback> modelList = new List<Maticsoft.Model.cjpllback>();
             int rowsCount = dt.Rows.Count;
             if (rowsCount > 0)
             {
-                Maticsoft.Model.ps_valve model;
+                Maticsoft.Model.cjpllback model;
                 for (int n = 0; n < rowsCount; n++)
                 {
                     model = dal.DataRowToModel(dt.Rows[n]);

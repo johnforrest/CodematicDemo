@@ -37,9 +37,9 @@ namespace Maticsoft.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into ps_valve(");
-            strSql.Append("Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Valve_Type,Manufacturer,ValveModel,Code,Model,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Status,DataListID,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,filename,update)");
+            strSql.Append("Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Valve_Type,Manufacturer,ValveModel,Code,Model,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Status,DataListID,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,FileName,Uploadtime)");
             strSql.Append(" values (");
-            strSql.Append("@Prj_No,@Prj_Name,@Exp_No,@MapCode,@SewageSystem_ID,@StormSystem_ID,@Type,@X,@Y,@High,@Valve_Type,@Manufacturer,@ValveModel,@Code,@Model,@Address,@PointPosition,@DataSource,@Visibility,@Sunit,@Sdate,@UpdateTime,@Mdate,@Status,@DataListID,@Ename,@Design_Dept,@Conster_Dept,@Belong,@Operator,@Note,@Exp_NoOri,@filename,@update)");
+            strSql.Append("@Prj_No,@Prj_Name,@Exp_No,@MapCode,@SewageSystem_ID,@StormSystem_ID,@Type,@X,@Y,@High,@Valve_Type,@Manufacturer,@ValveModel,@Code,@Model,@Address,@PointPosition,@DataSource,@Visibility,@Sunit,@Sdate,@UpdateTime,@Mdate,@Status,@DataListID,@Ename,@Design_Dept,@Conster_Dept,@Belong,@Operator,@Note,@Exp_NoOri,@FileName,@Uploadtime)");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@Prj_No", MySqlDbType.VarChar,10),
                     new MySqlParameter("@Prj_Name", MySqlDbType.VarChar,100),
@@ -73,8 +73,8 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@Operator", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Note", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Exp_NoOri", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@filename", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@update", MySqlDbType.VarChar,255)};
+                    new MySqlParameter("@FileName", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255)};
             parameters[0].Value = model.Prj_No;
             parameters[1].Value = model.Prj_Name;
             parameters[2].Value = model.Exp_No;
@@ -107,8 +107,8 @@ namespace Maticsoft.DAL
             parameters[29].Value = model.Operator;
             parameters[30].Value = model.Note;
             parameters[31].Value = model.Exp_NoOri;
-            parameters[32].Value = model.filename;
-            parameters[33].Value = model.update;
+            parameters[32].Value = model.FileName;
+            parameters[33].Value = model.Uploadtime;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -158,8 +158,8 @@ namespace Maticsoft.DAL
             strSql.Append("Operator=@Operator,");
             strSql.Append("Note=@Note,");
             strSql.Append("Exp_NoOri=@Exp_NoOri,");
-            strSql.Append("filename=@filename,");
-            strSql.Append("update=@update");
+            strSql.Append("FileName=@FileName,");
+            strSql.Append("Uploadtime=@Uploadtime");
             strSql.Append(" where Exp_No=@Exp_No ");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@Prj_No", MySqlDbType.VarChar,10),
@@ -193,8 +193,8 @@ namespace Maticsoft.DAL
                     new MySqlParameter("@Operator", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Note", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Exp_NoOri", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@filename", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@update", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@FileName", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@Uploadtime", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)};
             parameters[0].Value = model.Prj_No;
             parameters[1].Value = model.Prj_Name;
@@ -227,8 +227,8 @@ namespace Maticsoft.DAL
             parameters[28].Value = model.Operator;
             parameters[29].Value = model.Note;
             parameters[30].Value = model.Exp_NoOri;
-            parameters[31].Value = model.filename;
-            parameters[32].Value = model.update;
+            parameters[31].Value = model.FileName;
+            parameters[32].Value = model.Uploadtime;
             parameters[33].Value = model.Exp_No;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
@@ -292,7 +292,7 @@ namespace Maticsoft.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Valve_Type,Manufacturer,ValveModel,Code,Model,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Status,DataListID,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,filename,update from ps_valve ");
+            strSql.Append("select Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Valve_Type,Manufacturer,ValveModel,Code,Model,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Status,DataListID,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,FileName,Uploadtime from ps_valve ");
             strSql.Append(" where Exp_No=@Exp_No ");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@Exp_No", MySqlDbType.VarChar,100)          };
@@ -447,13 +447,13 @@ namespace Maticsoft.DAL
                 {
                     model.Exp_NoOri = row["Exp_NoOri"].ToString();
                 }
-                if (row["filename"] != null)
+                if (row["FileName"] != null)
                 {
-                    model.filename = row["filename"].ToString();
+                    model.FileName = row["FileName"].ToString();
                 }
-                if (row["update"] != null)
+                if (row["Uploadtime"] != null)
                 {
-                    model.update = row["update"].ToString();
+                    model.Uploadtime = row["Uploadtime"].ToString();
                 }
             }
             return model;
@@ -465,7 +465,7 @@ namespace Maticsoft.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Valve_Type,Manufacturer,ValveModel,Code,Model,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Status,DataListID,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,filename,update ");
+            strSql.Append("select Prj_No,Prj_Name,Exp_No,MapCode,SewageSystem_ID,StormSystem_ID,Type,X,Y,High,Valve_Type,Manufacturer,ValveModel,Code,Model,Address,PointPosition,DataSource,Visibility,Sunit,Sdate,UpdateTime,Mdate,Status,DataListID,Ename,Design_Dept,Conster_Dept,Belong,Operator,Note,Exp_NoOri,FileName,Uploadtime ");
             strSql.Append(" FROM ps_valve ");
             if (strWhere.Trim() != "")
             {

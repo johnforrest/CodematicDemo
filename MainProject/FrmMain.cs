@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraBars;
+using DevExpress.XtraPrinting;
 using ESRI.ArcGIS.ADF;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.DataSourcesGDB;
@@ -45,7 +47,7 @@ namespace MainProject
         private void FrmMain_Load(object sender, EventArgs e)
         {
             //同步编码表
-            asynRecordTabl();
+            // asynRecordTabl();
         }
 
         /// <summary>
@@ -132,14 +134,106 @@ namespace MainProject
         #region 数据导入模块
 
         /// <summary>
+        /// 数据库连接测试
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void barButtonItemConnectDB_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            FrmSetServer frmSetServer = new FrmSetServer();
+            frmSetServer.Show();
+        }
+
+        /// <summary>
         /// 导入Excel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void barButtonItemOpenExcel_ItemClick(object sender, ItemClickEventArgs e)
         {
-            FrmSetServer frmSetServer = new FrmSetServer();
-            frmSetServer.Show();
+            // FrmSetServer frmSetServer = new FrmSetServer();
+            // frmSetServer.Show();
+            string _connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString.ToString();
+            FrmOpenExcel show = new FrmOpenExcel(_connectionString);
+            show.Show();
+        }
+
+        /// <summary>
+        /// 重复数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void barButtonItemRepeData_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //1.获取到待拆分的数据
+            Maticsoft.BLL.cjplpback cjplpBackBLL = new Maticsoft.BLL.cjplpback();
+            List <Maticsoft.Model.cjplpback > cjplpModelList = cjplpBackBLL.GetModelList("");
+            this.gridControlPointTable.DataSource = cjplpModelList;
+
+            //获取待拆分的线表数据
+            Maticsoft.BLL.cjpllback cjpllBackBLL = new Maticsoft.BLL.cjpllback();
+            List<Maticsoft.Model.cjpllback> cjpllModelList = cjpllBackBLL.GetModelList("");
+            this.gridControlLineTable.DataSource = cjpllModelList;
+        }
+
+        /// <summary>
+        /// 导出重复数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void barButtonItemExportRepe_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "Excel2007文件|*.xlsx|Excel2003文件|*.xls|所有文件|*.*";
+                if (saveDialog.ShowDialog() == DialogResult.Cancel) return;
+                string exportFilePath = saveDialog.FileName;
+                string fileExtenstion = new FileInfo(exportFilePath).Extension;
+                ExportExcel.ExportToExcel(exportFilePath,true,"",gridControlPointTable,gridControlLineTable);
+                // DevExpress.XtraPrinting.XlsxExportOptions xlsxExportOptions=new XlsxExportOptions(TextExportMode.Value,true,false,false);
+                // switch (fileExtenstion)
+                // {
+                //     case ".xls":
+                //         gridControlLineTable.ExportToXls(exportFilePath);
+                //         gridControlPointTable.ExportToXls(exportFilePath);
+                //         break;
+                //     case ".xlsx":
+                //         gridControlLineTable.ExportToXlsx(exportFilePath, xlsxExportOptions);
+                //         gridControlPointTable.ExportToXlsx(exportFilePath, xlsxExportOptions);
+                //         break;
+                //         // case ".rtf":
+                //         //     gridControlAttri.ExportToRtf(exportFilePath);
+                //         //     break;
+                //         // case ".pdf":
+                //         //     gridControlAttri.ExportToPdf(exportFilePath);
+                //         //     break;
+                //         // case ".html":
+                //         //     gridControlAttri.ExportToHtml(exportFilePath);
+                //         //     break;
+                //         // case ".mht":
+                //         //     gridControlAttri.ExportToMht(exportFilePath);
+                //         //     break;
+                // }
+
+                if (File.Exists(exportFilePath))
+                {
+                    try
+                    {
+                        if (DialogResult.Yes == MessageBox.Show("是否导出文件！", "提示", MessageBoxButtons.YesNo))
+                        {
+                            Process.Start(exportFilePath);
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("文件导出错误！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("文件路径不存在！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         #endregion
@@ -258,6 +352,17 @@ namespace MainProject
         #endregion
 
         #region 数据编码模块
+
+        /// <summary>
+        /// 同步编码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void barButtonItemAsynCode_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //同步编码表
+            asynRecordTabl();
+        }
 
         /// <summary>
         /// 编码
@@ -626,26 +731,21 @@ namespace MainProject
         private void barButtonItemUncoding_ItemClick(object sender, ItemClickEventArgs e)
         {
             //切换到属性页面
-            this.xtraTabControlMain.SelectedTabPage = this.xtraTabPageAtrri;
-            this.gridViewCJPLL.BestFitColumns();
-            this.gridViewCJPLL.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
-            this.gridViewCJPLL.OptionsView.ColumnAutoWidth = false;
+            // this.xtraTabControlMain.SelectedTabPage = this.xtraTabPageLine;
+            this.gridViewLine.BestFitColumns();
+            this.gridViewLine.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
+            this.gridViewLine.OptionsView.ColumnAutoWidth = false;
+
             //1.获取到待拆分的数据
             Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
             List<cjplp> cjplpModelList = cjplpBLL.GetModelList("Exp_No is null or trim(Exp_No)=''");
-
+            this.gridControlPointTable.DataSource = cjplpModelList;
 
             //获取待拆分的线表数据
             cjpll cjpllBLL = new cjpll();
             List<Maticsoft.Model.cjpll> cjpllModelList = cjpllBLL.GetModelList("Lno is null or trim(Lno)=''");
-            if (cjpllModelList.Count > 0)
-            {
-                this.gridControlAttri.DataSource = cjpllModelList;
-            }
-            else
-            {
-                this.gridControlAttri.DataSource = cjplpModelList;
-            }
+            this.gridControlLineTable.DataSource = cjpllModelList;
+
         }
 
         /// <summary>
@@ -660,28 +760,32 @@ namespace MainProject
                 saveDialog.Filter = "Excel2007文件|*.xlsx|Excel2003文件|*.xls|所有文件|*.*";
                 if (saveDialog.ShowDialog() == DialogResult.Cancel) return;
                 string exportFilePath = saveDialog.FileName;
-                string fileExtenstion = new FileInfo(exportFilePath).Extension;
-                switch (fileExtenstion)
-                {
-                    case ".xls":
-                        gridControlAttri.ExportToXls(exportFilePath);
-                        break;
-                    case ".xlsx":
-                        gridControlAttri.ExportToXlsx(exportFilePath);
-                        break;
-                    // case ".rtf":
-                    //     gridControlAttri.ExportToRtf(exportFilePath);
-                    //     break;
-                    // case ".pdf":
-                    //     gridControlAttri.ExportToPdf(exportFilePath);
-                    //     break;
-                    // case ".html":
-                    //     gridControlAttri.ExportToHtml(exportFilePath);
-                    //     break;
-                    // case ".mht":
-                    //     gridControlAttri.ExportToMht(exportFilePath);
-                    //     break;
-                }
+                ExportExcel.ExportToExcel(exportFilePath, true, "", gridControlPointTable, gridControlLineTable);
+
+                // string fileExtenstion = new FileInfo(exportFilePath).Extension;
+                // switch (fileExtenstion)
+                // {
+                //     case ".xls":
+                //         gridControlLineTable.ExportToXls(exportFilePath);
+                //         gridControlPointTable.ExportToXls(exportFilePath);
+                //         break;
+                //     case ".xlsx":
+                //         gridControlLineTable.ExportToXlsx(exportFilePath);
+                //         gridControlPointTable.ExportToXlsx(exportFilePath);
+                //         break;
+                //     // case ".rtf":
+                //     //     gridControlAttri.ExportToRtf(exportFilePath);
+                //     //     break;
+                //     // case ".pdf":
+                //     //     gridControlAttri.ExportToPdf(exportFilePath);
+                //     //     break;
+                //     // case ".html":
+                //     //     gridControlAttri.ExportToHtml(exportFilePath);
+                //     //     break;
+                //     // case ".mht":
+                //     //     gridControlAttri.ExportToMht(exportFilePath);
+                //     //     break;
+                // }
 
                 if (File.Exists(exportFilePath))
                 {
@@ -740,6 +844,12 @@ namespace MainProject
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 mdbPath = saveFileDialog.FileName;
+            }
+
+            if (String.IsNullOrEmpty(mdbPath))
+            {
+                MessageBox.Show("导出的ArcGIS Personal GeoDatabase路径为空！","提示");
+                return;
             }
 
             IFeatureWorkspace featureWorkspace = CreateMdbfile(mdbPath);
@@ -821,14 +931,5 @@ namespace MainProject
         }
 
         #endregion
-        /// <summary>
-        /// 同步编码
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void barButtonItemAsynCode_ItemClick(object sender, ItemClickEventArgs e)
-        {
-
-        }
     }
 }

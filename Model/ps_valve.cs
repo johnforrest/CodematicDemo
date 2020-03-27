@@ -43,7 +43,7 @@ namespace Maticsoft.Model
         private string _note;
         private string _exp_noori;
         private string _filename;
-        private string _update;
+        private string _uploadtime;
         /// <summary>
         /// 
         /// </summary>
@@ -303,7 +303,7 @@ namespace Maticsoft.Model
         /// <summary>
         /// 
         /// </summary>
-        public string filename
+        public string FileName
         {
             set { _filename = value; }
             get { return _filename; }
@@ -311,10 +311,10 @@ namespace Maticsoft.Model
         /// <summary>
         /// 
         /// </summary>
-        public string update
+        public string Uploadtime
         {
-            set { _update = value; }
-            get { return _update; }
+            set { _uploadtime = value; }
+            get { return _uploadtime; }
         }
         #endregion Model
 

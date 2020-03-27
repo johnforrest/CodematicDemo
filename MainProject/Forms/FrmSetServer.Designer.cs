@@ -145,7 +145,7 @@
             this.Controls.Add(this.bt_Conn_Test);
             this.Controls.Add(this.gb_Conn);
             this.Name = "FrmSetServer";
-            this.Text = "FrmSetServer";
+            this.Text = "测试数据库连接";
             this.gb_Conn.ResumeLayout(false);
             this.gb_Conn.PerformLayout();
             this.ResumeLayout(false);

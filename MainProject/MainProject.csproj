@@ -105,6 +105,7 @@
   <ItemGroup>
     <Compile Include="Classes\ConfiguInfo.cs" />
     <Compile Include="Classes\EntityAssignValue.cs" />
+    <Compile Include="Classes\ExportExcel.cs" />
     <Compile Include="Classes\SpatialRefrence.cs" />
     <Compile Include="Factory\JudgePoint.cs" />
     <Compile Include="Factory\PointContext.cs" />
@@ -216,6 +217,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Debug\img\btnAsynCode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\img\btnReData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\img\btnExportRepe.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\img\btnConnectDB.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -37,6 +37,9 @@
             this.barButtonItemUncoding = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemExportUncoding = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemAsynCode = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItemRepeData = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItemExportRepe = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItemConnectDB = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageBasic = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupBasic = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageCoding = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -45,27 +48,24 @@
             this.ribbonPageGroupSplitTable = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageCreateMDB = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupCreateMDB = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.splitContainerControlMain = new DevExpress.XtraEditors.SplitContainerControl();
-            this.axTOCControlMain = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.xtraTabControlMain = new DevExpress.XtraTab.XtraTabControl();
-            this.xtraTabPageMapControl = new DevExpress.XtraTab.XtraTabPage();
+            this.xtraTabPageLine = new DevExpress.XtraTab.XtraTabPage();
             this.axLicenseControlMain = new ESRI.ArcGIS.Controls.AxLicenseControl();
-            this.axMapControlMain = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.xtraTabPageAtrri = new DevExpress.XtraTab.XtraTabPage();
-            this.gridControlAttri = new DevExpress.XtraGrid.GridControl();
-            this.gridViewCJPLL = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridControlLineTable = new DevExpress.XtraGrid.GridControl();
+            this.gridViewLine = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.xtraTabPagePoint = new DevExpress.XtraTab.XtraTabPage();
+            this.gridControlPointTable = new DevExpress.XtraGrid.GridControl();
+            this.gridViewPoint = new DevExpress.XtraGrid.Views.Grid.GridView();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControlMain)).BeginInit();
-            this.splitContainerControlMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axTOCControlMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControlMain)).BeginInit();
             this.xtraTabControlMain.SuspendLayout();
-            this.xtraTabPageMapControl.SuspendLayout();
+            this.xtraTabPageLine.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControlMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).BeginInit();
-            this.xtraTabPageAtrri.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControlAttri)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewCJPLL)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlLineTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewLine)).BeginInit();
+            this.xtraTabPagePoint.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlPointTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewPoint)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonControlMain
@@ -79,10 +79,13 @@
             this.btnCode,
             this.barButtonItemUncoding,
             this.barButtonItemExportUncoding,
-            this.barButtonItemAsynCode});
+            this.barButtonItemAsynCode,
+            this.barButtonItemRepeData,
+            this.barButtonItemExportRepe,
+            this.barButtonItemConnectDB});
             this.ribbonControlMain.Location = new System.Drawing.Point(0, 0);
             this.ribbonControlMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ribbonControlMain.MaxItemId = 8;
+            this.ribbonControlMain.MaxItemId = 11;
             this.ribbonControlMain.Name = "ribbonControlMain";
             this.ribbonControlMain.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageBasic,
@@ -148,6 +151,30 @@
             this.barButtonItemAsynCode.Name = "barButtonItemAsynCode";
             this.barButtonItemAsynCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemAsynCode_ItemClick);
             // 
+            // barButtonItemRepeData
+            // 
+            this.barButtonItemRepeData.Caption = "重复数据";
+            this.barButtonItemRepeData.Id = 8;
+            this.barButtonItemRepeData.ImageOptions.LargeImage = global::MainProject.Properties.Resources.btnReData;
+            this.barButtonItemRepeData.Name = "barButtonItemRepeData";
+            this.barButtonItemRepeData.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemRepeData_ItemClick);
+            // 
+            // barButtonItemExportRepe
+            // 
+            this.barButtonItemExportRepe.Caption = "导出重复数据";
+            this.barButtonItemExportRepe.Id = 9;
+            this.barButtonItemExportRepe.ImageOptions.LargeImage = global::MainProject.Properties.Resources.btnExportRepe;
+            this.barButtonItemExportRepe.Name = "barButtonItemExportRepe";
+            this.barButtonItemExportRepe.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemExportRepe_ItemClick);
+            // 
+            // barButtonItemConnectDB
+            // 
+            this.barButtonItemConnectDB.Caption = "数据库连接测试";
+            this.barButtonItemConnectDB.Id = 10;
+            this.barButtonItemConnectDB.ImageOptions.LargeImage = global::MainProject.Properties.Resources.btnConnectDB;
+            this.barButtonItemConnectDB.Name = "barButtonItemConnectDB";
+            this.barButtonItemConnectDB.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemConnectDB_ItemClick);
+            // 
             // ribbonPageBasic
             // 
             this.ribbonPageBasic.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -157,7 +184,10 @@
             // 
             // ribbonPageGroupBasic
             // 
+            this.ribbonPageGroupBasic.ItemLinks.Add(this.barButtonItemConnectDB);
             this.ribbonPageGroupBasic.ItemLinks.Add(this.barButtonItemOpenExcel);
+            this.ribbonPageGroupBasic.ItemLinks.Add(this.barButtonItemRepeData);
+            this.ribbonPageGroupBasic.ItemLinks.Add(this.barButtonItemExportRepe);
             this.ribbonPageGroupBasic.Name = "ribbonPageGroupBasic";
             // 
             // ribbonPageCoding
@@ -199,48 +229,25 @@
             this.ribbonPageGroupCreateMDB.ItemLinks.Add(this.barButtonItemExport);
             this.ribbonPageGroupCreateMDB.Name = "ribbonPageGroupCreateMDB";
             // 
-            // splitContainerControlMain
-            // 
-            this.splitContainerControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerControlMain.Location = new System.Drawing.Point(0, 183);
-            this.splitContainerControlMain.Name = "splitContainerControlMain";
-            this.splitContainerControlMain.Panel1.Controls.Add(this.axTOCControlMain);
-            this.splitContainerControlMain.Panel1.Text = "Panel1";
-            this.splitContainerControlMain.Panel2.Controls.Add(this.xtraTabControlMain);
-            this.splitContainerControlMain.Panel2.Text = "Panel2";
-            this.splitContainerControlMain.Size = new System.Drawing.Size(1069, 518);
-            this.splitContainerControlMain.SplitterPosition = 161;
-            this.splitContainerControlMain.TabIndex = 1;
-            this.splitContainerControlMain.Text = "splitContainerControl1";
-            // 
-            // axTOCControlMain
-            // 
-            this.axTOCControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axTOCControlMain.Location = new System.Drawing.Point(0, 0);
-            this.axTOCControlMain.Name = "axTOCControlMain";
-            this.axTOCControlMain.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControlMain.OcxState")));
-            this.axTOCControlMain.Size = new System.Drawing.Size(161, 518);
-            this.axTOCControlMain.TabIndex = 0;
-            // 
             // xtraTabControlMain
             // 
             this.xtraTabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabControlMain.Location = new System.Drawing.Point(0, 0);
+            this.xtraTabControlMain.Location = new System.Drawing.Point(0, 183);
             this.xtraTabControlMain.Name = "xtraTabControlMain";
-            this.xtraTabControlMain.SelectedTabPage = this.xtraTabPageMapControl;
-            this.xtraTabControlMain.Size = new System.Drawing.Size(902, 518);
+            this.xtraTabControlMain.SelectedTabPage = this.xtraTabPageLine;
+            this.xtraTabControlMain.Size = new System.Drawing.Size(1069, 518);
             this.xtraTabControlMain.TabIndex = 1;
             this.xtraTabControlMain.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
-            this.xtraTabPageMapControl,
-            this.xtraTabPageAtrri});
+            this.xtraTabPageLine,
+            this.xtraTabPagePoint});
             // 
-            // xtraTabPageMapControl
+            // xtraTabPageLine
             // 
-            this.xtraTabPageMapControl.Controls.Add(this.axLicenseControlMain);
-            this.xtraTabPageMapControl.Controls.Add(this.axMapControlMain);
-            this.xtraTabPageMapControl.Name = "xtraTabPageMapControl";
-            this.xtraTabPageMapControl.Size = new System.Drawing.Size(895, 482);
-            this.xtraTabPageMapControl.Text = "地图视图";
+            this.xtraTabPageLine.Controls.Add(this.axLicenseControlMain);
+            this.xtraTabPageLine.Controls.Add(this.gridControlLineTable);
+            this.xtraTabPageLine.Name = "xtraTabPageLine";
+            this.xtraTabPageLine.Size = new System.Drawing.Size(1062, 482);
+            this.xtraTabPageLine.Text = "线属性";
             // 
             // axLicenseControlMain
             // 
@@ -251,45 +258,57 @@
             this.axLicenseControlMain.Size = new System.Drawing.Size(32, 32);
             this.axLicenseControlMain.TabIndex = 1;
             // 
-            // axMapControlMain
+            // gridControlLineTable
             // 
-            this.axMapControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.axMapControlMain.Location = new System.Drawing.Point(0, 0);
-            this.axMapControlMain.Name = "axMapControlMain";
-            this.axMapControlMain.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControlMain.OcxState")));
-            this.axMapControlMain.Size = new System.Drawing.Size(895, 482);
-            this.axMapControlMain.TabIndex = 0;
+            this.gridControlLineTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControlLineTable.Location = new System.Drawing.Point(0, 0);
+            this.gridControlLineTable.MainView = this.gridViewLine;
+            this.gridControlLineTable.MenuManager = this.ribbonControlMain;
+            this.gridControlLineTable.Name = "gridControlLineTable";
+            this.gridControlLineTable.Size = new System.Drawing.Size(1062, 482);
+            this.gridControlLineTable.TabIndex = 0;
+            this.gridControlLineTable.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridViewLine});
             // 
-            // xtraTabPageAtrri
+            // gridViewLine
             // 
-            this.xtraTabPageAtrri.Controls.Add(this.gridControlAttri);
-            this.xtraTabPageAtrri.Name = "xtraTabPageAtrri";
-            this.xtraTabPageAtrri.Size = new System.Drawing.Size(895, 482);
-            this.xtraTabPageAtrri.Text = "属性视图";
+            this.gridViewLine.GridControl = this.gridControlLineTable;
+            this.gridViewLine.Name = "gridViewLine";
+            this.gridViewLine.OptionsFind.AlwaysVisible = true;
+            this.gridViewLine.OptionsView.ShowGroupPanel = false;
             // 
-            // gridControlAttri
+            // xtraTabPagePoint
             // 
-            this.gridControlAttri.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlAttri.Location = new System.Drawing.Point(0, 0);
-            this.gridControlAttri.MainView = this.gridViewCJPLL;
-            this.gridControlAttri.MenuManager = this.ribbonControlMain;
-            this.gridControlAttri.Name = "gridControlAttri";
-            this.gridControlAttri.Size = new System.Drawing.Size(895, 482);
-            this.gridControlAttri.TabIndex = 0;
-            this.gridControlAttri.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridViewCJPLL});
+            this.xtraTabPagePoint.Controls.Add(this.gridControlPointTable);
+            this.xtraTabPagePoint.Name = "xtraTabPagePoint";
+            this.xtraTabPagePoint.Size = new System.Drawing.Size(1062, 482);
+            this.xtraTabPagePoint.Text = "点属性";
             // 
-            // gridViewCJPLL
+            // gridControlPointTable
             // 
-            this.gridViewCJPLL.GridControl = this.gridControlAttri;
-            this.gridViewCJPLL.Name = "gridViewCJPLL";
+            this.gridControlPointTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControlPointTable.Location = new System.Drawing.Point(0, 0);
+            this.gridControlPointTable.MainView = this.gridViewPoint;
+            this.gridControlPointTable.MenuManager = this.ribbonControlMain;
+            this.gridControlPointTable.Name = "gridControlPointTable";
+            this.gridControlPointTable.Size = new System.Drawing.Size(1062, 482);
+            this.gridControlPointTable.TabIndex = 0;
+            this.gridControlPointTable.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridViewPoint});
+            // 
+            // gridViewPoint
+            // 
+            this.gridViewPoint.GridControl = this.gridControlPointTable;
+            this.gridViewPoint.Name = "gridViewPoint";
+            this.gridViewPoint.OptionsFind.AlwaysVisible = true;
+            this.gridViewPoint.OptionsView.ShowGroupPanel = false;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1069, 701);
-            this.Controls.Add(this.splitContainerControlMain);
+            this.Controls.Add(this.xtraTabControlMain);
             this.Controls.Add(this.ribbonControlMain);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FrmMain";
@@ -298,17 +317,15 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControlMain)).EndInit();
-            this.splitContainerControlMain.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.axTOCControlMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControlMain)).EndInit();
             this.xtraTabControlMain.ResumeLayout(false);
-            this.xtraTabPageMapControl.ResumeLayout(false);
+            this.xtraTabPageLine.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControlMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axMapControlMain)).EndInit();
-            this.xtraTabPageAtrri.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControlAttri)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewCJPLL)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlLineTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewLine)).EndInit();
+            this.xtraTabPagePoint.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlPointTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewPoint)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -323,13 +340,9 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItemMergeData;
         private DevExpress.XtraBars.BarButtonItem barButtonItemExport;
         private DevExpress.XtraBars.BarButtonItem btnCode;
-        private DevExpress.XtraEditors.SplitContainerControl splitContainerControlMain;
-        private ESRI.ArcGIS.Controls.AxTOCControl axTOCControlMain;
         private DevExpress.XtraTab.XtraTabControl xtraTabControlMain;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPageMapControl;
         private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControlMain;
-        private ESRI.ArcGIS.Controls.AxMapControl axMapControlMain;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPageAtrri;
+        private DevExpress.XtraTab.XtraTabPage xtraTabPageLine;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageCoding;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageSplitTable;
@@ -337,9 +350,15 @@
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageCreateMDB;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupCreateMDB;
         private DevExpress.XtraBars.BarButtonItem barButtonItemUncoding;
-        private DevExpress.XtraGrid.GridControl gridControlAttri;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridViewCJPLL;
+        private DevExpress.XtraGrid.GridControl gridControlLineTable;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewLine;
         private DevExpress.XtraBars.BarButtonItem barButtonItemExportUncoding;
         private DevExpress.XtraBars.BarButtonItem barButtonItemAsynCode;
+        private DevExpress.XtraTab.XtraTabPage xtraTabPagePoint;
+        private DevExpress.XtraGrid.GridControl gridControlPointTable;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewPoint;
+        private DevExpress.XtraBars.BarButtonItem barButtonItemRepeData;
+        private DevExpress.XtraBars.BarButtonItem barButtonItemExportRepe;
+        private DevExpress.XtraBars.BarButtonItem barButtonItemConnectDB;
     }
 }
