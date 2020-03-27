@@ -247,7 +247,7 @@
             // 
             this.simpleButtonClearAllSelect.Location = new System.Drawing.Point(12, 540);
             this.simpleButtonClearAllSelect.Name = "simpleButtonClearAllSelect";
-            this.simpleButtonClearAllSelect.Size = new System.Drawing.Size(94, 29);
+            this.simpleButtonClearAllSelect.Size = new System.Drawing.Size(134, 29);
             this.simpleButtonClearAllSelect.TabIndex = 10;
             this.simpleButtonClearAllSelect.Text = "清空所有选项";
             this.simpleButtonClearAllSelect.Click += new System.EventHandler(this.simpleButtonClearAllSelect_Click);
