@@ -208,6 +208,7 @@ namespace MainProject.Forms
             }
 
             Maticsoft.BLL.cjpll cjpllBLL = new Maticsoft.BLL.cjpll();
+            Maticsoft.BLL.ps_pipe ps_pipeBLL = new Maticsoft.BLL.ps_pipe();
             List<Maticsoft.Model.cjpll> cjpllModelList = cjpllBLL.DataTableToList(dataTableLine);
 
             Maticsoft.BLL.cjpllback cjpllBackBLL = new Maticsoft.BLL.cjpllback();
@@ -239,6 +240,13 @@ namespace MainProject.Forms
                 {
                     //删除点表
                     cjpllBLL.Delete(deleteCjplpsModelList[j].Exp_No0,deleteCjplpsModelList[j].Exp_No1);
+                }
+
+                List<Maticsoft.Model.ps_pipe> deleteps_pipeModelList = ps_pipeBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_pipeModelList.Count; j++)
+                {
+                    //删除点表
+                    cjpllBLL.Delete(deleteps_pipeModelList[j].Exp_No0, deleteps_pipeModelList[j].Exp_No1);
                 }
 
             }
@@ -340,6 +348,20 @@ namespace MainProject.Forms
             }
 
             Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
+            Maticsoft.BLL.ps_comb ps_combBLL = new Maticsoft.BLL.ps_comb();
+            Maticsoft.BLL.ps_discharger ps_dischargerBLL = new Maticsoft.BLL.ps_discharger();
+            Maticsoft.BLL.ps_gate ps_gateBLL = new Maticsoft.BLL.ps_gate();
+            Maticsoft.BLL.ps_manhole ps_manholeBLL = new Maticsoft.BLL.ps_manhole();
+            Maticsoft.BLL.ps_outfall ps_outfallBLL = new Maticsoft.BLL.ps_outfall();
+            Maticsoft.BLL.ps_point ps_pointBLL = new Maticsoft.BLL.ps_point();
+            Maticsoft.BLL.ps_pumpstation ps_pumpstationBLL = new Maticsoft.BLL.ps_pumpstation();
+            Maticsoft.BLL.ps_retention ps_retentionBLL = new Maticsoft.BLL.ps_retention();
+            Maticsoft.BLL.ps_valve ps_valveBLL = new Maticsoft.BLL.ps_valve();
+            Maticsoft.BLL.ps_weir ps_weirBLL = new Maticsoft.BLL.ps_weir();
+            Maticsoft.BLL.ps_wwtp ps_wwtpBLL = new Maticsoft.BLL.ps_wwtp();
+
+
+
             List<Maticsoft.Model.cjplp> cjplpModelList = cjplpBLL.DataTableToList(dataTable);
 
             Maticsoft.BLL.cjplpback cjplpBackBLL = new Maticsoft.BLL.cjplpback();
@@ -365,13 +387,90 @@ namespace MainProject.Forms
                         strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() +"' or";
                     }
                 }
+                //删除cjplp原始数据库的点
                 List<Maticsoft.Model.cjplp> deleteCjplpsModelList = cjplpBLL.GetModelList(strWhere);
                 for (int j = 0; j < deleteCjplpsModelList.Count; j++)
                 {
-                    //删除点表
                     cjplpBLL.Delete(deleteCjplpsModelList[j].Exp_NoOri);
                 }
-               
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_comb> deleteps_combModelList = ps_combBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_combModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_combModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_discharger> deleteps_dischargerModelList = ps_dischargerBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_dischargerModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_dischargerModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_gate> deleteps_gateModelList = ps_gateBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_gateModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_gateModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_manhole> deleteps_manholeModelList = ps_manholeBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_manholeModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_manholeModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_outfall> deleteps_outfallModelList = ps_outfallBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_outfallModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_outfallModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_point> deleteps_pointModelList = ps_pointBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_pointModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_pointModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_pumpstation> deleteps_pumpstationModelList = ps_pumpstationBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_pumpstationModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_pumpstationModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_retention> deleteps_retentionModelList = ps_retentionBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_retentionModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_retentionModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_valve> deleteps_valveModelList = ps_valveBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_valveModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_valveModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_weir> deleteps_weirModelList = ps_weirBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_weirModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_weirModelList[j].Exp_NoOri);
+                }
+
+                //删除cjplp原始数据库的点
+                List<Maticsoft.Model.ps_wwtp> deleteps_wwtpModelList = ps_wwtpBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_wwtpModelList.Count; j++)
+                {
+                    cjplpBLL.Delete(deleteps_wwtpModelList[j].Exp_NoOri);
+                }
+
             }
 
             for (int i = 0; i < cjplpModelList.Count; i++)
