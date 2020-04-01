@@ -68,21 +68,23 @@ namespace MainProject
                 {
                     // List<Maticsoft.Model.recordtable> recordtableModelList =recordtableBll.GetModelList("(Lno is null or trim(lno)=='') and type=" +
                     //                             cjplpModelList[i].Type.Substring(0, 2));
-                    List<Maticsoft.Model.recordtable> recordtableModelList = recordtableBll.GetModelList("type='" +cjplpModelList[i].Type.Substring(0, 2)+"'");
+                    List<Maticsoft.Model.recordtable> recordtableModelList =
+                        recordtableBll.GetModelList("type='" + cjplpModelList[i].Type.Substring(0, 2) + "'");
                     for (int j = 0; j < recordtableModelList.Count; j++)
                     {
                         //如果不相等，则更新recordtable，相同，则不做任何操作
-                        if (recordtableModelList[j].Exp_No!=cjplpModelList[i].Exp_No)
+                        if (recordtableModelList[j].Exp_No != cjplpModelList[i].Exp_No)
                         {
-                            recordtableModelList[j].year = cjplpModelList[i].Exp_No.Substring(2, 6);
-                            recordtableModelList[j].strnolast5 = cjplpModelList[i].Exp_No.Substring(6,11);
-                            recordtableModelList[j].inteno = Convert.ToInt32(cjplpModelList[i].Exp_No.Substring(11,13));
-                            recordtableModelList[j].serino = Convert.ToInt32(cjplpModelList[i].Exp_No.Substring(13,18));
+                            recordtableModelList[j].year = cjplpModelList[i].Exp_No.Substring(2, 4);
+                            recordtableModelList[j].strnolast5 = cjplpModelList[i].Exp_No.Substring(6, 5);
+                            recordtableModelList[j].inteno = Convert.ToInt32(cjplpModelList[i].Exp_No.Substring(11, 2));
+                            recordtableModelList[j].serino = Convert.ToInt32(cjplpModelList[i].Exp_No.Substring(13, 5));
 
                             recordtableModelList[j].typeYear = cjplpModelList[i].Exp_No.Substring(0, 6);
                             recordtableModelList[j].typeYearStrnolast5 = cjplpModelList[i].Exp_No.Substring(0, 11);
-                            recordtableModelList[j].typeYearStrnolast5Inteno = cjplpModelList[i].Exp_No.Substring(0, 13);
-                            recordtableModelList[j].inteserino = cjplpModelList[i].Exp_No.Substring(11, 18);
+                            recordtableModelList[j].typeYearStrnolast5Inteno =
+                                cjplpModelList[i].Exp_No.Substring(0, 13);
+                            recordtableModelList[j].inteserino = cjplpModelList[i].Exp_No.Substring(11, 7);
 
 
                             recordtableModelList[j].Exp_No = cjplpModelList[i].Exp_No;
@@ -102,21 +104,22 @@ namespace MainProject
                 {
                     // List<Maticsoft.Model.recordtable> recordtableModelList = recordtableBll.GetModelList("(Exp_No is null or trim(Exp_No)=='') and type=" +
                     //                                                                                      cjpllModelList[i].Type.Substring(0, 2));
-                    List<Maticsoft.Model.recordtable> recordtableModelList = recordtableBll.GetModelList("type='" +cjpllModelList[i].Type.Substring(0, 2)+"'");
+                    List<Maticsoft.Model.recordtable> recordtableModelList =
+                        recordtableBll.GetModelList("type='" + cjpllModelList[i].Type.Substring(0, 2) + "'");
                     for (int j = 0; j < recordtableModelList.Count; j++)
                     {
                         //如果不相等，则更新recordtable，相同，则不做任何操作
                         if (recordtableModelList[j].Lno != cjpllModelList[i].Lno)
                         {
-                            recordtableModelList[j].year = cjpllModelList[i].Lno.Substring(2, 6);
-                            recordtableModelList[j].strnolast5 = cjpllModelList[i].Lno.Substring(6, 11);
-                            recordtableModelList[j].inteno = Convert.ToInt32(cjpllModelList[i].Lno.Substring(11, 13));
-                            recordtableModelList[j].serino = Convert.ToInt32(cjpllModelList[i].Lno.Substring(13, 23));
+                            recordtableModelList[j].year = cjpllModelList[i].Lno.Substring(2, 4);
+                            recordtableModelList[j].strnolast5 = cjpllModelList[i].Lno.Substring(6, 5);
+                            recordtableModelList[j].inteno = Convert.ToInt32(cjpllModelList[i].Lno.Substring(11, 2));
+                            recordtableModelList[j].serino = Convert.ToInt32(cjpllModelList[i].Lno.Substring(13, 10));
 
                             recordtableModelList[j].typeYear = cjpllModelList[i].Lno.Substring(0, 6);
                             recordtableModelList[j].typeYearStrnolast5 = cjpllModelList[i].Lno.Substring(0, 11);
                             recordtableModelList[j].typeYearStrnolast5Inteno = cjpllModelList[i].Lno.Substring(0, 13);
-                            recordtableModelList[j].inteserino = cjpllModelList[i].Lno.Substring(11, 23);
+                            recordtableModelList[j].inteserino = cjpllModelList[i].Lno.Substring(11, 12);
 
 
                             recordtableModelList[j].Lno = cjpllModelList[i].Lno;
@@ -125,10 +128,7 @@ namespace MainProject
                         }
                     }
                 }
-
             }
-
-          
         }
 
         #region 数据导入模块
@@ -153,7 +153,8 @@ namespace MainProject
         {
             // FrmSetServer frmSetServer = new FrmSetServer();
             // frmSetServer.Show();
-            string _connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString.ToString();
+            string _connectionString =
+                ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString.ToString();
             FrmOpenExcel show = new FrmOpenExcel(_connectionString);
             show.Show();
         }
@@ -167,7 +168,7 @@ namespace MainProject
         {
             //1.获取到待拆分的数据
             Maticsoft.BLL.cjplpback cjplpBackBLL = new Maticsoft.BLL.cjplpback();
-            List <Maticsoft.Model.cjplpback > cjplpModelList = cjplpBackBLL.GetModelList("");
+            List<Maticsoft.Model.cjplpback> cjplpModelList = cjplpBackBLL.GetModelList("");
             this.gridControlPointTable.DataSource = cjplpModelList;
 
             //获取待拆分的线表数据
@@ -189,7 +190,7 @@ namespace MainProject
                 if (saveDialog.ShowDialog() == DialogResult.Cancel) return;
                 string exportFilePath = saveDialog.FileName;
                 string fileExtenstion = new FileInfo(exportFilePath).Extension;
-                ExportExcel.ExportToExcel(exportFilePath,true,"",gridControlPointTable,gridControlLineTable);
+                ExportExcel.ExportToExcel(exportFilePath, true, "", gridControlPointTable, gridControlLineTable);
                 // DevExpress.XtraPrinting.XlsxExportOptions xlsxExportOptions=new XlsxExportOptions(TextExportMode.Value,true,false,false);
                 // switch (fileExtenstion)
                 // {
@@ -349,6 +350,7 @@ namespace MainProject
 
             MessageBox.Show("拆分成功！");
         }
+
         #endregion
 
         #region 数据编码模块
@@ -377,6 +379,7 @@ namespace MainProject
 
             MessageBox.Show("编码完成！", "提示");
         }
+
         /// <summary>
         /// 点编码
         /// </summary>
@@ -441,7 +444,7 @@ namespace MainProject
                                                           cjplpModelList[i].Sdate.Substring(0, 4) +
                                                           streetnoModeList[j].strnolast5 + "0100001";
                                 recordtableBll.Add(recordtableModel);
-                                Console.WriteLine("点点点添加" + recordtableModel.Exp_No);
+                                // Console.WriteLine("点点点添加" + recordtableModel.Exp_No);
                                 break;
                             }
                         }
@@ -460,9 +463,9 @@ namespace MainProject
                                     cjplpModelList[i].Sdate.Substring(0, 4) +
                                     streetnoModeList[j].strnolast5;
 
-                                string temptypeYear =
-                                    cjplpModelList[i].Type.Substring(0, 2) +
-                                    cjplpModelList[i].Sdate.Substring(0, 4);
+                                // string temptypeYear =
+                                //     cjplpModelList[i].Type.Substring(0, 2) +
+                                //     cjplpModelList[i].Sdate.Substring(0, 4);
 
 
                                 for (int k = 0; k < recordtablesModelList.Count; k++)
@@ -521,7 +524,7 @@ namespace MainProject
                                         //更新recordtable表
                                         recordtablesModelList[k].Exp_No = temptypeYearStrnolast5 + newInteserino;
                                         recordtableBll.Update(recordtablesModelList[k]);
-                                        Console.WriteLine("点点点更新" + recordtablesModelList[k].Exp_No);
+                                        // Console.WriteLine("点点点更新" + recordtablesModelList[k].Exp_No);
                                     }
                                     else
                                     {
@@ -562,7 +565,7 @@ namespace MainProject
                                                                           cjplpModelList[i].Sdate.Substring(0, 4) +
                                                                           streetnoModeList[m].strnolast5 + "0100001";
                                                 recordtableBll.Add(recordtableModel);
-                                                Console.WriteLine("点点点添加" + recordtableModel.Exp_No);
+                                                // Console.WriteLine("点点点添加" + recordtableModel.Exp_No);
 
                                                 break;
                                             }
@@ -588,7 +591,7 @@ namespace MainProject
         /// </summary>
         private void CjpllCode()
         {
-            Maticsoft.BLL.cjplp cjplpBLL=new Maticsoft.BLL.cjplp();
+            Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
 
             #region 线表编码
 
@@ -674,7 +677,7 @@ namespace MainProject
 
                                 for (int k = 0; k < recordtablesModelList.Count; k++)
                                 {
-                                    seriaList.Add(Convert.ToInt16(recordtablesModelList[k].Lno.Substring(11, 13)));
+                                    seriaList.Add(Convert.ToInt16(recordtablesModelList[k].Lno.Substring(11, 2)));
                                 }
 
                                 //计算管线编号
@@ -711,7 +714,8 @@ namespace MainProject
                                     (decimal) calculatePipeLength(exp_No0Model, exp_No1Model);
                             }
 
-                            cjpllModelList[i].LnoTime = DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
+                            cjpllModelList[i].LnoTime =
+                                DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
                             //更新管线计算内容
                             cjpllBLL.Update(cjpllModelList[i]);
                             break;
@@ -745,7 +749,6 @@ namespace MainProject
             cjpll cjpllBLL = new cjpll();
             List<Maticsoft.Model.cjpll> cjpllModelList = cjpllBLL.GetModelList("Lno is null or trim(Lno)=''");
             this.gridControlLineTable.DataSource = cjpllModelList;
-
         }
 
         /// <summary>
@@ -848,7 +851,7 @@ namespace MainProject
 
             if (String.IsNullOrEmpty(mdbPath))
             {
-                MessageBox.Show("导出的ArcGIS Personal GeoDatabase路径为空！","提示");
+                MessageBox.Show("导出的ArcGIS Personal GeoDatabase路径为空！", "提示");
                 return;
             }
 
@@ -859,22 +862,22 @@ namespace MainProject
             CreateMDB createMdb = new CreateMDB();
 
             //1.生成特征点
-            createMdb.CreatePS_POINT(featureWorkspace, prjPath,"");
+            createMdb.CreatePS_POINT(featureWorkspace, prjPath, "");
             //2.生成排放口
-            createMdb.CreatePS_OUTFALL(featureWorkspace, prjPath,"");
+            createMdb.CreatePS_OUTFALL(featureWorkspace, prjPath, "");
             //3.生成检查井
-            createMdb.CreatePS_MANHOLE(featureWorkspace, prjPath,"");
+            createMdb.CreatePS_MANHOLE(featureWorkspace, prjPath, "");
 
             //4.生成雨水口
-            createMdb.CreatePS_COMB(featureWorkspace, prjPath,"");
+            createMdb.CreatePS_COMB(featureWorkspace, prjPath, "");
             //5.生成堰
-            createMdb.CreatePS_WEIR(featureWorkspace, prjPath,"");
+            createMdb.CreatePS_WEIR(featureWorkspace, prjPath, "");
             //6.生成闸门
-            createMdb.CreatePS_GATE(featureWorkspace, prjPath,"");
+            createMdb.CreatePS_GATE(featureWorkspace, prjPath, "");
             //7.生成阀门
-            createMdb.CreatePS_VALVE(featureWorkspace, prjPath,"");
+            createMdb.CreatePS_VALVE(featureWorkspace, prjPath, "");
             //8.生成排水泵站
-            createMdb.CreatePS_PUMPSTATION(featureWorkspace, prjPath,"");
+            createMdb.CreatePS_PUMPSTATION(featureWorkspace, prjPath, "");
             //9.生成调蓄设施
             createMdb.CreatePS_RETENTION(featureWorkspace, prjPath, "");
 
@@ -937,7 +940,7 @@ namespace MainProject
         /// <param name="e"></param>
         private void barButtonItemConditionExport_ItemClick(object sender, ItemClickEventArgs e)
         {
-            FrmConditionExport frmConditionExport=new FrmConditionExport();
+            FrmConditionExport frmConditionExport = new FrmConditionExport();
             frmConditionExport.Show();
         }
 

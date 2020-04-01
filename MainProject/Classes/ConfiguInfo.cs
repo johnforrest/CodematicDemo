@@ -29,7 +29,7 @@ namespace MainProject.Classes
 
             TempDictionary.Add("Empty", esriFieldType.esriFieldTypeString);
 
-            TempDictionary.Add("Nullable`1", esriFieldType.esriFieldTypeString);
+            // TempDictionary.Add("Nullable`1", esriFieldType.esriFieldTypeDouble);
             Console.WriteLine("字典调用————————————————————————————————————————————————————————");
         }
 
