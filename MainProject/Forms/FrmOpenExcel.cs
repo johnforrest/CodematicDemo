@@ -168,18 +168,14 @@ namespace MainProject.Forms
         /// <param name="e"></param>
         private void simpleButtonUpLoad_Click(object sender, EventArgs e)
         {
-
-         
             if (UpLoadPointSheet())
             {
                 return;
             }
-
             if (UpLoadLineSheet())
             {
                 return;
             }
-
             //MessageBox.Show("管点添加成功！");
             DialogResult dr = MessageBox.Show("数据上传完成，请进行数据编码", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (dr == DialogResult.OK)
