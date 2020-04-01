@@ -122,10 +122,10 @@
     <Compile Include="Forms\FrmSetServer.Designer.cs">
       <DependentUpon>FrmSetServer.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmConditionExport.cs">
+    <Compile Include="Forms\FrmConditionExport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmConditionExport.Designer.cs">
+    <Compile Include="Forms\FrmConditionExport.Designer.cs">
       <DependentUpon>FrmConditionExport.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmMain.cs">
@@ -156,7 +156,7 @@
     <EmbeddedResource Include="Forms\FrmSetServer.resx">
       <DependentUpon>FrmSetServer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmConditionExport.resx">
+    <EmbeddedResource Include="Forms\FrmConditionExport.resx">
       <DependentUpon>FrmConditionExport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">

@@ -1,4 +1,4 @@
-﻿namespace MainProject
+﻿namespace MainProject.Forms
 {
     partial class FrmConditionExport
     {

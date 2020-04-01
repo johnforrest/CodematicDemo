@@ -14,7 +14,7 @@ using ESRI.ArcGIS.Geodatabase;
 using MainProject.ImplementClasses;
 using Maticsoft.BLL;
 
-namespace MainProject
+namespace MainProject.Forms
 {
     public partial class FrmConditionExport : Form
     {

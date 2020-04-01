@@ -95,14 +95,7 @@ namespace Maticsoft.BLL
             return dal.GetList(strWhere);
         }
 
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        public List<Maticsoft.Model.cjplp> GetMaxCodeModelList()
-        {
-            DataSet ds = dal.GetMaxModelList();
-            return DataTableToList(ds.Tables[0]);
-        }
+     
 
         /// <summary>
         /// 获得数据列表
@@ -165,9 +158,24 @@ namespace Maticsoft.BLL
         //}
 
         #endregion  BasicMethod
-        #region  ExtensionMethod
-
+        #region  yjw扩展的方法
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public List<Maticsoft.Model.cjplp> GetMaxCodeModelList()
+        {
+            DataSet ds = dal.GetMaxModelList();
+            return DataTableToList(ds.Tables[0]);
+        }
+        ///扩展的方法
+        public DataTable GetFileNames()
+        {
+            DataSet ds = dal.GetFileName();
+            return ds.Tables[0];
+        }
         #endregion  ExtensionMethod
+
+
     }
 }
 

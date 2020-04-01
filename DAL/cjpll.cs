@@ -498,16 +498,31 @@ namespace Maticsoft.DAL
 		}*/
 
         #endregion  BasicMethod
-        #region  ExtensionMethod
-
-        #endregion  ExtensionMethod
+        #region  yjw扩展的方法
         //todo：获取线表中最大的编码记录
+        /// <summary>
+        /// 获取线表中最大的编码记录
+        /// </summary>
+        /// <returns></returns>
         public DataSet GetMaxModelList()
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select StormSystem_ID,Exp_No0,S_Deep,S_Elev,Exp_No1,E_Deep,E_Elev,Type,Pressure_Type,Invert_Silphon,Material,ShapeType,Grade,Psize,FlowDir,ConduitStyle,Address,DataSource,Sdate,Mdate,Pipe_Type,Status,Note,FileName,Uploadtime,Lno,S_Point,E_Point,LnoTime,PipeLength from (SELECT StormSystem_ID,Exp_No0,S_Deep,S_Elev,Exp_No1,E_Deep,E_Elev,Type,Pressure_Type,Invert_Silphon,Material,ShapeType,Grade,Psize,FlowDir,ConduitStyle,Address,DataSource,Sdate,Mdate,Pipe_Type,Status,Note,FileName,Uploadtime,Lno,S_Point,E_Point,LnoTime,PipeLength,LEFT(Type,2) as newType FROM cjpll ORDER BY LnoTime DESC  limit 999999) newcjpll  GROUP BY newType");
             return DbHelperMySQL.Query(strSql.ToString());
         }
+        /// <summary>
+        /// 获取线表中不同的文件名称
+        /// </summary>
+        /// <returns></returns>
+        public DataSet GetFileName()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select FileName FROM cjpll group by FileName");
+            return DbHelperMySQL.Query(strSql.ToString());
+        }
+        #endregion  扩展的方法
+
+
     }
 }
 

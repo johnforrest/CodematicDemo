@@ -32,6 +32,40 @@ namespace MainProject.Forms
             connstr = _connstr;
         }
 
+        private void FrmOpenExcel_Load(object sender, EventArgs e)
+        {
+        }
+        /// <summary>
+        /// 初始化listbox菜单
+        /// </summary>
+        private void InitListBoxDBBlock()
+        {
+            // 初始化加载
+            //点表
+            Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
+            DataTable cjplpDatatable = cjplpBLL.GetFileNames();
+            for (int i = 0; i < cjplpDatatable.Rows.Count; i++)
+            {
+                //不包含则添加
+                if (!this.listBoxControlDBBlock.Items.Contains(cjplpDatatable.Rows[i]["FileName"]))
+                {
+                    this.listBoxControlDBBlock.Items.Add(cjplpDatatable.Rows[i]["FileName"]);
+                }
+            }
+
+            //线表
+            Maticsoft.BLL.cjpll cjpllBLL = new Maticsoft.BLL.cjpll();
+            DataTable cjpllDatatable = cjpllBLL.GetFileNames();
+            for (int i = 0; i < cjpllDatatable.Rows.Count; i++)
+            {
+                //不包含则添加
+                if (!this.listBoxControlDBBlock.Items.Contains(cjpllDatatable.Rows[i]["FileName"]))
+                {
+                    this.listBoxControlDBBlock.Items.Add(cjpllDatatable.Rows[i]["FileName"]);
+                }
+            }
+        }
+
         #region 打开Excel
 
         /// <summary>
@@ -57,6 +91,8 @@ namespace MainProject.Forms
                 }
 
                 // ReadExcel(open.FileName, 0);
+                InitListBoxDBBlock();
+
             }
             catch (Exception ex)
             {
@@ -132,7 +168,12 @@ namespace MainProject.Forms
         /// <param name="e"></param>
         private void simpleButtonUpLoad_Click(object sender, EventArgs e)
         {
-            if (UpLoadPointSheet()) return;
+
+         
+            if (UpLoadPointSheet())
+            {
+                return;
+            }
 
             if (UpLoadLineSheet())
             {
@@ -179,6 +220,33 @@ namespace MainProject.Forms
             Maticsoft.BLL.exportinfo exportinfoBLL = new Maticsoft.BLL.exportinfo();
             Maticsoft.Model.exportinfo exportinfoModel = new Maticsoft.Model.exportinfo();
 
+
+            //删除选择的内容
+            if (this.listBoxControlDeleteBlock.Items.Count > 0)
+            {
+                //构造sql查询语句
+                string strWhere = String.Empty; ;
+                for (int i = 0; i < listBoxControlDeleteBlock.Items.Count; i++)
+                {
+                    if (i == listBoxControlDeleteBlock.Items.Count - 1)
+                    {
+                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() + "'";
+
+                    }
+                    else
+                    {
+                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() + "' or";
+                    }
+                }
+                List<Maticsoft.Model.cjpll> deleteCjplpsModelList = cjpllBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteCjplpsModelList.Count; j++)
+                {
+                    //删除点表
+                    cjpllBLL.Delete(deleteCjplpsModelList[j].Exp_No0,deleteCjplpsModelList[j].Exp_No1);
+                }
+
+            }
+
             for (int i = 0; i < cjpllModelList.Count; i++)
             {
                 List<Maticsoft.Model.exportinfo> exportinfosModelList = exportinfoBLL.GetModelList("");
@@ -191,6 +259,9 @@ namespace MainProject.Forms
                    
                 }else
                 {
+                    //存在就更新原始数据中的线表属性，因为可能修改了其它属性信息
+                    cjpllBLL.Update(cjpllModelList[i]);
+
                     //备份的数据库中，不重复的数据，则插入，否则，则更新
                     if (!cjpllBackBLL.Exists(cjpllModelList[i].Exp_No0,cjpllModelList[i].Exp_No1))
                     {
@@ -279,7 +350,33 @@ namespace MainProject.Forms
             List<Maticsoft.Model.cjplpback> cjplpBackModelList= cjplpBackBLL.DataTableToList(dataTable);
 
             Maticsoft.BLL.exportinfo exportinfoBLL = new Maticsoft.BLL.exportinfo();
-            Maticsoft.Model.exportinfo exportinfoModel =new Maticsoft.Model.exportinfo(); 
+            Maticsoft.Model.exportinfo exportinfoModel =new Maticsoft.Model.exportinfo();
+
+            //删除选择的内容
+            if (this.listBoxControlDeleteBlock.Items.Count > 0)
+            {
+                //构造sql查询语句
+                string strWhere=String.Empty;;
+                for (int i = 0; i < listBoxControlDeleteBlock.Items.Count; i++)
+                {
+                    if (i==listBoxControlDeleteBlock.Items.Count-1)
+                    {
+                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() +"'";
+
+                    }
+                    else
+                    {
+                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() +"' or";
+                    }
+                }
+                List<Maticsoft.Model.cjplp> deleteCjplpsModelList = cjplpBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteCjplpsModelList.Count; j++)
+                {
+                    //删除点表
+                    cjplpBLL.Delete(deleteCjplpsModelList[j].Exp_NoOri);
+                }
+               
+            }
 
             for (int i = 0; i < cjplpModelList.Count; i++)
             {
@@ -294,6 +391,9 @@ namespace MainProject.Forms
                 }
                 else
                 {
+                    //存在就更新点表中原有的数据，因为可能只修改了数据的属性
+                    cjplpBLL.Update(cjplpModelList[i]);
+
                     //备份的数据库中，不重复的数据，则插入，否则，则更新
                     if (!cjplpBackBLL.Exists(cjplpModelList[i].Exp_NoOri))
                     {
@@ -386,6 +486,9 @@ namespace MainProject.Forms
         }
 
         #endregion
+
+        #region 选择点、线操作
+
         /// <summary>
         /// 选择点表
         /// </summary>
@@ -422,5 +525,31 @@ namespace MainProject.Forms
         {
             this.textEditLineSheet.Text = string.Empty;
         }
+
+        #endregion
+
+        #region 删除操作
+
+        /// <summary>
+        /// 选择区块
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void simpleButtonSelectBlock_Click(object sender, EventArgs e)
+        {
+            this.listBoxControlDeleteBlock.Items.Add(this.listBoxControlDBBlock.SelectedItem.ToString()) ;
+        }
+        /// <summary>
+        /// 清空选择的区块
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void simpleButtonClearSelectBlocks_Click(object sender, EventArgs e)
+        {
+            if (listBoxControlDeleteBlock.Items.Count > 0)
+                listBoxControlDeleteBlock.Items.Clear();
+        }
+
+        #endregion
     }
 }
