@@ -571,8 +571,8 @@ namespace MainProject
                                 recordtableModel.year = cjpllModelList[i].Sdate.Substring(0, 4);
                                 recordtableModel.strnolast5 = streetnoModeList[j].strnolast5;
                                 recordtableModel.inteno = 1;
-                                recordtableModel.serino = Convert.ToInt32(exp_No0Model.Exp_No.Substring(13) +
-                                                                          exp_No1Model.Exp_No.Substring(13));
+                                recordtableModel.serino = Convert.ToInt32(exp_No0Model.Exp_No.Substring(13)) +
+                                                                          Convert.ToInt32(exp_No1Model.Exp_No.Substring(13));
                                 recordtableModel.typeYear = cjpllModelList[i].Type.Substring(0, 2) +
                                                             cjpllModelList[i].Sdate.Substring(0, 4);
                                 recordtableModel.typeYearStrnolast5 = cjpllModelList[i].Type.Substring(0, 2) +
@@ -589,7 +589,7 @@ namespace MainProject
                                                        exp_No0Model.Exp_No.Substring(13) +
                                                        exp_No1Model.Exp_No.Substring(13);
                                 recordtableBll.Add(recordtableModel);
-                                Console.WriteLine("线线线添加" + recordtableModel.Lno);
+                                // Console.WriteLine("线线线添加" + recordtableModel.Lno);
                             }
                             else
                             {
