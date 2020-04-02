@@ -168,10 +168,12 @@ namespace Maticsoft.BLL
             return DataTableToList(ds.Tables[0]);
         }
         ///扩展的方法
-        public DataTable GetFileNames()
+        public List<Maticsoft.Model.cjplp> GetFileNames()
         {
             DataSet ds = dal.GetFileName();
-            return ds.Tables[0];
+            return DataTableToList(ds.Tables[0]);
+
+            // return ds.Tables[0];
         }
         #endregion  ExtensionMethod
 

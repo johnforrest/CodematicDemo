@@ -15,6 +15,7 @@ namespace Maticsoft.Model
         private string _basin;
         private string _strname;
         private string _plot;
+        private string _filename;
         /// <summary>
         /// auto_increment
         /// </summary>
@@ -54,6 +55,14 @@ namespace Maticsoft.Model
         {
             set { _plot = value; }
             get { return _plot; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string FileName
+        {
+            set { _filename = value; }
+            get { return _filename; }
         }
         #endregion Model
 

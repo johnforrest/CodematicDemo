@@ -30,13 +30,13 @@ namespace MainProject.Forms
         /// <param name="e"></param>
         private void FrmConditionExport_Load(object sender, EventArgs e)
         {
-            asynExportInofTable();
+            LoadExportInof();
         }
 
         /// <summary>
         /// 同步导出记录表的内容
         /// </summary>
-        private void asynExportInofTable()
+        private void LoadExportInof()
         {
             List<string> listAddress = new List<string>();
             List<string> listBasin = new List<string>();

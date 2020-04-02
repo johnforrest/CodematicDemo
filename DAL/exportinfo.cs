@@ -37,18 +37,20 @@ namespace Maticsoft.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into exportinfo(");
-            strSql.Append("Address,Basin,Strname,Plot)");
+            strSql.Append("Address,Basin,Strname,Plot,FileName)");
             strSql.Append(" values (");
-            strSql.Append("@Address,@Basin,@Strname,@Plot)");
+            strSql.Append("@Address,@Basin,@Strname,@Plot,@FileName)");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@Address", MySqlDbType.VarChar,100),
                     new MySqlParameter("@Basin", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Strname", MySqlDbType.VarChar,255),
-                    new MySqlParameter("@Plot", MySqlDbType.VarChar,255)};
+                    new MySqlParameter("@Plot", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@FileName", MySqlDbType.VarChar,255)};
             parameters[0].Value = model.Address;
             parameters[1].Value = model.Basin;
             parameters[2].Value = model.Strname;
             parameters[3].Value = model.Plot;
+            parameters[4].Value = model.FileName;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -70,19 +72,22 @@ namespace Maticsoft.DAL
             strSql.Append("Address=@Address,");
             strSql.Append("Basin=@Basin,");
             strSql.Append("Strname=@Strname,");
-            strSql.Append("Plot=@Plot");
+            strSql.Append("Plot=@Plot,");
+            strSql.Append("FileName=@FileName");
             strSql.Append(" where id=@id");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@Address", MySqlDbType.VarChar,100),
                     new MySqlParameter("@Basin", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Strname", MySqlDbType.VarChar,255),
                     new MySqlParameter("@Plot", MySqlDbType.VarChar,255),
+                    new MySqlParameter("@FileName", MySqlDbType.VarChar,255),
                     new MySqlParameter("@id", MySqlDbType.Int32,10)};
             parameters[0].Value = model.Address;
             parameters[1].Value = model.Basin;
             parameters[2].Value = model.Strname;
             parameters[3].Value = model.Plot;
-            parameters[4].Value = model.id;
+            parameters[4].Value = model.FileName;
+            parameters[5].Value = model.id;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -146,7 +151,7 @@ namespace Maticsoft.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,Address,Basin,Strname,Plot from exportinfo ");
+            strSql.Append("select id,Address,Basin,Strname,Plot,FileName from exportinfo ");
             strSql.Append(" where id=@id");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@id", MySqlDbType.Int32)
@@ -194,6 +199,10 @@ namespace Maticsoft.DAL
                 {
                     model.Plot = row["Plot"].ToString();
                 }
+                if (row["FileName"] != null)
+                {
+                    model.FileName = row["FileName"].ToString();
+                }
             }
             return model;
         }
@@ -204,7 +213,7 @@ namespace Maticsoft.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,Address,Basin,Strname,Plot ");
+            strSql.Append("select id,Address,Basin,Strname,Plot,FileName ");
             strSql.Append(" FROM exportinfo ");
             if (strWhere.Trim() != "")
             {

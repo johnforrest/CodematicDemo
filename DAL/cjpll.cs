@@ -517,7 +517,7 @@ namespace Maticsoft.DAL
         public DataSet GetFileName()
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select FileName FROM cjpll group by FileName");
+            strSql.Append("select * FROM cjpll group by FileName");
             return DbHelperMySQL.Query(strSql.ToString());
         }
         #endregion  扩展的方法

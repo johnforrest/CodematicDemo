@@ -9,9 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MainProject.Classes;
 using Maticsoft.DBUtility;
 using Maticsoft.DAL;
 using Maticsoft.Model;
+using cjpll = Maticsoft.BLL.cjpll;
+using cjplp = Maticsoft.BLL.cjplp;
 
 namespace MainProject.Forms
 {
@@ -43,25 +46,25 @@ namespace MainProject.Forms
             // 初始化加载
             //点表
             Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
-            DataTable cjplpDatatable = cjplpBLL.GetFileNames();
-            for (int i = 0; i < cjplpDatatable.Rows.Count; i++)
+            List<Maticsoft.Model.cjplp> cjplpModelList = cjplpBLL.GetFileNames();
+            for (int i = 0; i < cjplpModelList.Count; i++)
             {
                 //不包含则添加
-                if (!this.listBoxControlDBBlock.Items.Contains(cjplpDatatable.Rows[i]["FileName"]))
+                if (!this.listBoxControlDBBlock.Items.Contains(cjplpModelList[i].FileName))
                 {
-                    this.listBoxControlDBBlock.Items.Add(cjplpDatatable.Rows[i]["FileName"]);
+                    this.listBoxControlDBBlock.Items.Add(cjplpModelList[i].FileName);
                 }
             }
 
             //线表
             Maticsoft.BLL.cjpll cjpllBLL = new Maticsoft.BLL.cjpll();
-            DataTable cjpllDatatable = cjpllBLL.GetFileNames();
-            for (int i = 0; i < cjpllDatatable.Rows.Count; i++)
+            List<Maticsoft.Model.cjpll> cjpllModelList = cjpllBLL.GetFileNames();
+            for (int i = 0; i < cjpllModelList.Count; i++)
             {
                 //不包含则添加
-                if (!this.listBoxControlDBBlock.Items.Contains(cjpllDatatable.Rows[i]["FileName"]))
+                if (!this.listBoxControlDBBlock.Items.Contains(cjpllModelList[i].FileName))
                 {
-                    this.listBoxControlDBBlock.Items.Add(cjpllDatatable.Rows[i]["FileName"]);
+                    this.listBoxControlDBBlock.Items.Add(cjpllModelList[i].FileName);
                 }
             }
         }
@@ -168,6 +171,14 @@ namespace MainProject.Forms
         /// <param name="e"></param>
         private void simpleButtonUpLoad_Click(object sender, EventArgs e)
         {
+
+            DeletePointRealeatTables();
+
+            DeleteLineRealeatTables();
+
+            AsynData.asynRecordTabl();
+
+            AsynData.asynExportInfoTabl();
             if (UpLoadPointSheet())
             {
                 return;
@@ -176,6 +187,7 @@ namespace MainProject.Forms
             {
                 return;
             }
+
             //MessageBox.Show("管点添加成功！");
             DialogResult dr = MessageBox.Show("数据上传完成，请进行数据编码", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (dr == DialogResult.OK)
@@ -208,7 +220,7 @@ namespace MainProject.Forms
             }
 
             Maticsoft.BLL.cjpll cjpllBLL = new Maticsoft.BLL.cjpll();
-            Maticsoft.BLL.ps_pipe ps_pipeBLL = new Maticsoft.BLL.ps_pipe();
+
             List<Maticsoft.Model.cjpll> cjpllModelList = cjpllBLL.DataTableToList(dataTableLine);
 
             Maticsoft.BLL.cjpllback cjpllBackBLL = new Maticsoft.BLL.cjpllback();
@@ -218,38 +230,6 @@ namespace MainProject.Forms
             Maticsoft.Model.exportinfo exportinfoModel = new Maticsoft.Model.exportinfo();
 
 
-            //删除选择的内容
-            if (this.listBoxControlDeleteBlock.Items.Count > 0)
-            {
-                //构造sql查询语句
-                string strWhere = String.Empty; ;
-                for (int i = 0; i < listBoxControlDeleteBlock.Items.Count; i++)
-                {
-                    if (i == listBoxControlDeleteBlock.Items.Count - 1)
-                    {
-                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() + "'";
-
-                    }
-                    else
-                    {
-                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() + "' or";
-                    }
-                }
-                List<Maticsoft.Model.cjpll> deleteCjplpsModelList = cjpllBLL.GetModelList(strWhere);
-                for (int j = 0; j < deleteCjplpsModelList.Count; j++)
-                {
-                    //删除点表
-                    cjpllBLL.Delete(deleteCjplpsModelList[j].Exp_No0,deleteCjplpsModelList[j].Exp_No1);
-                }
-
-                List<Maticsoft.Model.ps_pipe> deleteps_pipeModelList = ps_pipeBLL.GetModelList(strWhere);
-                for (int j = 0; j < deleteps_pipeModelList.Count; j++)
-                {
-                    //删除点表
-                    cjpllBLL.Delete(deleteps_pipeModelList[j].Exp_No0, deleteps_pipeModelList[j].Exp_No1);
-                }
-
-            }
 
             for (int i = 0; i < cjpllModelList.Count; i++)
             {
@@ -301,6 +281,7 @@ namespace MainProject.Forms
                         exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
                         exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
                         exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
+                        exportinfoModel.FileName = cjpllModelList[i].FileName;
                         exportinfoBLL.Add(exportinfoModel);
                     }
                 }
@@ -312,6 +293,7 @@ namespace MainProject.Forms
                     exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
                     exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
                     exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
+                    exportinfoModel.FileName = cjpllModelList[i].FileName;
                     exportinfoBLL.Add(exportinfoModel);
                 }
             }
@@ -320,6 +302,48 @@ namespace MainProject.Forms
 
             return false;
 
+        }
+        /// <summary>
+        /// 删除线相关的内容
+        /// </summary>
+        private void DeleteLineRealeatTables()
+        {
+            Maticsoft.BLL.cjpll cjpllBLL = new Maticsoft.BLL.cjpll();
+            Maticsoft.BLL.ps_pipe ps_pipeBLL = new Maticsoft.BLL.ps_pipe();
+            //删除选择的内容
+            if (this.listBoxControlDeleteBlock.Items.Count > 0)
+            {
+                //构造sql查询语句
+                string strWhere = String.Empty;
+                ;
+                for (int i = 0; i < listBoxControlDeleteBlock.Items.Count; i++)
+                {
+                    if (i == listBoxControlDeleteBlock.Items.Count - 1)
+                    {
+                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() + "'";
+                    }
+                    else
+                    {
+                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() + "' or";
+                    }
+                }
+
+                List<Maticsoft.Model.cjpll> deleteCjplpsModelList = cjpllBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteCjplpsModelList.Count; j++)
+                {
+                    //删除点表
+                    cjpllBLL.Delete(deleteCjplpsModelList[j].Exp_No0, deleteCjplpsModelList[j].Exp_No1);
+                }
+
+                List<Maticsoft.Model.ps_pipe> deleteps_pipeModelList = ps_pipeBLL.GetModelList(strWhere);
+                for (int j = 0; j < deleteps_pipeModelList.Count; j++)
+                {
+                    //删除点表
+                    cjpllBLL.Delete(deleteps_pipeModelList[j].Exp_No0, deleteps_pipeModelList[j].Exp_No1);
+                }
+            }
+
+            // return cjpllBLL;
         }
 
         /// <summary>
@@ -348,6 +372,96 @@ namespace MainProject.Forms
             }
 
             Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
+         
+
+
+
+            List<Maticsoft.Model.cjplp> cjplpModelList = cjplpBLL.DataTableToList(dataTable);
+
+            Maticsoft.BLL.cjplpback cjplpBackBLL = new Maticsoft.BLL.cjplpback();
+            List<Maticsoft.Model.cjplpback> cjplpBackModelList= cjplpBackBLL.DataTableToList(dataTable);
+
+            Maticsoft.BLL.exportinfo exportinfoBLL = new Maticsoft.BLL.exportinfo();
+            Maticsoft.Model.exportinfo exportinfoModel =new Maticsoft.Model.exportinfo();
+
+
+            for (int i = 0; i < cjplpModelList.Count; i++)
+            {
+                List<Maticsoft.Model.exportinfo> exportinfosModelList = exportinfoBLL.GetModelList("");
+
+                //不重复的数据
+                if (!cjplpBLL.Exists(cjplpModelList[i].Exp_NoOri))
+                {
+                    //点表不重复的数据，直接插入
+                    cjplpBLL.Add(cjplpModelList[i]);
+
+                }
+                else
+                {
+                    //存在就更新点表中原有的数据，因为可能只修改了数据的属性
+                    cjplpBLL.Update(cjplpModelList[i]);
+
+                    //备份的数据库中，不重复的数据，则插入，否则，则更新
+                    if (!cjplpBackBLL.Exists(cjplpModelList[i].Exp_NoOri))
+                    {
+                        cjplpBackBLL.Add(cjplpBackModelList[i]);
+                    }
+                    else
+                    {
+                        cjplpBackBLL.Update(cjplpBackModelList[i]);
+                    }
+                }
+
+                //导出配置表（exportinfo）中有配置数据，则对比
+                if (exportinfosModelList.Count > 0)
+                {
+                    Int32 flag = 0;
+                    //导出表的配置
+                    for (int j = 0; j < exportinfosModelList.Count; j++)
+                    {
+                        if (exportinfosModelList[j].Address != cjplpModelList[i].Address
+                            || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Basin)
+                            || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Strname)
+                            || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Plot))
+                        {
+                            flag++;
+                        }
+
+                        if (flag==exportinfosModelList.Count)
+                        {
+                            string[] tempArr = cjplpModelList[i].FileName.Split('-');
+                            //导出配置表（exportinfo）中没有配置数据，则直接插入
+                            exportinfoModel.Address = cjplpModelList[i].Address;
+                            exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
+                            exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
+                            exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
+                            exportinfoModel.FileName = cjplpModelList[i].FileName;
+                            exportinfoBLL.Add(exportinfoModel);
+                        }
+                    }
+                }
+                else
+                {
+                    string[] tempArr = cjplpModelList[i].FileName.Split('-');
+                    //导出配置表（exportinfo）中没有配置数据，则直接插入
+                    exportinfoModel.Address = cjplpModelList[i].Address;
+                    exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
+                    exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
+                    exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
+                    exportinfoModel.FileName = cjplpModelList[i].FileName;
+                    exportinfoBLL.Add(exportinfoModel);
+                }
+            }
+
+            return false;
+        }
+        /// <summary>
+        /// 删除点相关的内容
+        /// </summary>
+        /// <returns></returns>
+        private void DeletePointRealeatTables()
+        {
+            Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
             Maticsoft.BLL.ps_comb ps_combBLL = new Maticsoft.BLL.ps_comb();
             Maticsoft.BLL.ps_discharger ps_dischargerBLL = new Maticsoft.BLL.ps_discharger();
             Maticsoft.BLL.ps_gate ps_gateBLL = new Maticsoft.BLL.ps_gate();
@@ -360,33 +474,24 @@ namespace MainProject.Forms
             Maticsoft.BLL.ps_weir ps_weirBLL = new Maticsoft.BLL.ps_weir();
             Maticsoft.BLL.ps_wwtp ps_wwtpBLL = new Maticsoft.BLL.ps_wwtp();
 
-
-
-            List<Maticsoft.Model.cjplp> cjplpModelList = cjplpBLL.DataTableToList(dataTable);
-
-            Maticsoft.BLL.cjplpback cjplpBackBLL = new Maticsoft.BLL.cjplpback();
-            List<Maticsoft.Model.cjplpback> cjplpBackModelList= cjplpBackBLL.DataTableToList(dataTable);
-
-            Maticsoft.BLL.exportinfo exportinfoBLL = new Maticsoft.BLL.exportinfo();
-            Maticsoft.Model.exportinfo exportinfoModel =new Maticsoft.Model.exportinfo();
-
             //删除选择的内容
             if (this.listBoxControlDeleteBlock.Items.Count > 0)
             {
                 //构造sql查询语句
-                string strWhere=String.Empty;;
+                string strWhere = String.Empty;
+                ;
                 for (int i = 0; i < listBoxControlDeleteBlock.Items.Count; i++)
                 {
-                    if (i==listBoxControlDeleteBlock.Items.Count-1)
+                    if (i == listBoxControlDeleteBlock.Items.Count - 1)
                     {
-                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() +"'";
-
+                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() + "'";
                     }
                     else
                     {
-                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() +"' or";
+                        strWhere += "FileName='" + listBoxControlDeleteBlock.Items[i].ToString() + "' or";
                     }
                 }
+
                 //删除cjplp原始数据库的点
                 List<Maticsoft.Model.cjplp> deleteCjplpsModelList = cjplpBLL.GetModelList(strWhere);
                 for (int j = 0; j < deleteCjplpsModelList.Count; j++)
@@ -471,75 +576,11 @@ namespace MainProject.Forms
                     cjplpBLL.Delete(deleteps_wwtpModelList[j].Exp_NoOri);
                 }
 
+                //同步编码表
+                // AsynData.asynRecordTabl();
             }
 
-            for (int i = 0; i < cjplpModelList.Count; i++)
-            {
-                List<Maticsoft.Model.exportinfo> exportinfosModelList = exportinfoBLL.GetModelList("");
-
-                //不重复的数据
-                if (!cjplpBLL.Exists(cjplpModelList[i].Exp_NoOri))
-                {
-                    //点表不重复的数据，直接插入
-                    cjplpBLL.Add(cjplpModelList[i]);
-
-                }
-                else
-                {
-                    //存在就更新点表中原有的数据，因为可能只修改了数据的属性
-                    cjplpBLL.Update(cjplpModelList[i]);
-
-                    //备份的数据库中，不重复的数据，则插入，否则，则更新
-                    if (!cjplpBackBLL.Exists(cjplpModelList[i].Exp_NoOri))
-                    {
-                        cjplpBackBLL.Add(cjplpBackModelList[i]);
-                    }
-                    else
-                    {
-                        cjplpBackBLL.Update(cjplpBackModelList[i]);
-                    }
-                }
-
-                //导出配置表（exportinfo）中有配置数据，则对比
-                if (exportinfosModelList.Count > 0)
-                {
-                    Int32 flag = 0;
-                    //导出表的配置
-                    for (int j = 0; j < exportinfosModelList.Count; j++)
-                    {
-                        if (exportinfosModelList[j].Address != cjplpModelList[i].Address
-                            || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Basin)
-                            || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Strname)
-                            || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Plot))
-                        {
-                            flag++;
-                        }
-
-                        if (flag==exportinfosModelList.Count)
-                        {
-                            string[] tempArr = cjplpModelList[i].FileName.Split('-');
-                            //导出配置表（exportinfo）中没有配置数据，则直接插入
-                            exportinfoModel.Address = cjplpModelList[i].Address;
-                            exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
-                            exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
-                            exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
-                            exportinfoBLL.Add(exportinfoModel);
-                        }
-                    }
-                }
-                else
-                {
-                    string[] tempArr = cjplpModelList[i].FileName.Split('-');
-                    //导出配置表（exportinfo）中没有配置数据，则直接插入
-                    exportinfoModel.Address = cjplpModelList[i].Address;
-                    exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
-                    exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
-                    exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
-                    exportinfoBLL.Add(exportinfoModel);
-                }
-            }
-
-            return false;
+            // return cjplpBLL;
         }
 
         /// <summary>

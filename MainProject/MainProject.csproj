@@ -103,6 +103,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AsynData.cs" />
     <Compile Include="Classes\ConfiguInfo.cs" />
     <Compile Include="Classes\EntityAssignValue.cs" />
     <Compile Include="Classes\ExportExcel.cs" />
