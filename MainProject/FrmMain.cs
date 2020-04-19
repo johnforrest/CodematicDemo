@@ -520,7 +520,7 @@ namespace MainProject
             List<Maticsoft.Model.streetno> streetnoModeList = streetnoBLL.GetModelList("shortname is not NULL");
 
             //顺序编码表
-            recordtable recordtableModel = new recordtable();
+            Maticsoft.Model.recordtable recordtableModel = new Maticsoft.Model.recordtable();
             Maticsoft.BLL.recordtable recordtableBll = new Maticsoft.BLL.recordtable();
 
             //获取待拆分的线表数据
@@ -544,6 +544,13 @@ namespace MainProject
 
                         if (exp_No0Model != null && exp_No1Model != null)
                         {
+                            // string tmp = "type like '" + cjpllModelList[i].Type.Substring(0, 2) +
+                            //              "%' and Lno like '" +
+                            //              cjpllModelList[i].Type.Substring(0, 2) +
+                            //              cjpllModelList[i].Sdate.Substring(0, 4) +
+                            //              streetnoModeList[j].strnolast5 + "__" +
+                            //              exp_No0Model.Exp_No.Substring(13) +
+                            //              exp_No1Model.Exp_No.Substring(13) + "'";
                             //查询街道编码不为空的列
                             List<recordtable> recordtablesModelList =
                                 recordtableBll.GetModelList("type like '" + cjpllModelList[i].Type.Substring(0, 2) +
@@ -621,7 +628,7 @@ namespace MainProject
                                                        exp_No0Model.Exp_No.Substring(13) +
                                                        exp_No1Model.Exp_No.Substring(13);
                                 recordtableBll.Update(recordtableModel);
-                                Console.WriteLine("线线线更新" + recordtableModel.Lno);
+                                // Console.WriteLine("线线线更新" + recordtableModel.Lno);
                             }
 
                             //3.计算管线长度

@@ -15,6 +15,8 @@ using Maticsoft.DAL;
 using Maticsoft.Model;
 using cjpll = Maticsoft.BLL.cjpll;
 using cjplp = Maticsoft.BLL.cjplp;
+using cjplpback = Maticsoft.BLL.cjplpback;
+using exportinfo = Maticsoft.BLL.exportinfo;
 
 namespace MainProject.Forms
 {
@@ -278,9 +280,11 @@ namespace MainProject.Forms
                         string[] tempArr = cjpllModelList[i].FileName.Split('-');
                         //导出配置表（exportinfo）中没有配置数据，则直接插入
                         exportinfoModel.Address = cjpllModelList[i].Address;
+
                         exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
                         exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
                         exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
+
                         exportinfoModel.FileName = cjpllModelList[i].FileName;
                         exportinfoBLL.Add(exportinfoModel);
                     }
@@ -290,9 +294,11 @@ namespace MainProject.Forms
                     string[] tempArr = cjpllModelList[i].FileName.Split('-');
                     //导出配置表（exportinfo）中没有配置数据，则直接插入
                     exportinfoModel.Address = cjpllModelList[i].Address;
+
                     exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
                     exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
                     exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
+
                     exportinfoModel.FileName = cjpllModelList[i].FileName;
                     exportinfoBLL.Add(exportinfoModel);
                 }
@@ -352,105 +358,117 @@ namespace MainProject.Forms
         /// <returns></returns>
         private bool UpLoadPointSheet()
         {
-            if (String.IsNullOrEmpty(this.textEditPointSheet.Text))
+            try
             {
-                MessageBox.Show("点表表单为空！请选择点表", "提示");
-                return true;
-            }
+                if (String.IsNullOrEmpty(this.textEditPointSheet.Text))
+                {
+                    MessageBox.Show("点表表单为空！请选择点表", "提示");
+                    return true;
+                }
 
-            DataSet dataSet = ExcelToDataSet(excelPath, this.textEditPointSheet.Text.Trim());
-            DataTable dataTable = dataSet.Tables[0];
+                DataSet dataSet = ExcelToDataSet(excelPath, this.textEditPointSheet.Text.Trim());
+                DataTable dataTable = dataSet.Tables[0];
 
-            //1.填充数据名称和数据上传时间字段
-            dataTable.Columns.Add("FileName", typeof(string));
-            dataTable.Columns.Add("Uploadtime", typeof(string));
-            for (int i = 0; i < dataTable.Rows.Count; i++)
-            {
-                dataTable.Rows[i]["FileName"] = Path.GetFileNameWithoutExtension(excelPath);
+                //1.填充数据名称和数据上传时间字段
+                dataTable.Columns.Add("FileName", typeof(string));
+                dataTable.Columns.Add("Uploadtime", typeof(string));
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    dataTable.Rows[i]["FileName"] = Path.GetFileNameWithoutExtension(excelPath);
 
-                dataTable.Rows[i]["Uploadtime"] = DateTime.Now.ToString();
-            }
+                    dataTable.Rows[i]["Uploadtime"] = DateTime.Now.ToString();
+                }
 
-            Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
+                cjplp cjplpBLL = new cjplp();
          
 
 
 
-            List<Maticsoft.Model.cjplp> cjplpModelList = cjplpBLL.DataTableToList(dataTable);
+                List<Maticsoft.Model.cjplp> cjplpModelList = cjplpBLL.DataTableToList(dataTable);
 
-            Maticsoft.BLL.cjplpback cjplpBackBLL = new Maticsoft.BLL.cjplpback();
-            List<Maticsoft.Model.cjplpback> cjplpBackModelList= cjplpBackBLL.DataTableToList(dataTable);
+                cjplpback cjplpBackBLL = new cjplpback();
+                List<Maticsoft.Model.cjplpback> cjplpBackModelList= cjplpBackBLL.DataTableToList(dataTable);
 
-            Maticsoft.BLL.exportinfo exportinfoBLL = new Maticsoft.BLL.exportinfo();
-            Maticsoft.Model.exportinfo exportinfoModel =new Maticsoft.Model.exportinfo();
+                exportinfo exportinfoBLL = new exportinfo();
+                Maticsoft.Model.exportinfo exportinfoModel =new Maticsoft.Model.exportinfo();
 
 
-            for (int i = 0; i < cjplpModelList.Count; i++)
-            {
-                List<Maticsoft.Model.exportinfo> exportinfosModelList = exportinfoBLL.GetModelList("");
-
-                //不重复的数据
-                if (!cjplpBLL.Exists(cjplpModelList[i].Exp_NoOri))
+                for (int i = 0; i < cjplpModelList.Count; i++)
                 {
-                    //点表不重复的数据，直接插入
-                    cjplpBLL.Add(cjplpModelList[i]);
+                    List<Maticsoft.Model.exportinfo> exportinfosModelList = exportinfoBLL.GetModelList("");
 
-                }
-                else
-                {
-                    //存在就更新点表中原有的数据，因为可能只修改了数据的属性
-                    cjplpBLL.Update(cjplpModelList[i]);
-
-                    //备份的数据库中，不重复的数据，则插入，否则，则更新
-                    if (!cjplpBackBLL.Exists(cjplpModelList[i].Exp_NoOri))
+                    //不重复的数据
+                    if (!cjplpBLL.Exists(cjplpModelList[i].Exp_NoOri))
                     {
-                        cjplpBackBLL.Add(cjplpBackModelList[i]);
+                        //点表不重复的数据，直接插入
+                        cjplpBLL.Add(cjplpModelList[i]);
+
                     }
                     else
                     {
-                        cjplpBackBLL.Update(cjplpBackModelList[i]);
-                    }
-                }
+                        //存在就更新点表中原有的数据，因为可能只修改了数据的属性
+                        cjplpBLL.Update(cjplpModelList[i]);
 
-                //导出配置表（exportinfo）中有配置数据，则对比
-                if (exportinfosModelList.Count > 0)
-                {
-                    Int32 flag = 0;
-                    //导出表的配置
-                    for (int j = 0; j < exportinfosModelList.Count; j++)
+                        //备份的数据库中，不重复的数据，则插入，否则，则更新
+                        if (!cjplpBackBLL.Exists(cjplpModelList[i].Exp_NoOri))
+                        {
+                            cjplpBackBLL.Add(cjplpBackModelList[i]);
+                        }
+                        else
+                        {
+                            cjplpBackBLL.Update(cjplpBackModelList[i]);
+                        }
+                    }
+
+                    //导出配置表（exportinfo）中有配置数据，则对比
+                    if (exportinfosModelList.Count > 0)
                     {
-                        if (exportinfosModelList[j].Address != cjplpModelList[i].Address
-                            || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Basin)
-                            || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Strname)
-                            || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Plot))
+                        Int32 flag = 0;
+                        //导出表的配置
+                        for (int j = 0; j < exportinfosModelList.Count; j++)
                         {
-                            flag++;
-                        }
+                            if (exportinfosModelList[j].Address != cjplpModelList[i].Address
+                                || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Basin)
+                                || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Strname)
+                                || !cjplpModelList[i].FileName.Contains(exportinfosModelList[j].Plot))
+                            {
+                                flag++;
+                            }
 
-                        if (flag==exportinfosModelList.Count)
-                        {
-                            string[] tempArr = cjplpModelList[i].FileName.Split('-');
-                            //导出配置表（exportinfo）中没有配置数据，则直接插入
-                            exportinfoModel.Address = cjplpModelList[i].Address;
-                            exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
-                            exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
-                            exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
-                            exportinfoModel.FileName = cjplpModelList[i].FileName;
-                            exportinfoBLL.Add(exportinfoModel);
+                            if (flag==exportinfosModelList.Count)
+                            {
+                                string[] tempArr = cjplpModelList[i].FileName.Split('-');
+                                //导出配置表（exportinfo）中没有配置数据，则直接插入
+                                exportinfoModel.Address = cjplpModelList[i].Address;
+
+                                exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
+                                exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
+                                exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
+
+                                exportinfoModel.FileName = cjplpModelList[i].FileName;
+                                exportinfoBLL.Add(exportinfoModel);
+                            }
                         }
                     }
+                    else
+                    {
+                        string[] tempArr = cjplpModelList[i].FileName.Split('-');
+                        //导出配置表（exportinfo）中没有配置数据，则直接插入
+                        exportinfoModel.Address = cjplpModelList[i].Address;
+
+                        exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
+                        exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
+                        exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
+
+                        exportinfoModel.FileName = cjplpModelList[i].FileName;
+                        exportinfoBLL.Add(exportinfoModel);
+                    }
                 }
-                else
-                {
-                    string[] tempArr = cjplpModelList[i].FileName.Split('-');
-                    //导出配置表（exportinfo）中没有配置数据，则直接插入
-                    exportinfoModel.Address = cjplpModelList[i].Address;
-                    exportinfoModel.Basin = tempArr.Length > 0 ? tempArr[0] : string.Empty;
-                    exportinfoModel.Strname = tempArr.Length > 1 ? tempArr[1] : string.Empty;
-                    exportinfoModel.Plot = tempArr.Length > 2 ? tempArr[2].Substring(0, tempArr[2].IndexOf("_")) : string.Empty;
-                    exportinfoModel.FileName = cjplpModelList[i].FileName;
-                    exportinfoBLL.Add(exportinfoModel);
-                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
 
             return false;
@@ -673,7 +691,10 @@ namespace MainProject.Forms
         /// <param name="e"></param>
         private void simpleButtonSelectBlock_Click(object sender, EventArgs e)
         {
-            this.listBoxControlDeleteBlock.Items.Add(this.listBoxControlDBBlock.SelectedItem.ToString()) ;
+            if (this.listBoxControlDBBlock.SelectedItem!=null&& this.listBoxControlDBBlock.SelectedItem.ToString().Length>0)
+            {
+                this.listBoxControlDeleteBlock.Items.Add(this.listBoxControlDBBlock.SelectedItem.ToString()) ;
+            }
         }
         /// <summary>
         /// 清空选择的区块
