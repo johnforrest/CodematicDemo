@@ -8,7 +8,7 @@ using MainProject.Classes;
 using MainProject.Interfaces;
 using Maticsoft.Model;
 
-namespace MainProject.InplementClasses
+namespace MainProject.ImplementClasses
 {
     class PS_COMBImplements : SplitTableInterface
     {

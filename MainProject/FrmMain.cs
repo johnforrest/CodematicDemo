@@ -167,108 +167,116 @@ namespace MainProject
         /// <param name="e"></param>
         private void barButtonItemMergeData_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //todo：拆分点表
-            //1.获取到待拆分的数据
-            Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
-            // string pointSqlStr = "select * from cjplp";
-            List<cjplp> cjplpModelList = cjplpBLL.GetModelList("");
-
-            pipeobjectencode pipeobjectencodeBLL = new pipeobjectencode();
-            // string pipeobjectencode = "select * from pipeobjectencode";
-            List<Maticsoft.Model.pipeobjectencode> pipeobjectencodesModelList =
-                pipeobjectencodeBLL.GetModelList("");
-
-            JudgePoint judgePoint = new JudgePoint();
-            for (int i = 0; i < cjplpModelList.Count; i++)
+            try
             {
-                //2.类型判断
-                //3.计算信息填充-点号信息和编码信息
+                //todo：拆分点表
+                //1.获取到待拆分的数据
+                Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
+                // string pointSqlStr = "select * from cjplp";
+                List<cjplp> cjplpModelList = cjplpBLL.GetModelList("");
 
-                //todo：管点号不为空或者为null-也就是必须进行编码
-                if (!String.IsNullOrEmpty(cjplpModelList[i].Exp_No))
+                pipeobjectencode pipeobjectencodeBLL = new pipeobjectencode();
+                // string pipeobjectencode = "select * from pipeobjectencode";
+                List<Maticsoft.Model.pipeobjectencode> pipeobjectencodesModelList =
+                    pipeobjectencodeBLL.GetModelList("");
+
+                JudgePoint judgePoint = new JudgePoint();
+                for (int i = 0; i < cjplpModelList.Count; i++)
                 {
-                    //附属物不为空
-                    if (cjplpModelList[i] != null && !String.IsNullOrEmpty(cjplpModelList[i].Subsid))
+                    //2.类型判断
+                    //3.计算信息填充-点号信息和编码信息
+
+                    //todo：管点号不为空或者为null-也就是必须进行编码
+                    if (!String.IsNullOrEmpty(cjplpModelList[i].Exp_No))
                     {
-                        for (int j = 0; j < pipeobjectencodesModelList.Count; j++)
+                        //附属物不为空
+                        if (cjplpModelList[i] != null && !String.IsNullOrEmpty(cjplpModelList[i].Subsid))
                         {
-                            if (!String.IsNullOrEmpty(pipeobjectencodesModelList[j].objname) &&
-                                pipeobjectencodesModelList[j].objname == cjplpModelList[i].Subsid)
+                            for (int j = 0; j < pipeobjectencodesModelList.Count; j++)
                             {
+                                if (!String.IsNullOrEmpty(pipeobjectencodesModelList[j].objname) &&
+                                    pipeobjectencodesModelList[j].objname == cjplpModelList[i].Subsid)
+                                {
+                                    //C#在运行时通过类的名称实例化一个类
+                                    string className = "MainProject.ImplementClasses." +
+                                                       pipeobjectencodesModelList[j].tablename + "Implements";
+                                    Type t = Type.GetType(className);
+                                    SplitTableInterface b1 = Activator.CreateInstance(t, cjplpModelList[i],
+                                        pipeobjectencodesModelList[j].code) as SplitTableInterface;
+                                    // judgePoint.judge(new PS_MANHOLEImplements(pipeobjectencodesModelList[j].objname, cjplpModelList[i]));
+                                    judgePoint.judge(b1);
+                                }
+                            }
+                        }
+                        else if (cjplpModelList[i] != null && !String.IsNullOrEmpty(cjplpModelList[i].Feature))
+                        {
+                            //附属物为空，但是特征不为空
+
+                            for (int j = 0; j < pipeobjectencodesModelList.Count; j++)
+                            {
+                                if (!String.IsNullOrEmpty(pipeobjectencodesModelList[j].objname) &&
+                                    pipeobjectencodesModelList[j].objname == cjplpModelList[i].Feature)
+                                {
+                                    // string tempTableName = pipeobjectencodesModelList[j].tablename;
+
+                                    //C#在运行时通过类的名称实例化一个类
+                                    string className = "MainProject.ImplementClasses." +
+                                                       pipeobjectencodesModelList[j].tablename + "Implements";
+                                    Type t = Type.GetType(className);
+                                    SplitTableInterface b1 = Activator.CreateInstance(t, cjplpModelList[i],
+                                        pipeobjectencodesModelList[j].code) as SplitTableInterface;
+
+                                    // judgePoint.judge(new PS_MANHOLEImplements(pipeobjectencodesModelList[j].objname, cjplpModelList[i]));
+                                    judgePoint.judge(b1);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //todo:附属物、特征都为空
+                        }
+                    }
+                }
+
+
+                //todo：拆分线表
+                cjpll cjpllBLL = new cjpll();
+                List<Maticsoft.Model.cjpll> cjpllModelList = cjpllBLL.GetModelList("");
+                List<Maticsoft.Model.pipeobjectencode> pipeobjectencodesLineModelList =
+                    pipeobjectencodeBLL.GetModelList("objcate=0");
+
+                for (int i = 0; i < cjpllModelList.Count; i++)
+                {
+                    //todo：管点号不为空或者为null-也就是必须进行编码
+                    if (!String.IsNullOrEmpty(cjpllModelList[i].Lno))
+                    {
+                        for (int j = 0; j < pipeobjectencodesLineModelList.Count; j++)
+                        {
+                            if (cjpllModelList[i].Type.Contains(pipeobjectencodesLineModelList[j].objtype))
+                            {
+                                Console.WriteLine(pipeobjectencodesLineModelList[j].tablename);
                                 //C#在运行时通过类的名称实例化一个类
                                 string className = "MainProject.ImplementClasses." +
-                                                   pipeobjectencodesModelList[j].tablename + "Implements";
+                                                   pipeobjectencodesLineModelList[j].tablename + "Implements";
                                 Type t = Type.GetType(className);
-                                SplitTableInterface b1 = Activator.CreateInstance(t, cjplpModelList[i],
-                                    pipeobjectencodesModelList[j].code) as SplitTableInterface;
-                                // judgePoint.judge(new PS_MANHOLEImplements(pipeobjectencodesModelList[j].objname, cjplpModelList[i]));
+                                SplitTableInterface b1 = Activator.CreateInstance(t, cjpllModelList[i],
+                                    pipeobjectencodesLineModelList[j].code) as SplitTableInterface;
+
+                                // judgePoint.judge(new PS_MANHOLEImplements(pipeobjectencodesLineModelList[j].objname, cjplpModelList[i]));
                                 judgePoint.judge(b1);
                             }
                         }
                     }
-                    else if (cjplpModelList[i] != null && !String.IsNullOrEmpty(cjplpModelList[i].Feature))
-                    {
-                        //附属物为空，但是特征不为空
-
-                        for (int j = 0; j < pipeobjectencodesModelList.Count; j++)
-                        {
-                            if (!String.IsNullOrEmpty(pipeobjectencodesModelList[j].objname) &&
-                                pipeobjectencodesModelList[j].objname == cjplpModelList[i].Feature)
-                            {
-                                // string tempTableName = pipeobjectencodesModelList[j].tablename;
-
-                                //C#在运行时通过类的名称实例化一个类
-                                string className = "MainProject.ImplementClasses." +
-                                                   pipeobjectencodesModelList[j].tablename + "Implements";
-                                Type t = Type.GetType(className);
-                                SplitTableInterface b1 = Activator.CreateInstance(t, cjplpModelList[i],
-                                    pipeobjectencodesModelList[j].code) as SplitTableInterface;
-
-                                // judgePoint.judge(new PS_MANHOLEImplements(pipeobjectencodesModelList[j].objname, cjplpModelList[i]));
-                                judgePoint.judge(b1);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //todo:附属物、特征都为空
-                    }
                 }
+
+
+                MessageBox.Show("拆分成功！");
             }
-
-
-            //todo：拆分线表
-            cjpll cjpllBLL = new cjpll();
-            List<Maticsoft.Model.cjpll> cjpllModelList = cjpllBLL.GetModelList("");
-            List<Maticsoft.Model.pipeobjectencode> pipeobjectencodesLineModelList =
-                pipeobjectencodeBLL.GetModelList("objcate=0");
-
-            for (int i = 0; i < cjpllModelList.Count; i++)
+            catch (Exception exception)
             {
-                //todo：管点号不为空或者为null-也就是必须进行编码
-                if (!String.IsNullOrEmpty(cjpllModelList[i].Lno))
-                {
-                    for (int j = 0; j < pipeobjectencodesLineModelList.Count; j++)
-                    {
-                        if (cjpllModelList[i].Type.Contains(pipeobjectencodesLineModelList[j].objtype))
-                        {
-                            Console.WriteLine(pipeobjectencodesLineModelList[j].tablename);
-                            //C#在运行时通过类的名称实例化一个类
-                            string className = "MainProject.ImplementClasses." +
-                                               pipeobjectencodesLineModelList[j].tablename + "Implements";
-                            Type t = Type.GetType(className);
-                            SplitTableInterface b1 = Activator.CreateInstance(t, cjpllModelList[i],
-                                pipeobjectencodesLineModelList[j].code) as SplitTableInterface;
-
-                            // judgePoint.judge(new PS_MANHOLEImplements(pipeobjectencodesLineModelList[j].objname, cjplpModelList[i]));
-                            judgePoint.judge(b1);
-                        }
-                    }
-                }
+                Console.WriteLine(exception);
+                throw;
             }
-
-
-            MessageBox.Show("拆分成功！");
         }
 
         #endregion
