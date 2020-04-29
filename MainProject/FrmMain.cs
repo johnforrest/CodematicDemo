@@ -313,205 +313,219 @@ namespace MainProject
         /// </summary>
         private static void CjplpCode()
         {
-            //街道的编码
-            streetno streetnoBLL = new streetno();
-            List<Maticsoft.Model.streetno> streetnoModeList = streetnoBLL.GetModelList("shortname is not NULL");
-
-            //顺序编码表
-            recordtable recordtableModel = new recordtable();
-            Maticsoft.BLL.recordtable recordtableBll = new Maticsoft.BLL.recordtable();
-
-            #region 点表编码
-
-            //1.获取到待拆分的数据
-            Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
-            List<cjplp> cjplpModelList = cjplpBLL.GetModelList("");
-
-            for (int i = 0; i < cjplpModelList.Count; i++)
+            try
             {
-                //编码不存在的情况下才进行编码，否则不进行编码
-                if (cjplpModelList[i] != null && String.IsNullOrEmpty(cjplpModelList[i].Exp_No))
+                //街道的编码
+                streetno streetnoBLL = new streetno();
+                List<Maticsoft.Model.streetno> streetnoModeList = streetnoBLL.GetModelList("shortname is not NULL");
+
+                //顺序编码表
+                recordtable recordtableModel = new recordtable();
+                Maticsoft.BLL.recordtable recordtableBll = new Maticsoft.BLL.recordtable();
+
+                #region 点表编码
+
+                //1.获取到待拆分的数据
+                Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
+                List<cjplp> cjplpModelList = cjplpBLL.GetModelList("");
+
+                for (int i = 0; i < cjplpModelList.Count; i++)
                 {
-                    //查询街道编码不为空的列
-                    List<recordtable> recordtablesModelList =
-                        recordtableBll.GetModelList("type like '" + cjplpModelList[i].Type.Substring(0, 2) + "%'");
-                    //如果数据库中没有此编码，则进行第一次编码
-                    if (recordtablesModelList.Count == 0)
+                    //编码不存在的情况下才进行编码，否则不进行编码
+                    if (cjplpModelList[i] != null && String.IsNullOrEmpty(cjplpModelList[i].Exp_No))
                     {
-                        for (int j = 0; j < streetnoModeList.Count; j++)
+
+
+                        //字段类型为空，加了条件判断
+                        if (!string.IsNullOrEmpty(cjplpModelList[i].Type)&& cjplpModelList[i].Type.Length>2)
                         {
-                            if (!String.IsNullOrEmpty(cjplpModelList[i].FileName)
-                                && !String.IsNullOrEmpty(cjplpModelList[i].Type)
-                                && !String.IsNullOrEmpty(cjplpModelList[i].Sdate)
-                                && cjplpModelList[i].FileName.Contains(streetnoModeList[j].shortname))
+                            //查询街道编码不为空的列
+                            List<recordtable> recordtablesModelList =
+                                recordtableBll.GetModelList("type like '" + cjplpModelList[i].Type.Substring(0, 2) + "%'");
+                            //如果数据库中没有此编码，则进行第一次编码
+                            if (recordtablesModelList.Count == 0)
                             {
-                                //更新：给原始管点编号
-                                cjplpModelList[i].Exp_No = cjplpModelList[i].Type.Substring(0, 2) +
-                                                           cjplpModelList[i].Sdate.Substring(0, 4) +
-                                                           streetnoModeList[j].strnolast5 + "0100001";
-                                cjplpModelList[i].ExpNoTime =
-                                    DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
-                                cjplpBLL.Update(cjplpModelList[i]);
-
-                                //添加：数据库记录文件
-                                recordtableModel.type = cjplpModelList[i].Type.Substring(0, 2);
-                                recordtableModel.year = cjplpModelList[i].Sdate.Substring(0, 4);
-                                recordtableModel.strnolast5 = streetnoModeList[j].strnolast5;
-                                recordtableModel.inteno = 1;
-                                recordtableModel.serino = 1;
-                                recordtableModel.typeYear = cjplpModelList[i].Type.Substring(0, 2) +
-                                                            cjplpModelList[i].Sdate.Substring(0, 4);
-                                recordtableModel.typeYearStrnolast5 = cjplpModelList[i].Type.Substring(0, 2) +
-                                                                      cjplpModelList[i].Sdate.Substring(0, 4) +
-                                                                      streetnoModeList[j].strnolast5;
-                                recordtableModel.typeYearStrnolast5Inteno = cjplpModelList[i].Type.Substring(0, 2) +
-                                                                            cjplpModelList[i].Sdate.Substring(0, 4) +
-                                                                            streetnoModeList[j].strnolast5 + "01";
-                                recordtableModel.inteserino = "0100001";
-                                recordtableModel.Exp_No = cjplpModelList[i].Type.Substring(0, 2) +
-                                                          cjplpModelList[i].Sdate.Substring(0, 4) +
-                                                          streetnoModeList[j].strnolast5 + "0100001";
-                                recordtableBll.Add(recordtableModel);
-                                // Console.WriteLine("点点点添加" + recordtableModel.Exp_No);
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < streetnoModeList.Count; j++)
-                        {
-                            if (!String.IsNullOrEmpty(cjplpModelList[i].FileName)
-                                && !String.IsNullOrEmpty(cjplpModelList[i].Type)
-                                && !String.IsNullOrEmpty(cjplpModelList[i].Sdate)
-                                && cjplpModelList[i].FileName.Contains(streetnoModeList[j].shortname))
-                            {
-                                string temptypeYearStrnolast5 =
-                                    cjplpModelList[i].Type.Substring(0, 2) +
-                                    cjplpModelList[i].Sdate.Substring(0, 4) +
-                                    streetnoModeList[j].strnolast5;
-
-                                // string temptypeYear =
-                                //     cjplpModelList[i].Type.Substring(0, 2) +
-                                //     cjplpModelList[i].Sdate.Substring(0, 4);
-
-
-                                for (int k = 0; k < recordtablesModelList.Count; k++)
+                                for (int j = 0; j < streetnoModeList.Count; j++)
                                 {
-                                    //如果前3段相同，则更新最后的交汇顺序号和排水管点顺序号
-                                    if (recordtablesModelList[k].typeYearStrnolast5 == temptypeYearStrnolast5)
+                                    if (!String.IsNullOrEmpty(cjplpModelList[i].FileName)
+                                        && !String.IsNullOrEmpty(cjplpModelList[i].Type)
+                                        && !String.IsNullOrEmpty(cjplpModelList[i].Sdate)
+                                        && cjplpModelList[i].FileName.Contains(streetnoModeList[j].shortname))
                                     {
-                                        //获取数据库信息
-                                        string dbInteserino = recordtablesModelList[k].inteserino;
-                                        string newInteserino = string.Empty;
-                                        if (Convert.ToInt32(dbInteserino.Substring(2)) != 99999)
-                                        {
-                                            //排水管点顺序号变化
-                                            newInteserino =
-                                                dbInteserino.Substring(0, 2) +
-                                                ((Convert.ToInt32(dbInteserino.Substring(2)) + 1).ToString()
-                                                    .PadLeft(5, '0'));
-
-                                            //recordTableModelList表的变化
-                                            // recordtablesModelList[k].inteno = 1;
-                                            recordtablesModelList[k].serino =
-                                                (Convert.ToInt32(dbInteserino.Substring(2)) + 1);
-
-                                            // recordtablesModelList[k].typeYearStrnolast5Inteno = cjplpModelList[i].Type.Substring(0, 2) +
-                                            //                                                     cjplpModelList[i].Sdate.Substring(0, 4) +
-                                            //                                                     streetnoModeList[j].strnolast5 + "01";
-                                            recordtablesModelList[k].inteserino = newInteserino;
-                                        }
-                                        else
-                                        {
-                                            //交汇点顺序号变化
-                                            newInteserino =
-                                                (Convert.ToInt32(dbInteserino.Substring(0, 2)) + 1).ToString()
-                                                .PadLeft(2, '0') +
-                                                "00001";
-
-                                            //recordTableModelList表的变化
-                                            recordtablesModelList[k].inteno =
-                                                Convert.ToInt32(dbInteserino.Substring(0, 2)) + 1;
-                                            recordtablesModelList[k].serino = 1;
-
-                                            recordtablesModelList[k].typeYearStrnolast5Inteno =
-                                                temptypeYearStrnolast5 +
-                                                (Convert.ToInt32(dbInteserino.Substring(0, 2)) + 1).ToString()
-                                                .PadLeft(2, '0');
-
-                                            recordtablesModelList[k].inteserino = newInteserino;
-                                        }
-
-                                        //更新：给原始管点编号并添加进数据库
-                                        cjplpModelList[i].Exp_No = temptypeYearStrnolast5 + newInteserino;
+                                        //更新：给原始管点编号
+                                        cjplpModelList[i].Exp_No = cjplpModelList[i].Type.Substring(0, 2) +
+                                                                   cjplpModelList[i].Sdate.Substring(0, 4) +
+                                                                   streetnoModeList[j].strnolast5 + "0100001";
                                         cjplpModelList[i].ExpNoTime =
                                             DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
                                         cjplpBLL.Update(cjplpModelList[i]);
 
-                                        //更新recordtable表
-                                        recordtablesModelList[k].Exp_No = temptypeYearStrnolast5 + newInteserino;
-                                        recordtableBll.Update(recordtablesModelList[k]);
-                                        // Console.WriteLine("点点点更新" + recordtablesModelList[k].Exp_No);
+                                        //添加：数据库记录文件
+                                        recordtableModel.type = cjplpModelList[i].Type.Substring(0, 2);
+                                        recordtableModel.year = cjplpModelList[i].Sdate.Substring(0, 4);
+                                        recordtableModel.strnolast5 = streetnoModeList[j].strnolast5;
+                                        recordtableModel.inteno = 1;
+                                        recordtableModel.serino = 1;
+                                        recordtableModel.typeYear = cjplpModelList[i].Type.Substring(0, 2) +
+                                                                    cjplpModelList[i].Sdate.Substring(0, 4);
+                                        recordtableModel.typeYearStrnolast5 = cjplpModelList[i].Type.Substring(0, 2) +
+                                                                              cjplpModelList[i].Sdate.Substring(0, 4) +
+                                                                              streetnoModeList[j].strnolast5;
+                                        recordtableModel.typeYearStrnolast5Inteno = cjplpModelList[i].Type.Substring(0, 2) +
+                                                                                    cjplpModelList[i].Sdate.Substring(0, 4) +
+                                                                                    streetnoModeList[j].strnolast5 + "01";
+                                        recordtableModel.inteserino = "0100001";
+                                        recordtableModel.Exp_No = cjplpModelList[i].Type.Substring(0, 2) +
+                                                                  cjplpModelList[i].Sdate.Substring(0, 4) +
+                                                                  streetnoModeList[j].strnolast5 + "0100001";
+                                        recordtableBll.Add(recordtableModel);
+                                        // Console.WriteLine("点点点添加" + recordtableModel.Exp_No);
+                                        break;
                                     }
-                                    else
+                                }
+                            }
+                            else
+                            {
+                                for (int j = 0; j < streetnoModeList.Count; j++)
+                                {
+                                    if (!String.IsNullOrEmpty(cjplpModelList[i].FileName)
+                                        && !String.IsNullOrEmpty(cjplpModelList[i].Type)
+                                        && !String.IsNullOrEmpty(cjplpModelList[i].Sdate)
+                                        && cjplpModelList[i].FileName.Contains(streetnoModeList[j].shortname))
                                     {
-                                        //如果前2段相同，街道不同，则更新最后三段（后3端需要进行重新编码，然后写入数据库中
-                                        for (int m = 0; m < streetnoModeList.Count; m++)
+                                        string temptypeYearStrnolast5 =
+                                            cjplpModelList[i].Type.Substring(0, 2) +
+                                            cjplpModelList[i].Sdate.Substring(0, 4) +
+                                            streetnoModeList[j].strnolast5;
+
+                                        // string temptypeYear =
+                                        //     cjplpModelList[i].Type.Substring(0, 2) +
+                                        //     cjplpModelList[i].Sdate.Substring(0, 4);
+
+
+                                        for (int k = 0; k < recordtablesModelList.Count; k++)
                                         {
-                                            if (!String.IsNullOrEmpty(cjplpModelList[i].FileName)
-                                                && !String.IsNullOrEmpty(cjplpModelList[i].Type)
-                                                && !String.IsNullOrEmpty(cjplpModelList[i].Sdate)
-                                                && cjplpModelList[i].FileName.Contains(streetnoModeList[m].shortname))
+                                            //如果前3段相同，则更新最后的交汇顺序号和排水管点顺序号
+                                            if (recordtablesModelList[k].typeYearStrnolast5 == temptypeYearStrnolast5)
                                             {
-                                                //更新给原始管点编号
-                                                cjplpModelList[i].Exp_No = cjplpModelList[i].Type.Substring(0, 2) +
-                                                                           cjplpModelList[i].Sdate.Substring(0, 4) +
-                                                                           streetnoModeList[m].strnolast5 + "0100001";
+                                                //获取数据库信息
+                                                string dbInteserino = recordtablesModelList[k].inteserino;
+                                                string newInteserino = string.Empty;
+                                                if (Convert.ToInt32(dbInteserino.Substring(2)) != 99999)
+                                                {
+                                                    //排水管点顺序号变化
+                                                    newInteserino =
+                                                        dbInteserino.Substring(0, 2) +
+                                                        ((Convert.ToInt32(dbInteserino.Substring(2)) + 1).ToString()
+                                                            .PadLeft(5, '0'));
+
+                                                    //recordTableModelList表的变化
+                                                    // recordtablesModelList[k].inteno = 1;
+                                                    recordtablesModelList[k].serino =
+                                                        (Convert.ToInt32(dbInteserino.Substring(2)) + 1);
+
+                                                    // recordtablesModelList[k].typeYearStrnolast5Inteno = cjplpModelList[i].Type.Substring(0, 2) +
+                                                    //                                                     cjplpModelList[i].Sdate.Substring(0, 4) +
+                                                    //                                                     streetnoModeList[j].strnolast5 + "01";
+                                                    recordtablesModelList[k].inteserino = newInteserino;
+                                                }
+                                                else
+                                                {
+                                                    //交汇点顺序号变化
+                                                    newInteserino =
+                                                        (Convert.ToInt32(dbInteserino.Substring(0, 2)) + 1).ToString()
+                                                        .PadLeft(2, '0') +
+                                                        "00001";
+
+                                                    //recordTableModelList表的变化
+                                                    recordtablesModelList[k].inteno =
+                                                        Convert.ToInt32(dbInteserino.Substring(0, 2)) + 1;
+                                                    recordtablesModelList[k].serino = 1;
+
+                                                    recordtablesModelList[k].typeYearStrnolast5Inteno =
+                                                        temptypeYearStrnolast5 +
+                                                        (Convert.ToInt32(dbInteserino.Substring(0, 2)) + 1).ToString()
+                                                        .PadLeft(2, '0');
+
+                                                    recordtablesModelList[k].inteserino = newInteserino;
+                                                }
+
+                                                //更新：给原始管点编号并添加进数据库
+                                                cjplpModelList[i].Exp_No = temptypeYearStrnolast5 + newInteserino;
                                                 cjplpModelList[i].ExpNoTime =
                                                     DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
                                                 cjplpBLL.Update(cjplpModelList[i]);
 
-                                                //添加数据库记录文件
-                                                recordtableModel.type = cjplpModelList[i].Type.Substring(0, 2);
-                                                recordtableModel.year = cjplpModelList[i].Sdate.Substring(0, 4);
-                                                recordtableModel.strnolast5 = streetnoModeList[m].strnolast5;
-                                                recordtableModel.inteno = 1;
-                                                recordtableModel.serino = 1;
-                                                recordtableModel.typeYear = cjplpModelList[i].Type.Substring(0, 2) +
-                                                                            cjplpModelList[i].Sdate.Substring(0, 4);
-                                                recordtableModel.typeYearStrnolast5 =
-                                                    cjplpModelList[i].Type.Substring(0, 2) +
-                                                    cjplpModelList[i].Sdate.Substring(0, 4) +
-                                                    streetnoModeList[m].strnolast5;
-                                                recordtableModel.typeYearStrnolast5Inteno =
-                                                    cjplpModelList[i].Type.Substring(0, 2) +
-                                                    cjplpModelList[i].Sdate.Substring(0, 4) +
-                                                    streetnoModeList[m].strnolast5 + "01";
-                                                recordtableModel.inteserino = "0100001";
-                                                recordtableModel.Exp_No = cjplpModelList[i].Type.Substring(0, 2) +
-                                                                          cjplpModelList[i].Sdate.Substring(0, 4) +
-                                                                          streetnoModeList[m].strnolast5 + "0100001";
-                                                recordtableBll.Add(recordtableModel);
-                                                // Console.WriteLine("点点点添加" + recordtableModel.Exp_No);
-
-                                                break;
+                                                //更新recordtable表
+                                                recordtablesModelList[k].Exp_No = temptypeYearStrnolast5 + newInteserino;
+                                                recordtableBll.Update(recordtablesModelList[k]);
+                                                // Console.WriteLine("点点点更新" + recordtablesModelList[k].Exp_No);
                                             }
+                                            else
+                                            {
+                                                //如果前2段相同，街道不同，则更新最后三段（后3端需要进行重新编码，然后写入数据库中
+                                                for (int m = 0; m < streetnoModeList.Count; m++)
+                                                {
+                                                    if (!String.IsNullOrEmpty(cjplpModelList[i].FileName)
+                                                        && !String.IsNullOrEmpty(cjplpModelList[i].Type)
+                                                        && !String.IsNullOrEmpty(cjplpModelList[i].Sdate)
+                                                        && cjplpModelList[i].FileName.Contains(streetnoModeList[m].shortname))
+                                                    {
+                                                        //更新给原始管点编号
+                                                        cjplpModelList[i].Exp_No = cjplpModelList[i].Type.Substring(0, 2) +
+                                                                                   cjplpModelList[i].Sdate.Substring(0, 4) +
+                                                                                   streetnoModeList[m].strnolast5 + "0100001";
+                                                        cjplpModelList[i].ExpNoTime =
+                                                            DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
+                                                        cjplpBLL.Update(cjplpModelList[i]);
+
+                                                        //添加数据库记录文件
+                                                        recordtableModel.type = cjplpModelList[i].Type.Substring(0, 2);
+                                                        recordtableModel.year = cjplpModelList[i].Sdate.Substring(0, 4);
+                                                        recordtableModel.strnolast5 = streetnoModeList[m].strnolast5;
+                                                        recordtableModel.inteno = 1;
+                                                        recordtableModel.serino = 1;
+                                                        recordtableModel.typeYear = cjplpModelList[i].Type.Substring(0, 2) +
+                                                                                    cjplpModelList[i].Sdate.Substring(0, 4);
+                                                        recordtableModel.typeYearStrnolast5 =
+                                                            cjplpModelList[i].Type.Substring(0, 2) +
+                                                            cjplpModelList[i].Sdate.Substring(0, 4) +
+                                                            streetnoModeList[m].strnolast5;
+                                                        recordtableModel.typeYearStrnolast5Inteno =
+                                                            cjplpModelList[i].Type.Substring(0, 2) +
+                                                            cjplpModelList[i].Sdate.Substring(0, 4) +
+                                                            streetnoModeList[m].strnolast5 + "01";
+                                                        recordtableModel.inteserino = "0100001";
+                                                        recordtableModel.Exp_No = cjplpModelList[i].Type.Substring(0, 2) +
+                                                                                  cjplpModelList[i].Sdate.Substring(0, 4) +
+                                                                                  streetnoModeList[m].strnolast5 + "0100001";
+                                                        recordtableBll.Add(recordtableModel);
+                                                        // Console.WriteLine("点点点添加" + recordtableModel.Exp_No);
+
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+
+                                            break;
                                         }
+
+                                        break;
                                     }
-
-
-                                    break;
                                 }
-
-                                break;
                             }
                         }
                     }
                 }
-            }
 
-            #endregion
+                #endregion
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         /// <summary>
@@ -519,147 +533,155 @@ namespace MainProject
         /// </summary>
         private void CjpllCode()
         {
-            Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
+            //try
+            //{
+                Maticsoft.BLL.cjplp cjplpBLL = new Maticsoft.BLL.cjplp();
 
-            #region 线表编码
+                #region 线表编码
 
-            //街道的编码
-            streetno streetnoBLL = new streetno();
-            List<Maticsoft.Model.streetno> streetnoModeList = streetnoBLL.GetModelList("shortname is not NULL");
+                //街道的编码
+                streetno streetnoBLL = new streetno();
+                List<Maticsoft.Model.streetno> streetnoModeList = streetnoBLL.GetModelList("shortname is not NULL");
 
-            //顺序编码表
-            Maticsoft.Model.recordtable recordtableModel = new Maticsoft.Model.recordtable();
-            Maticsoft.BLL.recordtable recordtableBll = new Maticsoft.BLL.recordtable();
+                //顺序编码表
+                recordtable recordtableModel = new recordtable();
+                Maticsoft.BLL.recordtable recordtableBll = new Maticsoft.BLL.recordtable();
 
-            //获取待拆分的线表数据
-            cjpll cjpllBLL = new cjpll();
-            List<Maticsoft.Model.cjpll> cjpllModelList = cjpllBLL.GetModelList("");
+                //获取待拆分的线表数据
+                cjpll cjpllBLL = new cjpll();
+                List<Maticsoft.Model.cjpll> cjpllModelList = cjpllBLL.GetModelList("");
 
 
-            for (int i = 0; i < cjpllModelList.Count; i++)
-            {
-                for (int j = 0; j < streetnoModeList.Count; j++)
+                for (int i = 0; i < cjpllModelList.Count; i++)
                 {
-                    if (!String.IsNullOrEmpty(cjpllModelList[i].Exp_No0)
-                        && !String.IsNullOrEmpty(cjpllModelList[i].Exp_No1)
-                        && !String.IsNullOrEmpty(cjpllModelList[i].Type)
-                        && !String.IsNullOrEmpty(cjpllModelList[i].Sdate)
-                        && cjpllModelList[i].FileName.Contains(streetnoModeList[j].shortname))
+                    for (int j = 0; j < streetnoModeList.Count; j++)
                     {
-                        cjplp exp_No0Model = cjplpBLL.GetModel(cjpllModelList[i].Exp_No0);
-                        cjplp exp_No1Model = cjplpBLL.GetModel(cjpllModelList[i].Exp_No1);
-
-
-                        if (exp_No0Model != null && exp_No1Model != null)
+                        if (!String.IsNullOrEmpty(cjpllModelList[i].Exp_No0)
+                            && !String.IsNullOrEmpty(cjpllModelList[i].Exp_No1)
+                            && !String.IsNullOrEmpty(cjpllModelList[i].Type)
+                            && !String.IsNullOrEmpty(cjpllModelList[i].Sdate)
+                            && cjpllModelList[i].FileName.Contains(streetnoModeList[j].shortname))
                         {
-                            // string tmp = "type like '" + cjpllModelList[i].Type.Substring(0, 2) +
-                            //              "%' and Lno like '" +
-                            //              cjpllModelList[i].Type.Substring(0, 2) +
-                            //              cjpllModelList[i].Sdate.Substring(0, 4) +
-                            //              streetnoModeList[j].strnolast5 + "__" +
-                            //              exp_No0Model.Exp_No.Substring(13) +
-                            //              exp_No1Model.Exp_No.Substring(13) + "'";
-                            //查询街道编码不为空的列
-                            List<recordtable> recordtablesModelList =
-                                recordtableBll.GetModelList("type like '" + cjpllModelList[i].Type.Substring(0, 2) +
-                                                            "%' and Lno like '" +
-                                                            cjpllModelList[i].Type.Substring(0, 2) +
-                                                            cjpllModelList[i].Sdate.Substring(0, 4) +
-                                                            streetnoModeList[j].strnolast5 + "__" +
-                                                            exp_No0Model.Exp_No.Substring(13) +
-                                                            exp_No1Model.Exp_No.Substring(13) + "'");
-                            //1.填充起点、终点编码
-                            cjpllModelList[i].S_Point = exp_No0Model.Exp_No;
-                            cjpllModelList[i].E_Point = exp_No1Model.Exp_No;
-                            //2.计算管线编码
-                            if (recordtablesModelList.Count == 0)
-                            {
-                                //计算管线编号
-                                cjpllModelList[i].Lno = cjpllModelList[i].Type.Substring(0, 2) +
-                                                        cjpllModelList[i].Sdate.Substring(0, 4) +
-                                                        streetnoModeList[j].strnolast5 + "01" +
-                                                        exp_No0Model.Exp_No.Substring(13) +
-                                                        exp_No1Model.Exp_No.Substring(13);
+                            cjplp exp_No0Model = cjplpBLL.GetModel(cjpllModelList[i].Exp_No0);
+                            cjplp exp_No1Model = cjplpBLL.GetModel(cjpllModelList[i].Exp_No1);
 
-                                //2.插入记录表
-                                recordtableModel.type = cjpllModelList[i].Type.Substring(0, 2);
-                                recordtableModel.year = cjpllModelList[i].Sdate.Substring(0, 4);
-                                recordtableModel.strnolast5 = streetnoModeList[j].strnolast5;
-                                recordtableModel.inteno = 1;
-                                recordtableModel.serino = Convert.ToInt32(exp_No0Model.Exp_No.Substring(13)) +
-                                                                          Convert.ToInt32(exp_No1Model.Exp_No.Substring(13));
-                                recordtableModel.typeYear = cjpllModelList[i].Type.Substring(0, 2) +
-                                                            cjpllModelList[i].Sdate.Substring(0, 4);
-                                recordtableModel.typeYearStrnolast5 = cjpllModelList[i].Type.Substring(0, 2) +
-                                                                      cjpllModelList[i].Sdate.Substring(0, 4) +
-                                                                      streetnoModeList[j].strnolast5;
-                                recordtableModel.typeYearStrnolast5Inteno = cjpllModelList[i].Type.Substring(0, 2) +
-                                                                            cjpllModelList[i].Sdate.Substring(0, 4) +
-                                                                            streetnoModeList[j].strnolast5 + "01";
-                                recordtableModel.inteserino = exp_No0Model.Exp_No.Substring(13) +
-                                                              exp_No1Model.Exp_No.Substring(13);
-                                recordtableModel.Lno = cjpllModelList[i].Type.Substring(0, 2) +
-                                                       cjpllModelList[i].Sdate.Substring(0, 4) +
-                                                       streetnoModeList[j].strnolast5 + "01" +
-                                                       exp_No0Model.Exp_No.Substring(13) +
-                                                       exp_No1Model.Exp_No.Substring(13);
-                                recordtableBll.Add(recordtableModel);
-                                // Console.WriteLine("线线线添加" + recordtableModel.Lno);
-                            }
-                            else
-                            {
-                                List<int> seriaList = new List<int>();
 
-                                for (int k = 0; k < recordtablesModelList.Count; k++)
+                            if (exp_No0Model != null && exp_No1Model != null&&!string.IsNullOrEmpty(exp_No0Model.Exp_No)&&!string.IsNullOrEmpty(exp_No1Model.Exp_No))
+                            {
+                                // string tmp = "type like '" + cjpllModelList[i].Type.Substring(0, 2) +
+                                //              "%' and Lno like '" +
+                                //              cjpllModelList[i].Type.Substring(0, 2) +
+                                //              cjpllModelList[i].Sdate.Substring(0, 4) +
+                                //              streetnoModeList[j].strnolast5 + "__" +
+                                //              exp_No0Model.Exp_No.Substring(13) +
+                                //              exp_No1Model.Exp_No.Substring(13) + "'";
+                                //查询街道编码不为空的列
+                                List<recordtable> recordtablesModelList =
+                                    recordtableBll.GetModelList("type like '" + cjpllModelList[i].Type.Substring(0, 2) +
+                                                                "%' and Lno like '" +
+                                                                cjpllModelList[i].Type.Substring(0, 2) +
+                                                                cjpllModelList[i].Sdate.Substring(0, 4) +
+                                                                streetnoModeList[j].strnolast5 + "__" +
+                                                                exp_No0Model.Exp_No.Substring(13) +
+                                                                exp_No1Model.Exp_No.Substring(13) + "'");
+                                //1.填充起点、终点编码
+                                cjpllModelList[i].S_Point = exp_No0Model.Exp_No;
+                                cjpllModelList[i].E_Point = exp_No1Model.Exp_No;
+                                //2.计算管线编码
+                                if (recordtablesModelList.Count == 0)
                                 {
-                                    seriaList.Add(Convert.ToInt16(recordtablesModelList[k].Lno.Substring(11, 2)));
+                                    //计算管线编号
+                                    cjpllModelList[i].Lno = cjpllModelList[i].Type.Substring(0, 2) +
+                                                            cjpllModelList[i].Sdate.Substring(0, 4) +
+                                                            streetnoModeList[j].strnolast5 + "01" +
+                                                            exp_No0Model.Exp_No.Substring(13) +
+                                                            exp_No1Model.Exp_No.Substring(13);
+
+                                    //2.插入记录表
+                                    recordtableModel.type = cjpllModelList[i].Type.Substring(0, 2);
+                                    recordtableModel.year = cjpllModelList[i].Sdate.Substring(0, 4);
+                                    recordtableModel.strnolast5 = streetnoModeList[j].strnolast5;
+                                    recordtableModel.inteno = 1;
+                                    recordtableModel.serino = Convert.ToInt32(exp_No0Model.Exp_No.Substring(13)) +
+                                                              Convert.ToInt32(exp_No1Model.Exp_No.Substring(13));
+                                    recordtableModel.typeYear = cjpllModelList[i].Type.Substring(0, 2) +
+                                                                cjpllModelList[i].Sdate.Substring(0, 4);
+                                    recordtableModel.typeYearStrnolast5 = cjpllModelList[i].Type.Substring(0, 2) +
+                                                                          cjpllModelList[i].Sdate.Substring(0, 4) +
+                                                                          streetnoModeList[j].strnolast5;
+                                    recordtableModel.typeYearStrnolast5Inteno = cjpllModelList[i].Type.Substring(0, 2) +
+                                                                                cjpllModelList[i].Sdate.Substring(0, 4) +
+                                                                                streetnoModeList[j].strnolast5 + "01";
+                                    recordtableModel.inteserino = exp_No0Model.Exp_No.Substring(13) +
+                                                                  exp_No1Model.Exp_No.Substring(13);
+                                    recordtableModel.Lno = cjpllModelList[i].Type.Substring(0, 2) +
+                                                           cjpllModelList[i].Sdate.Substring(0, 4) +
+                                                           streetnoModeList[j].strnolast5 + "01" +
+                                                           exp_No0Model.Exp_No.Substring(13) +
+                                                           exp_No1Model.Exp_No.Substring(13);
+                                    recordtableBll.Add(recordtableModel);
+                                    // Console.WriteLine("线线线添加" + recordtableModel.Lno);
+                                }
+                                else
+                                {
+                                    List<int> seriaList = new List<int>();
+
+                                    for (int k = 0; k < recordtablesModelList.Count; k++)
+                                    {
+                                        seriaList.Add(Convert.ToInt16(recordtablesModelList[k].Lno.Substring(11, 2)));
+                                    }
+
+                                    //计算管线编号
+                                    cjpllModelList[i].Lno = cjpllModelList[i].Type.Substring(0, 2) +
+                                                            cjpllModelList[i].Sdate.Substring(0, 4) +
+                                                            streetnoModeList[j].strnolast5 +
+                                                            seriaList.Max().ToString().PadLeft(2, '0') +
+                                                            exp_No0Model.Exp_No.Substring(13) +
+                                                            exp_No1Model.Exp_No.Substring(13);
+
+                                    //2.插入记录表
+                                    recordtableModel.inteno = seriaList.Max();
+                                    recordtableModel.typeYearStrnolast5Inteno = cjpllModelList[i].Type.Substring(0, 2) +
+                                                                                cjpllModelList[i].Sdate.Substring(0, 4) +
+                                                                                streetnoModeList[j].strnolast5 +
+                                                                                seriaList.Max().ToString().PadLeft(2, '0');
+                                    recordtableModel.Lno = cjpllModelList[i].Type.Substring(0, 2) +
+                                                           cjpllModelList[i].Sdate.Substring(0, 4) +
+                                                           streetnoModeList[j].strnolast5 +
+                                                           seriaList.Max().ToString().PadLeft(2, '0') +
+                                                           exp_No0Model.Exp_No.Substring(13) +
+                                                           exp_No1Model.Exp_No.Substring(13);
+                                    recordtableBll.Update(recordtableModel);
+                                    // Console.WriteLine("线线线更新" + recordtableModel.Lno);
                                 }
 
-                                //计算管线编号
-                                cjpllModelList[i].Lno = cjpllModelList[i].Type.Substring(0, 2) +
-                                                        cjpllModelList[i].Sdate.Substring(0, 4) +
-                                                        streetnoModeList[j].strnolast5 +
-                                                        seriaList.Max().ToString().PadLeft(2, '0') +
-                                                        exp_No0Model.Exp_No.Substring(13) +
-                                                        exp_No1Model.Exp_No.Substring(13);
+                                //3.计算管线长度
+                                if (!String.IsNullOrEmpty(exp_No0Model.X.ToString())
+                                    && !String.IsNullOrEmpty(exp_No0Model.Y.ToString())
+                                    && !String.IsNullOrEmpty(exp_No1Model.X.ToString())
+                                    && !String.IsNullOrEmpty(exp_No1Model.Y.ToString()))
+                                {
+                                    cjpllModelList[i].PipeLength =
+                                        (decimal) calculatePipeLength(exp_No0Model, exp_No1Model);
+                                }
 
-                                //2.插入记录表
-                                recordtableModel.inteno = seriaList.Max();
-                                recordtableModel.typeYearStrnolast5Inteno = cjpllModelList[i].Type.Substring(0, 2) +
-                                                                            cjpllModelList[i].Sdate.Substring(0, 4) +
-                                                                            streetnoModeList[j].strnolast5 +
-                                                                            seriaList.Max().ToString().PadLeft(2, '0');
-                                recordtableModel.Lno = cjpllModelList[i].Type.Substring(0, 2) +
-                                                       cjpllModelList[i].Sdate.Substring(0, 4) +
-                                                       streetnoModeList[j].strnolast5 +
-                                                       seriaList.Max().ToString().PadLeft(2, '0') +
-                                                       exp_No0Model.Exp_No.Substring(13) +
-                                                       exp_No1Model.Exp_No.Substring(13);
-                                recordtableBll.Update(recordtableModel);
-                                // Console.WriteLine("线线线更新" + recordtableModel.Lno);
+                                cjpllModelList[i].LnoTime =
+                                    DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
+                                //更新管线计算内容
+                                cjpllBLL.Update(cjpllModelList[i]);
+                                break;
                             }
-
-                            //3.计算管线长度
-                            if (!String.IsNullOrEmpty(exp_No0Model.X.ToString())
-                                && !String.IsNullOrEmpty(exp_No0Model.Y.ToString())
-                                && !String.IsNullOrEmpty(exp_No1Model.X.ToString())
-                                && !String.IsNullOrEmpty(exp_No1Model.Y.ToString()))
-                            {
-                                cjpllModelList[i].PipeLength =
-                                    (decimal) calculatePipeLength(exp_No0Model, exp_No1Model);
-                            }
-
-                            cjpllModelList[i].LnoTime =
-                                DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
-                            //更新管线计算内容
-                            cjpllBLL.Update(cjpllModelList[i]);
-                            break;
                         }
                     }
                 }
-            }
 
-            #endregion
+                #endregion
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw;
+            //}
         }
 
         /// <summary>
