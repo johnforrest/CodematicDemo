@@ -337,7 +337,7 @@ namespace MainProject
 
 
                         //字段类型为空，加了条件判断
-                        if (!string.IsNullOrEmpty(cjplpModelList[i].Type)&& cjplpModelList[i].Type.Length>2)
+                        if (!string.IsNullOrEmpty(cjplpModelList[i].Type)&& cjplpModelList[i].Type.Length>=2)
                         {
                             //查询街道编码不为空的列
                             List<recordtable> recordtablesModelList =
